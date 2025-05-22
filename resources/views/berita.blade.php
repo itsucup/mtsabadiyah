@@ -1,35 +1,127 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <title>MTs Abadiyah</title>
+</head>
+<body class="font-inter">
 
-@section('content')
-<div class="bg-white rounded-lg shadow-md p-6">
-    <!-- Breadcrumb -->
-    <div class="text-sm text-gray-600 mb-4">
-        <a href="/" class="hover:text-blue-600">Home</a> > 
-        <a href="/berita" class="hover:text-blue-600">Berita</a> > 
-        <span class="text-gray-800 font-medium">Detail Berita</span>
-    </div>
+    @include('partials.header')
 
-    <!-- Info Admin dan Tanggal -->
-    <div class="text-gray-500 text-sm mb-2">
-        Admin - 4 Februari 2025
-    </div>
-
-    <!-- Judul Berita -->
-    <h1 class="text-2xl font-bold text-gray-800 mb-6">JUDUL - Lorem Ipsum dolor sit amet, consectetur adipiscing elit.</h1>
+    <!-- Section Breadcumb -->
+    <section class="font-inter bg-sky-100 mx-20 my-6 p-4">
+      <div class="">
+        <a class="text-slate-500" href="/">Home</a>
+        >
+        <a class="text-slate-500" href="/Berita">Berita</a>
+        >
+        <span class="text-emerald-700 font-semibold">Detail</span>
+      </div>
+    </section>
 
     <!-- Konten Berita -->
-    <div class="prose max-w-none text-gray-700 mb-8">
-        <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mauris augue, vulputate vel enim nec, maximus consectetur nisi. Morbi ac egestas sapien. Phasellus tristique tellus odio, nec pulvinar neque ultricies sed. Sed pellentesque eu arcu id pharetra. Sed ornare lectus eu maximus commodo. Vivamus justo diam, auctor nec ultricies ut, porttitor eget felis. Nam in lacus vel tellus consectetur efficitur. Mauris blandit erat convallis ipsum vestibulum, at congue lectus convallis. Quisque eget est vitae est auctor dignissim. Nunc sed viverra eros. Donec ullamcorper nisi tortor. Fusce mi est, faucibus a sodales sit amet, eleifend sit amet nunc. Etiam ac fermentum arcu. Mauris tincidunt quis neque non dictum.</p>
+    <section class="mx-6 md:mx-20 mb-10">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-        <p class="mb-4">Integer at maximus turpis. Aliquam sodales, mi eget auctor blandit, nisi lectus tincidunt libero, sit amet ornare tortor sapien non quam. Mauris laoreet justo elit, sed faucibus mi tristique at. Mauris sed sollicitudin odio. Phasellus et placerat est. Nunc pharetra viverra orci, a laoreet lacus tempus at. Vestibulum faucibus non dui fermentum ultricies. Vestibulum tempus lectus facilisis, consectetur arcu at, laoreet ipsum.</p>
+        <!-- Kolom Berita -->
+        <div class="md:col-span-2 space-y-6">
 
-        <p class="mb-4">Suspendisse fermentum interdum elit quis mattis. Vestibulum pretium eget libero a dictum. Duis dictum suscipit nisi sed placerat. Aliquam scelerisque maximus purus cursus porta. In hac habitasse platea dictumst. Aliquam erat volutpat. Duis ac neque nec est bibendum eleifend. Nulla ullamcorper varius maximus. Vivamus eget fermentum ipsum. Nam egestas nisi non ligula rhoncus, at interdum turpis rutrum. Sed eget sem eu lorem tincidunt posuere et et ex. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-    </div>
+            <!-- Dummy Berita -->
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <img src="https://mtsabadiyah.sch.id/uploads/featureimage/hasil-olimpiade-matematika-kmsi-nasional-2023.jpeg" alt="Berita 1" class="w-full h-80 object-cover">
+            <div class="p-4">
+                <h2 class="text-xl font-semibold text-emerald-700">Kegiatan Pramuka MTs Abadiyah</h2>
+                <p class="text-sm text-gray-500 mb-2">17 Mei 2025</p>
+                <p class="text-gray-700 mb-3">Pramuka menjadi kegiatan wajib yang melatih kedisiplinan dan kerja sama antar siswa...</p>
+                <a href="#" class="text-emerald-600 text-sm font-medium">Baca Selengkapnya →</a>
+            </div>
+            </div>
 
-    <!-- Section Komentar -->
-    <div class="border-t border-gray-200 pt-6">
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">Komentar</h2>
-        <!-- Form Komentar dan Daftar Komentar akan ditambahkan di sini -->
-    </div>
-</div>
-@endsection
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <img src="https://mtsabadiyah.sch.id/uploads/featureimage/hasil-olimpiade-matematika-kmsi-nasional-2023.jpeg" alt="Berita 2" class="w-full h-80 object-cover">
+            <div class="p-4">
+                <h2 class="text-xl font-semibold text-emerald-700">Lomba Cerdas Cermat Antar Kelas</h2>
+                <p class="text-sm text-gray-500 mb-2">15 Mei 2025</p>
+                <p class="text-gray-700 mb-3">Dalam rangka memperingati Hari Pendidikan Nasional, MTs Abadiyah mengadakan lomba cerdas cermat...</p>
+                <a href="#" class="text-emerald-600 text-sm font-medium">Baca Selengkapnya →</a>
+            </div>
+            </div>
+
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <img src="https://mtsabadiyah.sch.id/uploads/featureimage/hasil-olimpiade-matematika-kmsi-nasional-2023.jpeg" alt="Berita 3" class="w-full h-80 object-cover">
+            <div class="p-4">
+                <h2 class="text-xl font-semibold text-emerald-700">Kunjungan Industri ke Pabrik Buku</h2>
+                <p class="text-sm text-gray-500 mb-2">10 Mei 2025</p>
+                <p class="text-gray-700 mb-3">Sebagai bentuk pembelajaran langsung, siswa diajak mengunjungi pabrik percetakan buku di Semarang...</p>
+                <a href="#" class="text-emerald-600 text-sm font-medium">Baca Selengkapnya →</a>
+            </div>
+            </div>
+
+            <!-- Tambahkan lebih banyak dummy jika perlu -->
+
+            <!-- Pagination -->
+            <div class="flex justify-center mt-8">
+            <nav class="inline-flex items-center space-x-1">
+                <a href="#" class="px-3 py-1 border border-gray-300 rounded hover:bg-emerald-100 text-gray-700">«</a>
+                <a href="#" class="px-3 py-1 border border-gray-300 rounded bg-emerald-500 text-white">1</a>
+                <a href="#" class="px-3 py-1 border border-gray-300 rounded hover:bg-emerald-100 text-gray-700">2</a>
+                <a href="#" class="px-3 py-1 border border-gray-300 rounded hover:bg-emerald-100 text-gray-700">3</a>
+                <a href="#" class="px-3 py-1 border border-gray-300 rounded hover:bg-emerald-100 text-gray-700">»</a>
+            </nav>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="space-y-6">
+
+            <!-- Pencarian -->
+            <div class="bg-white p-4 rounded-lg shadow-md">
+            <h3 class="text-lg font-semibold text-emerald-700 mb-2">Cari Berita</h3>
+            <input type="text" placeholder="Cari..." class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            </div>
+
+            <!-- Kategori -->
+            <div class="bg-white p-4 rounded-lg shadow-md">
+            <h3 class="text-lg font-semibold text-emerald-700 mb-2">Kategori</h3>
+            <ul class="text-gray-700">
+                <li><a href="#" class="hover:text-emerald-600">Pengumuman</a></li>
+                <hr class="my-2 border-gray-200" />
+                <li><a href="#" class="hover:text-emerald-600">Kegiatan</a></li>
+                <hr class="my-2 border-gray-200" />
+                <li><a href="#" class="hover:text-emerald-600">Prestasi</a></li>
+                <hr class="my-2 border-gray-200" />
+                <li><a href="#" class="hover:text-emerald-600">Ekstrakurikuler</a></li>
+            </ul>
+            </div>
+
+            <!-- Tahun -->
+            <div class="bg-white p-4 rounded-lg shadow-md">
+            <h3 class="text-lg font-semibold text-emerald-700 mb-2">Tahun</h3>
+            <ul class="text-gray-700">
+                <li><a href="#" class="hover:text-emerald-600">2025</a></li>
+                <hr class="my-2 border-gray-200" />
+                <li><a href="#" class="hover:text-emerald-600">2024</a></li>
+                <hr class="my-2 border-gray-200" />
+                <li><a href="#" class="hover:text-emerald-600">2023</a></li>
+            </ul>
+            </div>
+        </aside>
+
+        </div>
+    </section>
+
+    <!-- Aktifkan feather icon -->
+    <script>
+        feather.replace();
+    </script>
+
+  @include('partials.footer')
+
+</body>
+</html>
