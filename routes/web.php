@@ -29,4 +29,5 @@ Route::prefix('galeri')->group(function () {
 });
 
 Route::view('/berita', 'berita')->name('berita');
+Route::view('/detail', 'detail')->name('detail');
 Route::view('/prestasi', 'prestasi')->name('prestasi');

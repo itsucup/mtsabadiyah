@@ -12,34 +12,39 @@
 </head>
 <body class="font-inter">
 
-  @include('partials.header')
+    @include('partials.header')
 
-  <!-- Section Breadcumb -->
+    <!-- Section Breadcumb -->
     <section class="font-inter bg-sky-100 mx-20 my-6 p-4">
       <div class="">
         <a class="text-slate-500" href="/">Home</a>
         >
-        <span class="text-emerald-700 font-semibold">Hymne Abadiyah</span>
+        <a class="text-slate-500" href="/Berita">Berita</a>
+        >
+        <span class="text-emerald-700 font-semibold">Detail</span>
       </div>
     </section>
 
-    <!-- Section Video Hymne -->
-    <section class="mx-20 my-8">
-      <div class="aspect-video w-full h-[600px] overflow-hidden rounded-lg shadow-lg">
-        <iframe class="w-full h-full"
-        src="https://www.youtube.com/embed/tgbNymZ7vqY"
-        title="Video 1"
-        frameborder="0"
-        allowfullscreen></iframe> 
+    <!-- Section Gambar Konten -->
+    <section class="">
+      <div class="mx-20 my-6">
+        <a href="#">
+            <img 
+                src="{{ asset('images/berita1.jpg') }}" 
+                class="w-full max-h-[600px] object-cover rounded-lg shadow" 
+                alt="Gambar Konten"
+            />
+        </a>
       </div>
     </section>
 
-    <!-- Section Berita -->
-    <section class="mx-20 bg-sky-100 my-6">
+    <!-- Section Konten -->
+    <section class="mx-20 my-6">
       <div>
-         <h2 class="mb-2 text-3xl font-semibold">Lirik Hymne Abadiyah</h2>
+         <h2 class="mb-2 text-3xl font-semibold">Website MTs Abadiyah Gabus Pati</h2>
         <div class="mb-4 text-emerald-500">
-            <hr class="text-slate-400 mt-4">
+            By Andika Ucup, 16 Mei 2025
+            <hr class="mt-4">
         </div>
         <p class="pb-1">
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nisi quae velit pariatur atque sint! Inventore ad id iste debitis ipsa velit totam dolor sint incidunt vel quo expedita modi dicta labore eveniet, sapiente eligendi fugit dignissimos! Doloremque, eius placeat hic molestiae, facilis porro necessitatibus modi ea perferendis alias nulla repellat?

@@ -19,9 +19,7 @@
       <div class="">
         <a class="text-slate-500" href="/">Home</a>
         >
-        <a class="text-slate-500" href="/Berita">Berita</a>
-        >
-        <span class="text-emerald-700 font-semibold">Detail</span>
+        <span class="text-emerald-700 font-semibold">Berita</span>
       </div>
     </section>
 
@@ -34,32 +32,32 @@
 
             <!-- Dummy Berita -->
             <div class="bg-white shadow-md rounded-lg overflow-hidden">
-            <img src="https://mtsabadiyah.sch.id/uploads/featureimage/hasil-olimpiade-matematika-kmsi-nasional-2023.jpeg" alt="Berita 1" class="w-full h-80 object-cover">
+            <img src="{{ asset('images/berita1.jpg') }}" alt="Berita 1" class="w-full h-80 object-cover">
             <div class="p-4">
-                <h2 class="text-xl font-semibold text-emerald-700">Kegiatan Pramuka MTs Abadiyah</h2>
+                <a href="{{ route('detail') }}" class="text-xl font-semibold text-emerald-700 hover:text-emerald-900">Kegiatan Pramuka MTs Abadiyah</a>
                 <p class="text-sm text-gray-500 mb-2">17 Mei 2025</p>
                 <p class="text-gray-700 mb-3">Pramuka menjadi kegiatan wajib yang melatih kedisiplinan dan kerja sama antar siswa...</p>
-                <a href="#" class="text-emerald-600 text-sm font-medium">Baca Selengkapnya →</a>
+                <a href="{{ route('detail') }}" class="text-emerald-600 hover:text-emerald-900 text-sm font-medium">Baca Selengkapnya →</a>
             </div>
             </div>
 
             <div class="bg-white shadow-md rounded-lg overflow-hidden">
-            <img src="https://mtsabadiyah.sch.id/uploads/featureimage/hasil-olimpiade-matematika-kmsi-nasional-2023.jpeg" alt="Berita 2" class="w-full h-80 object-cover">
+            <img src="{{ asset('images/berita2.jpg') }}" alt="Berita 2" class="w-full h-80 object-cover">
             <div class="p-4">
-                <h2 class="text-xl font-semibold text-emerald-700">Lomba Cerdas Cermat Antar Kelas</h2>
+                <a href="{{ route('detail') }}" class="text-xl font-semibold text-emerald-700 hover:text-emerald-900">Lomba Cerdas Cermat Antar Kelas</a>
                 <p class="text-sm text-gray-500 mb-2">15 Mei 2025</p>
                 <p class="text-gray-700 mb-3">Dalam rangka memperingati Hari Pendidikan Nasional, MTs Abadiyah mengadakan lomba cerdas cermat...</p>
-                <a href="#" class="text-emerald-600 text-sm font-medium">Baca Selengkapnya →</a>
+                <a href="{{ route('detail') }}" class="text-emerald-600 hover:text-emerald-900 text-sm font-medium">Baca Selengkapnya →</a>
             </div>
             </div>
 
             <div class="bg-white shadow-md rounded-lg overflow-hidden">
-            <img src="https://mtsabadiyah.sch.id/uploads/featureimage/hasil-olimpiade-matematika-kmsi-nasional-2023.jpeg" alt="Berita 3" class="w-full h-80 object-cover">
+            <img src="{{ asset('images/berita3.jpg') }}" alt="Berita 3" class="w-full h-80 object-cover">
             <div class="p-4">
-                <h2 class="text-xl font-semibold text-emerald-700">Kunjungan Industri ke Pabrik Buku</h2>
+                <a href="{{ route('detail') }}" class="text-xl font-semibold text-emerald-700 hover:text-emerald-900">Kunjungan Industri ke Pabrik Buku</a>
                 <p class="text-sm text-gray-500 mb-2">10 Mei 2025</p>
                 <p class="text-gray-700 mb-3">Sebagai bentuk pembelajaran langsung, siswa diajak mengunjungi pabrik percetakan buku di Semarang...</p>
-                <a href="#" class="text-emerald-600 text-sm font-medium">Baca Selengkapnya →</a>
+                <a href="{{ route('detail') }}" class="text-emerald-600 hover:text-emerald-900 text-sm font-medium">Baca Selengkapnya →</a>
             </div>
             </div>
 

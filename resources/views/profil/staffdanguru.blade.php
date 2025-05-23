@@ -24,8 +24,8 @@
     </section>
 
     <!-- Section Staff dan Guru -->
-    <section class="mx-4 md:mx-20 my-10">
-    <h2 class="text-2xl font-bold text-emerald-700 mb-6">Staff dan Guru</h2>
+    <section class="mx-4 md:mx-20 mb-10">
+    <h2 class="mb-2 text-3xl font-semibold">Staff dan Guru</h2>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Card Staff -->

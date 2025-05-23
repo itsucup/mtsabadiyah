@@ -14,68 +14,161 @@
 
   @include('partials.header')
 
-  <!-- Section Slider -->
-  <section class="font-inter bg-sky-100 mx-20 my-2">
-    <h2 class="mb-2 text-4xl font-semibold">Website MTs Abadiyah Gabus Pati</h2>
-    <div class="mb-4 text-emerald-500">By Andika Ucup, 16 Mei 2025</div>
-    <p class="">
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nisi quae velit pariatur atque sint! Inventore ad id iste debitis ipsa velit totam dolor sint incidunt vel quo expedita modi dicta labore eveniet, sapiente eligendi fugit dignissimos! Doloremque, eius placeat hic molestiae, facilis porro necessitatibus modi ea perferendis alias nulla repellat?
-    </p>
-  </section>
+  <!-- Section Slider Banner -->
+<section class="relative w-full h-[600px] overflow-hidden">
+  <!-- Gambar Slider -->
+  <div id="slider" class="relative w-full h-full">
+    <img src="{{ asset('images/header1.jpeg') }}" class="absolute inset-0 w-full h-full object-cover opacity-100 transition-opacity duration-1000" />
+    <img src="{{ asset('images/header2.jpg') }}" class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000" />
+    <img src="{{ asset('images/header3.jpg') }}" class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000" />
+  </div>
 
-  <!-- Section Card Box Pengumuman -->
-  <section class=" bg-sky-100 mx-20 my-6">
-    <h2 class="text-xl font-semibold mb-4">Card Horizontal Scroll</h2>
-    
+  <!-- Overlay Teks Opsional -->
+  <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+    <h1 class="text-white text-3xl md:text-5xl font-bold">Selamat Datang di MTs Abadiyah</h1>
+  </div>
+</section>
+
+<!-- Script Slider -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const slides = document.querySelectorAll('#slider img');
+    let index = 0;
+
+    setInterval(() => {
+      slides[index].classList.remove('opacity-100');
+      slides[index].classList.add('opacity-0');
+
+      index = (index + 1) % slides.length;
+
+      slides[index].classList.remove('opacity-0');
+      slides[index].classList.add('opacity-100');
+    }, 7000); // ganti gambar setiap 5 detik
+  });
+</script>
+
+
+
+  <!-- Section Berita Terbaru -->
+  <section class="mx-4 md:mx-20 my-12">
+    <h2 class="text-3xl font-bold text-emerald-700 text-center mb-12">Berita Terbaru</h2>
+
     <div class="flex overflow-x-auto space-x-4 pb-4 scrollbar-hide">
-      <!-- Card 1 -->
-      <div class="min-w-[250px] bg-white shadow-md rounded-2xl p-4">
-        <h3 class="font-bold text-lg mb-2">Card 1</h3>
-        <p class="text-gray-600">Isi konten card di sini</p>
+      <!-- Card Berita 1 -->
+      <div class="min-w-[400px] max-w-[400px] bg-white shadow-md rounded-lg overflow-hidden">
+        <img src="{{ asset('images/berita1.jpg') }}" class="w-full h-60 object-cover" />
+        <div class="p-4">
+          <a href="{{ route('detail') }}" class="text-xl font-semibold text-emerald-700 hover:text-emerald-900">Kegiatan Pesantren Kilat</a>
+          <p class="text-sm text-gray-500 mb-2">Admin - 29 Maret 2023</p>
+          <p class="text-sm text-gray-600 mt-2">Siswa mengikuti kegiatan religi menjelang Ramadhan.</p>
+        </div>
       </div>
 
-      <!-- Card 2 -->
-      <div class="min-w-[250px] bg-white shadow-md rounded-2xl p-4">
-        <h3 class="font-bold text-lg mb-2">Card 2</h3>
-        <p class="text-gray-600">Isi konten card di sini</p>
+      <!-- Card Berita 2 -->
+      <div class="min-w-[400px] max-w-[400px] bg-white shadow-md rounded-lg overflow-hidden">
+        <img src="{{ asset('images/berita2.jpg') }}" class="w-full h-60 object-cover" />
+        <div class="p-4">
+          <a href="{{ route('detail') }}" class="text-xl font-semibold text-emerald-700 hover:text-emerald-900">Juara Olimpiade Sains</a>
+          <p class="text-sm text-gray-500 mb-2">Kontributor - 29 Maret 2023</p>
+          <p class="text-sm text-gray-600 mt-2">MTs Abadiyah meraih juara 1 tingkat kabupaten.</p>
+        </div>
       </div>
 
       <!-- Card 3 -->
-      <div class="min-w-[250px] bg-white shadow-md rounded-2xl p-4">
-        <h3 class="font-bold text-lg mb-2">Card 3</h3>
-        <p class="text-gray-600">Isi konten card di sini</p>
+      <div class="min-w-[400px] max-w-[400px] bg-white shadow-md rounded-lg overflow-hidden">
+        <img src="{{ asset('images/berita3.jpg') }}" class="w-full h-60 object-cover" />
+        <div class="p-4">
+          <a href="{{ route('detail') }}" class="text-xl font-semibold text-emerald-700 hover:text-emerald-900">Turnamen Futsal</a>
+          <p class="text-sm text-gray-500 mb-2">Kontributor - 29 Maret 2023</p>
+          <p class="text-sm text-gray-600 mt-2">Pertandingan antar kelas berlangsung seru dan sportif.</p>
+        </div>
       </div>
 
-      <!-- Tambah card lainnya sesuai kebutuhan -->
+      <!-- Card 4 -->
+      <div class="min-w-[400px] max-w-[400px] bg-white shadow-md rounded-lg overflow-hidden">
+        <img src="{{ asset('images/berita2.jpg') }}" class="w-full h-60 object-cover" />
+        <div class="p-4">
+          <a href="{{ route('detail') }}" class="text-xl font-semibold text-emerald-700 hover:text-emerald-900">Pameran Karya Siswa</a>
+          <p class="text-sm text-gray-500 mb-2">Admin - 29 Maret 2023</p>
+          <p class="text-sm text-gray-600 mt-2">Menampilkan hasil kreativitas siswa kelas seni rupa.</p>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="min-w-[400px] max-w-[400px] bg-white shadow-md rounded-lg overflow-hidden">
+        <img src="{{ asset('images/berita1.jpg') }}" class="w-full h-60 object-cover" />
+        <div class="p-4">
+          <a href="{{ route('detail') }}" class="text-xl font-semibold text-emerald-700 hover:text-emerald-900">Science Fair 2025</a>
+          <p class="text-sm text-gray-500 mb-2">Admin - 29 Maret 2023</p>
+          <p class="text-sm text-gray-600 mt-2">Ajang inovasi siswa dalam bidang riset dan eksperimen.</p>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="min-w-[400px] max-w-[400px] bg-white shadow-md rounded-lg overflow-hidden">
+        <img src="{{ asset('images/berita1.jpg') }}" class="w-full h-60 object-cover" />
+        <div class="p-4">
+          <a href="{{ route('detail') }}" class="text-xl font-semibold text-emerald-700 hover:text-emerald-900">Pelepasan Kelas IX</a>
+          <p class="text-sm text-gray-500 mb-2">Admin - 29 Maret 2023</p>
+          <p class="text-sm text-gray-600 mt-2">Seremonial dan doa bersama untuk siswa kelas akhir.</p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- Section Berita -->
-  <section class="mx-20 bg-sky-100 my-6">
-    <h2 class="text-xl font-semibold mb-4">Card Horizontal Scroll</h2>
-    <div class="flex overflow-x-auto space-x-4 pb-4 scrollbar-hide">
+  <!-- Section Program Kelas -->
+  <section class="py-16 px-6 md:px-20 bg-emerald-600 font-[Inter]">
+    <h2 class="text-3xl font-bold text-white text-center mb-12">Program Kelas Unggulan</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
       <!-- Card 1 -->
-      <div class="min-w-[250px] bg-white shadow-md rounded-2xl p-4">
-        <h3 class="font-bold text-lg mb-2">Card 1</h3>
-        <p class="text-gray-600">Isi konten card di sini</p>
+      <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition duration-300">
+        <div class="flex items-center space-x-4 mb-4">
+          <img src="{{ asset('images/program-tahfidz.jpg') }}" alt="Tahfidz" class="w-16 h-16 rounded-full object-cover shadow-md">
+          <h3 class="text-xl font-semibold text-emerald-700">Tahfidz</h3>
+        </div>
+        <p class="text-gray-600">Program penguatan hafalan Al-Qur’an dengan bimbingan intensif setiap hari.</p>
       </div>
 
       <!-- Card 2 -->
-      <div class="min-w-[250px] bg-white shadow-md rounded-2xl p-4">
-        <h3 class="font-bold text-lg mb-2">Card 2</h3>
-        <p class="text-gray-600">Isi konten card di sini</p>
+      <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition duration-300">
+        <div class="flex items-center space-x-4 mb-4">
+          <img src="{{ asset('images/program-kitab.jpg') }}" alt="Kitab Salaf" class="w-16 h-16 rounded-full object-cover shadow-md">
+          <h3 class="text-xl font-semibold text-emerald-700">Kitab Salaf</h3>
+        </div>
+        <p class="text-gray-600">Pembelajaran kitab-kitab klasik salaf yang ditanamkan nilai keilmuan dan akhlak.</p>
       </div>
 
       <!-- Card 3 -->
-      <div class="min-w-[250px] bg-white shadow-md rounded-2xl p-4">
-        <h3 class="font-bold text-lg mb-2">Card 3</h3>
-        <p class="text-gray-600">Isi konten card di sini</p>
+      <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition duration-300">
+        <div class="flex items-center space-x-4 mb-4">
+          <img src="{{ asset('images/program-sains.jpg') }}" alt="Sains dan Riset" class="w-16 h-16 rounded-full object-cover shadow-md">
+          <h3 class="text-xl font-semibold text-emerald-700">Sains & Riset</h3>
+        </div>
+        <p class="text-gray-600">Mendorong inovasi dan eksperimen ilmiah sejak dini melalui penelitian sederhana.</p>
       </div>
 
-      <!-- Tambah card lainnya sesuai kebutuhan -->
+      <!-- Card 4 -->
+      <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition duration-300">
+        <div class="flex items-center space-x-4 mb-4">
+          <img src="{{ asset('images/program-prestasi.jpg') }}" alt="Prestasi Seni" class="w-16 h-16 rounded-full object-cover shadow-md">
+          <h3 class="text-xl font-semibold text-emerald-700">Seni & Olahraga</h3>
+        </div>
+        <p class="text-gray-600">Pengembangan bakat siswa dalam bidang seni dan olahraga ke arah prestasi.</p>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition duration-300">
+        <div class="flex items-center space-x-4 mb-4">
+          <img src="{{ asset('images/program-reguler.jpg') }}" alt="Reguler" class="w-16 h-16 rounded-full object-cover shadow-md">
+          <h3 class="text-xl font-semibold text-emerald-700">Reguler</h3>
+        </div>
+        <p class="text-gray-600">Pembelajaran umum sesuai kurikulum nasional dengan pendekatan aktif dan kontekstual.</p>
+      </div>
     </div>
   </section>
 
+  
   <!-- Section Kontak -->
   <section id="kontak" class="bg-white py-12 px-6 md:px-20 font-[Inter]">
     <h2 class="text-2xl font-bold text-emerald-700 mb-6 text-center">Kontak Kami</h2>

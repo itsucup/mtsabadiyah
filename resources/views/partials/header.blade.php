@@ -56,8 +56,8 @@
           Galeri
         </button>
         <ul class="absolute left-0 mt-0 w-40 bg-white shadow-md rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10">
-          <li><a href="{{ route('galeri.foto') }}" class="block px-4 py-2 hover:bg-green-100">Galeri Siswa</a></li>
-          <li><a href="{{ route('galeri.video') }}" class="block px-4 py-2 hover:bg-green-100">Galeri Guru</a></li>
+          <li><a href="{{ route('galeri.foto') }}" class="block px-4 py-2 hover:bg-green-100">Galeri Foto</a></li>
+          <li><a href="{{ route('galeri.video') }}" class="block px-4 py-2 hover:bg-green-100">Galeri Video</a></li>
           <li><a href="{{ route('galeri.karya') }}" class="block px-4 py-2 hover:bg-green-100">Galeri Karya</a></li>
         </ul>
       </li>

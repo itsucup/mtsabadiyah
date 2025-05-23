@@ -25,7 +25,7 @@
 
     <!-- Section Video Hymne -->
     <section class="mx-20 my-8">
-      <div class="aspect-video w-full overflow-hidden rounded-lg shadow-lg">
+      <div class="aspect-video w-full h-[600px] md:h-[600px] overflow-hidden rounded-lg shadow-lg">
         <iframe class="w-full h-full"
         src="https://www.youtube.com/embed/tgbNymZ7vqY"
         title="Video 1"
@@ -39,7 +39,6 @@
       <div>
          <h2 class="mb-2 text-3xl font-semibold">Lirik Mars MTs Abadiyah</h2>
         <div class="mb-4 text-emerald-500">
-            By Andika Ucup, 16 Mei 2025
             <hr class="text-slate-400 mt-4">
         </div>
         <p class="pb-1">

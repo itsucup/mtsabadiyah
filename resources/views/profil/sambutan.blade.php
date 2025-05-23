@@ -27,18 +27,23 @@
 
     <!-- Section Gambar Berita -->
     <section class="">
-      <div class="bg-slate-400 mx-20 my-6">
+      <div class="bg-slate-400 mx-20 my-6 ">
         <a href="#">
-            <img src="https://mtsabadiyah.sch.id/uploads/pasfoto_kepalasekolah.png" alt="Gambar Berita">
+          <img src="https://mtsabadiyah.sch.id/uploads/pasfoto_kepalasekolah.png" 
+              class="w-full max-h-[600px] object-contain rounded-lg shadow mx-auto" 
+              alt="Gambar Berita">            
         </a>
       </div>
     </section>
 
     <!-- Section Berita -->
-    <section class="mx-20 bg-sky-100 my-6">
+    <section class="mx-20 my-6">
       <div>
+
          <h2 class="mb-2 text-3xl font-semibold">Sambutan Kepala Sekolah</h2>
-         <hr class="text-slate-400 mt-2 mb-2">
+        <div class="mb-4 text-emerald-500">
+            <hr class="mt-4">
+        </div>
         <p class="pb-1">
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nisi quae velit pariatur atque sint! Inventore ad id iste debitis ipsa velit totam dolor sint incidunt vel quo expedita modi dicta labore eveniet, sapiente eligendi fugit dignissimos! Doloremque, eius placeat hic molestiae, facilis porro necessitatibus modi ea perferendis alias nulla repellat?
         </p>

@@ -25,7 +25,6 @@
 
     <!-- Section Visi dan Misi -->
     <section class="mx-4 md:mx-20 my-8 bg-white p-6 md:p-10 rounded-lg shadow-md">
-      <h1 class="text-3xl font-bold text-emerald-700 mb-6 border-b pb-2">Visi dan Misi</h1>
 
       <!-- Visi -->
       <div class="mb-8">

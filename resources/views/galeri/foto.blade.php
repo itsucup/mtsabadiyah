@@ -15,7 +15,7 @@
   @include('partials.header')
 
       <!-- Section Breadcumb -->
-    <section class="font-inter bg-sky-100 mx-20 my-6 p-4">
+    <section class="bg-sky-100 mx-5 md:mx-20 my-4 p-4 rounded">
       <div class="">
         <a class="text-slate-500" href="/">Home</a>
         >
@@ -26,7 +26,7 @@
     </section>
 
     <!-- Section Galeri -->
-    <section class="mx-20">
+    <section class="mx-5 md:mx-20 my-8">
       <h2 class="text-2xl font-bold text-emerald-600 mb-4">Galeri Foto</h2>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
