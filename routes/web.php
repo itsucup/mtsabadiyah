@@ -10,6 +10,7 @@ Route::prefix('profil')->group(function () {
     Route::view('visimisi', 'profil.visimisi')->name('profil.visimisi');
     Route::view('staffdanguru', 'profil.staffdanguru')->name('profil.staffdanguru');
     Route::view('saranaprasarana', 'profil.saranaprasarana')->name('profil.saranaprasarana');
+    Route::view('ekstrakulikuler', 'profil.ekstrakulikuler')->name('profil.ekstrakulikuler');
     Route::view('mars', 'profil.mars')->name('profil.mars');
     Route::view('hymne', 'profil.hymne')->name('profil.hymne');
 });
@@ -31,3 +32,14 @@ Route::prefix('galeri')->group(function () {
 Route::view('/berita', 'berita')->name('berita');
 Route::view('/detail', 'detail')->name('detail');
 Route::view('/prestasi', 'prestasi')->name('prestasi');
+
+Route::view('/admin/login', 'cms.login')->name('login');
+Route::view('/admin/register', 'cms.register')->name('register');
+
+
+Route::view('/dashboard', 'cms.dashboard')->name('dashboard');
+
+// Route::middleware(['auth'])->group(function () {
+//     Route::view('/dashboard', 'cms.dashboard')->name('dashboard');
+//     Route::view('/profile', 'cms.profile')->name('profile');
+// });

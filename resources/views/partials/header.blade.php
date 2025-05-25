@@ -31,6 +31,7 @@
           <li><a href="{{ route('profil.visimisi') }}" class="block px-4 py-2 hover:bg-green-100">Visi dan Misi</a></li>
           <li><a href="{{ route('profil.staffdanguru') }}" class="block px-4 py-2 hover:bg-green-100">Staff dan Guru</a></li>
           <li><a href="{{ route('profil.saranaprasarana') }}" class="block px-4 py-2 hover:bg-green-100">Sarana dan Prasarana</a></li>
+          <li><a href="{{ route('profil.ekstrakulikuler') }}" class="block px-4 py-2 hover:bg-green-100">Ekstrakulikuler</a></li>
           <li><a href="{{ route('profil.mars') }}" class="block px-4 py-2 hover:bg-green-100">Mars Madrasah Abadiyah</a></li>
           <li><a href="{{ route('profil.hymne') }}" class="block px-4 py-2 hover:bg-green-100">Hymne Abadiyah</a></li>
         </ul>
@@ -89,6 +90,7 @@
         <a href="{{ route('profil.visimisi') }}" class="block hover:text-green-700">Visi dan Misi</a>
         <a href="{{ route('profil.staffdanguru') }}" class="block hover:text-green-700">Staff dan Guru</a>
         <a href="{{ route('profil.saranaprasarana') }}" class="block hover:text-green-700">Sarana dan Prasarana</a>
+        <a href="{{ route('profil.ekstrakulikuler') }}" class="block hover:text-green-700">Ekstrakulikuler</a>
         <a href="{{ route('profil.mars') }}" class="block hover:text-green-700">Mars Madrasah Abadiyah</a>
         <a href="{{ route('profil.hymne') }}" class="block hover:text-green-700">Hymne Abadiyah</a>
       </div>
