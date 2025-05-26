@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('berita', function (Blueprint $table) {
             $table->id();
+            $table->string('judul');
+            $table->longText('konten');
+            $table->string('header_url')->nullable(); // Path gambar header berita
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Siapa yang upload
             $table->timestamps();
         });
     }

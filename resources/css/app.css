@@ -23,3 +23,32 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
 
 }
+
+/* Definisi Warna Kustom */
+@layer base {
+    :root {
+        /* Hijau Dominan (Lebih gelap, modern) */
+        --color-primary-50: #e8f5e9;
+        --color-primary-100: #c8e6c9;
+        --color-primary-200: #a5d6a7;
+        --color-primary-300: #81c784;
+        --color-primary-400: #66bb6a;
+        --color-primary-500: #4caf50; /* Base Green */
+        --color-primary-600: #43a047;
+        --color-primary-700: #388e3c;
+        --color-primary-800: #264a2b; /* <-- DIGELAPKAN: Hijau gelap mendekati hitam/abu-abu tua */
+        --color-primary-900: #1b3d1f; /* <-- DIGELAPKAN: Hijau sangat gelap untuk header sidebar */
+
+        /* Kuning Aksen (Dari Logo) */
+        --color-accent-400: #ffeb3b; /* Kuning terang */
+        --color-accent-500: #fdd835; /* Kuning standar */
+        --color-accent-600: #fbc02d; /* Kuning agak gelap */
+
+        /* Abu-abu Netral */
+        --color-gray-100: #f5f7fa; /* Latar belakang bersih */
+        --color-gray-200: #e4e7eb; /* Pembatas/area sekunder */
+        --color-gray-700: #4b5563; /* Teks gelap */
+        --color-gray-800: #1f2937; /* Teks sangat gelap/background kontras */
+        --color-gray-900: #111827; /* Teks tergelap/background tergelap */
+    }
+}

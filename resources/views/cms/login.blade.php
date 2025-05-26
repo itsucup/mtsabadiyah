@@ -1,175 +1,61 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <!-- [Head] start -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - MTs Abadiyah</title>
+    @vite('resources/css/app.css') {{-- Pastikan ini mengarah ke file CSS Anda --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-emerald-500 to-emerald-700 min-h-screen flex items-center justify-center p-4">
 
-  <head>
-    <title>Login | Datta able Dashboard Template</title>
-    <!-- [Meta] -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      name="description"
-      content="Datta able is trending dashboard template made using Bootstrap 5 design framework. Datta able is available in Bootstrap, React, CodeIgniter, Angular,  and .net Technologies."
-    />
-    <meta
-      name="keywords"
-      content="Bootstrap admin template, Dashboard UI Kit, Dashboard Template, Backend Panel, react dashboard, angular dashboard"
-    />
-    <meta name="author" content="Codedthemes" />
+    <div class="bg-white rounded-lg shadow-xl p-8 max-w-md w-full overflow-hidden">
+        <h2 class="text-3xl font-bold text-center text-emerald-700 mb-6">Login Akun</h2>
 
-    <!-- [Favicon] icon -->
-    <link rel="icon" href="../assets/images/favicon.svg" type="image/x-icon" />
- <!-- [Font] Family -->
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
-<!-- [Tabler Icons] https://tablericons.com -->
-<link rel="stylesheet" href="../assets/fonts/tabler-icons.min.css" />
-<!-- [Feather Icons] https://feathericons.com -->
-<link rel="stylesheet" href="../assets/fonts/feather.css" />
-<!-- [Font Awesome Icons] https://fontawesome.com/icons -->
-<link rel="stylesheet" href="../assets/fonts/fontawesome.css" />
-<!-- [Material Icons] https://fonts.google.com/icons -->
-<link rel="stylesheet" href="../assets/fonts/material.css" />
-<!-- [Template CSS Files] -->
-<link rel="stylesheet" href="../assets/css/style.css" id="main-style-link" />
-<link rel="stylesheet" href="../assets/css/style-preset.css" />
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-14K1GBX9FG"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() {
-    dataLayer.push(arguments);
-  }
-  gtag('js', new Date());
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
 
-  gtag('config', 'G-14K1GBX9FG');
-</script>
-<!-- WiserNotify -->
-<script>
-  !(function () {
-    if (window.t4hto4) console.log('WiserNotify pixel installed multiple time in this page');
-    else {
-      window.t4hto4 = !0;
-      var t = document,
-        e = window,
-        n = function () {
-          var e = t.createElement('script');
-          (e.type = 'text/javascript'),
-            (e.async = !0),
-            (e.src = 'https://pt.wisernotify.com/pixel.js?ti=1jclj6jkfc4hhry'),
-            document.body.appendChild(e);
-        };
-      'complete' === t.readyState ? n() : window.attachEvent ? e.attachEvent('onload', n) : e.addEventListener('load', n, !1);
-    }
-  })();
-</script>
-<!-- Microsoft clarity -->
-<script type="text/javascript">
-  (function (c, l, a, r, i, t, y) {
-    c[a] =
-      c[a] ||
-      function () {
-        (c[a].q = c[a].q || []).push(arguments);
-      };
-    t = l.createElement(r);
-    t.async = 1;
-    t.src = 'https://www.clarity.ms/tag/' + i;
-    y = l.getElementsByTagName(r)[0];
-    y.parentNode.insertBefore(t, y);
-  })(window, document, 'clarity', 'script', 'gkn6wuhrtb');
-</script>
-
-  </head>
-  <!-- [Head] end -->
-  <!-- [Body] Start -->
-
-  <body data-pc-preset="preset-1" data-pc-sidebar-caption="true" data-pc-direction="ltr" data-pc-theme="light">
-    <!-- [ Pre-loader ] start -->
-    <div class="loader-bg">
-      <div class="loader-track">
-        <div class="loader-fill"></div>
-      </div>
-    </div>
-    <!-- [ Pre-loader ] End -->
-
-    <div class="auth-main">
-      <div class="auth-wrapper v1">
-        <div class="auth-form">
-          <div class="position-relative my-5">
-            <div class="auth-bg">
-              <span class="r"></span>
-              <span class="r s"></span>
-              <span class="r s"></span>
-              <span class="r"></span>
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700 text-sm font-semibold mb-2">Alamat Email</label>
+                <input type="email" id="email" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus
+                       class="shadow-sm appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition duration-300 ease-in-out @error('email') border-red-500 @enderror">
+                @error('email')
+                    <p class="text-red-500 text-xs italic mt-2">{{ $message }}</p>
+                @enderror
             </div>
-            <div class="card mb-0">
-              <div class="card-body">
-                <div class="text-center">
-                  <a href="#"><img src="../assets/images/logo-dark.svg" alt="img" /></a>
-                </div>
-                <h4 class="text-center f-w-500 mt-4 mb-3">Login</h4>
-                <div class="form-group mb-3">
-                  <input type="email" class="form-control" id="floatingInput" placeholder="Email Address" />
-                </div>
-                <div class="form-group mb-3">
-                  <input type="password" class="form-control" id="floatingInput1" placeholder="Password" />
-                </div>
-                <div class="d-flex mt-1 justify-content-between align-items-center">
-                  <div class="form-check">
-                    <input class="form-check-input input-primary" type="checkbox" id="customCheckc1" checked="" />
-                    <label class="form-check-label text-muted" for="customCheckc1">Remember me?</label>
-                  </div>
-                  <h6 class="text-secondary f-w-400 mb-0">Forgot Password?</h6>
-                </div>
-                <div class="text-center mt-4">
-                  <button type="button" class="btn btn-primary shadow px-sm-4">Login</button>
-                </div>
-                <div class="d-flex justify-content-between align-items-end mt-4">
-                  <h6 class="f-w-500 mb-0">Don't have an Account?</h6>
-                  <a href="#" class="link-primary">Create Account</a>
-                </div>
-              </div>
+
+            <div class="mb-6">
+                <label for="password" class="block text-gray-700 text-sm font-semibold mb-2">Password</label>
+                <input type="password" id="password" name="password" required autocomplete="current-password"
+                       class="shadow-sm appearance-none border rounded w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition duration-300 ease-in-out @error('password') border-red-500 @enderror">
+                @error('password')
+                    <p class="text-red-500 text-xs italic mt-2">{{ $message }}</p>
+                @enderror
             </div>
-          </div>
-        </div>
-      </div>
+
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center">
+                    <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}
+                           class="form-checkbox h-4 w-4 text-emerald-600 rounded focus:ring-emerald-500 transition duration-150 ease-in-out">
+                    <label for="remember" class="ml-2 block text-gray-900 text-sm">Ingat Saya</label>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <button type="submit"
+                        class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300 ease-in-out transform hover:scale-105">
+                    Login
+                </button>
+            </div>
+        </form>
     </div>
-    <!-- [ Main Content ] end -->
-    <!-- Required Js -->
-    <script src="../assets/js/plugins/popper.min.js"></script>
-    <script src="../assets/js/plugins/simplebar.min.js"></script>
-    <script src="../assets/js/plugins/bootstrap.min.js"></script>
-    <script src="../assets/js/fonts/custom-font.js"></script>
-    <script src="../assets/js/script.js"></script>
-    <script src="../assets/js/theme.js"></script>
-    <script src="../assets/js/plugins/feather.min.js"></script>
 
-       
-    <script>
-      layout_change('light');
-    </script>
-       
-    <script>
-      change_box_container('false');
-    </script>
-     
-    <script>
-      layout_caption_change('true');
-    </script>
-       
-    <script>
-      layout_rtl_change('false');
-    </script>
-     
-    <script>
-      preset_change('preset-1');
-    </script>
-     
-    <script>
-      layout_theme_sidebar_change('false');
-    </script>
-            
-
-  </body>
-  <!-- [Body] end -->
+</body>
 </html>

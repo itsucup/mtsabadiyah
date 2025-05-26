@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 Route::view('/', 'beranda')->name('beranda');
 
@@ -25,7 +26,7 @@ Route::prefix('profil')->group(function () {
 
 Route::prefix('galeri')->group(function () {
     Route::view('foto', 'galeri.foto')->name('galeri.foto');
-    Route::view('vide', 'galeri.video')->name('galeri.video');
+    Route::view('video', 'galeri.video')->name('galeri.video');
     Route::view('karya', 'galeri.karya')->name('galeri.karya');
 });
 
@@ -33,11 +34,16 @@ Route::view('/berita', 'berita')->name('berita');
 Route::view('/detail', 'detail')->name('detail');
 Route::view('/prestasi', 'prestasi')->name('prestasi');
 
-Route::view('/admin/login', 'cms.login')->name('login');
-Route::view('/admin/register', 'cms.register')->name('register');
+Route::get('/login', [AuthenticatedSessionController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthenticatedSessionController::class, 'login']);
+Route::get('/logout', [AuthenticatedSessionController::class, 'logout'])->middleware('auth');
 
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware('auth');
 
-Route::view('/dashboard', 'cms.dashboard')->name('dashboard');
+// Route::resource('berita', NewsController::class)->middleware(['auth']); // Tambahkan middleware auth
+
 
 // Route::middleware(['auth'])->group(function () {
 //     Route::view('/dashboard', 'cms.dashboard')->name('dashboard');
