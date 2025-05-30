@@ -4,11 +4,11 @@
     <div class="flex items-center space-x-2">
       <!-- Box Logo -->
       <div class="w-12 h-12">
-        <img
+        <a href="{{ route('beranda') }}"><img
           src="https://mtsabadiyah.sch.id/uploads/logo.png"
           alt="Logo MTs Abadiyah"
           class="w-full h-full object-contain"
-        />
+        /></a>
       </div>
       <!-- Teks Nama -->
       <div class="text-2xl font-bold text-green-700">
@@ -25,7 +25,7 @@
         <button class="hover:text-green-700 focus:outline-none">
           Profil
         </button>
-        <ul class="absolute left-0 mt-0 w-40 bg-white shadow-md rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10">
+        <ul class="absolute left-0 mt-0 w-40 bg-white shadow-md rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200 text-sm font-normal z-10">
           <li><a href="{{ route('profil.sambutan') }}" class="block px-4 py-2 hover:bg-green-100">Kata Sambutan</a></li>
           <li><a href="{{ route('profil.sejarah') }}" class="block px-4 py-2 hover:bg-green-100">Sejarah</a></li>
           <li><a href="{{ route('profil.visimisi') }}" class="block px-4 py-2 hover:bg-green-100">Visi dan Misi</a></li>
@@ -37,26 +37,14 @@
         </ul>
       </li>
 
-      <!-- Program Kelas Dropdown -->
-      <li class="relative group">
-        <button class="hover:text-green-700 focus:outline-none">
-          Program Kelas
-        </button>
-        <ul class="absolute left-0 mt-0 w-40 bg-white shadow-md rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10">
-          <li><a href="#" class="block px-4 py-2 hover:bg-green-100">Tahfidz</a></li>
-          <li><a href="#" class="block px-4 py-2 hover:bg-green-100">Kitab Salaf</a></li>
-          <li><a href="#" class="block px-4 py-2 hover:bg-green-100">Sains dan Riset</a></li>
-          <li><a href="#" class="block px-4 py-2 hover:bg-green-100">Prestasi Seni dan Olahraga</a></li>
-          <li><a href="#" class="block px-4 py-2 hover:bg-green-100">Reguler</a></li>
-        </ul>
-      </li>
+      <li><a href="{{ route('programkelas') }}" class="hover:text-green-700">Program Kelas</a></li>
 
       <!-- Galeri Dropdown -->
       <li class="relative group">
         <button class="hover:text-green-700 focus:outline-none">
           Galeri
         </button>
-        <ul class="absolute left-0 mt-0 w-40 bg-white shadow-md rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10">
+        <ul class="absolute left-0 mt-0 w-40 bg-white shadow-md rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10 text-sm font-normal">
           <li><a href="{{ route('galeri.foto') }}" class="block px-4 py-2 hover:bg-green-100">Galeri Foto</a></li>
           <li><a href="{{ route('galeri.video') }}" class="block px-4 py-2 hover:bg-green-100">Galeri Video</a></li>
           <li><a href="{{ route('galeri.karya') }}" class="block px-4 py-2 hover:bg-green-100">Galeri Karya</a></li>

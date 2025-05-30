@@ -11,14 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('berita', function (Blueprint $table) {
+        Schema::create('galeri_foto', function (Blueprint $table) {
             $table->id();
+            $table->string('gambar_url');
             $table->string('judul');
-            $table->longText('konten');
-            $table->string('header_url')->nullable(); // Path gambar header berita
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Siapa yang upload
+            $table->text('deskripsi')->nullable();
+            $table->boolean('status')->default(true); // true = aktif, false = tidak aktif
+
+            // Opsional: Foreign key untuk user yang mengupload
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
+
             $table->timestamps();
-            $table->boolean('status')->default(true); // Status berita: true (aktif/publish) atau false (draft/tidak aktif)
         });
     }
 
@@ -27,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('berita');
+        Schema::dropIfExists('galeri_foto');
     }
 };

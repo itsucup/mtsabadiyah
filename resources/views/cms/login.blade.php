@@ -46,6 +46,12 @@
                            class="form-checkbox h-4 w-4 text-emerald-600 rounded focus:ring-emerald-500 transition duration-150 ease-in-out">
                     <label for="remember" class="ml-2 block text-gray-900 text-sm">Ingat Saya</label>
                 </div>
+                {{-- Tambahkan link lupa password jika diperlukan --}}
+                @if (Route::has('password.request'))
+                    <a class="inline-block align-baseline text-sm text-emerald-600 hover:text-emerald-800 font-semibold" href="{{ route('password.request') }}">
+                        Lupa Password?
+                    </a>
+                @endif
             </div>
 
             <div class="mb-6">

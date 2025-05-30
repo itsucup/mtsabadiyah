@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard MTS Abadiyah</title>
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body class="flex h-screen bg-gray-50"> {{-- Latar belakang body menggunakan abu-abu sangat terang --}}
@@ -22,24 +22,6 @@
         </main>
     </div>
     
-    {{-- Script untuk Sidebar Responsif dan Waktu Realtime --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // ... (Kode JavaScript yang sudah ada untuk sidebar toggle, datetime, dll.) ...
-
-            // JavaScript untuk Dropdown Sidebar
-            const cmsDropdownToggle = document.getElementById('cmsDropdownToggle');
-            const cmsDropdownMenu = document.getElementById('cmsDropdownMenu');
-            const cmsDropdownArrow = document.getElementById('cmsDropdownArrow');
-
-            if (cmsDropdownToggle) { // Pastikan elemen ditemukan sebelum menambahkan event listener
-                cmsDropdownToggle.addEventListener('click', function() {
-                    cmsDropdownMenu.classList.toggle('hidden'); // Toggle visibilitas menu
-                    cmsDropdownArrow.classList.toggle('rotate-90'); // Rotasi panah
-                });
-            }
-        });
-    </script>
     @stack('scripts') {{-- Pastikan ini ada dan di posisi yang benar --}}
 
     {{-- Script untuk Sidebar Responsif dan Waktu Realtime --}}

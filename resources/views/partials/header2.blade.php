@@ -5,7 +5,7 @@
             <i class="fas fa-bars text-xl"></i>
         </button>
         <div class="text-2xl font-bold text-gray-800">
-            Dashboard <span class="text-emerald-600">MTS Abadiyah</span> {{-- Aksen nama instansi --}}
+            Dashboard <span class="text-emerald-600">MTs Abadiyah</span> {{-- Aksen nama instansi --}}
         </div>
     </div>
 

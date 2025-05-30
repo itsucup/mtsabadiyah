@@ -51,7 +51,7 @@
         <!-- Video 3 -->
         <div class="aspect-video w-full overflow-hidden rounded-lg shadow-lg">
           <iframe class="w-full h-full"
-            src="https://www.youtube.com/embed/J---aiyznGQ"
+            src="https://www.youtube.com/watch?v=IxCfL89D374"
             title="Video 3"
             frameborder="0"
             allowfullscreen></iframe>

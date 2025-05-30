@@ -19,6 +19,11 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+
+            $table->enum('role', ['admin', 'kontributor'])->default('kontributor');
+            $table->text('alamat')->nullable();
+            $table->string('nomor_telepon', 20)->nullable();
+            $table->boolean('status')->default(true);
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
