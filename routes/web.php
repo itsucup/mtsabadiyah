@@ -6,19 +6,27 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\GaleriFotoController;
 use App\Http\Controllers\Admin\GaleriVideoController;
+use App\Http\Controllers\Admin\StaffDanGuruController;
+use App\Http\Controllers\Admin\EkstrakulikulerController;
+use App\Http\Controllers\Admin\SejarahController;
+use App\Http\Controllers\Admin\HymneAbadiyahController as AdminHymneAbadiyahController;
+
 use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\PublicPagesController;
 
 Route::view('/', 'beranda')->name('beranda');
 
 Route::prefix('profil')->group(function () {
     Route::view('sambutan', 'profil.sambutan')->name('profil.sambutan');
     Route::view('sejarah', 'profil.sejarah')->name('profil.sejarah');
+    Route::get('sejarah', [PublicPagesController::class, 'showSejarah'])->name('profil.sejarah');
     Route::view('visimisi', 'profil.visimisi')->name('profil.visimisi');
     Route::view('staffdanguru', 'profil.staffdanguru')->name('profil.staffdanguru');
     Route::view('saranaprasarana', 'profil.saranaprasarana')->name('profil.saranaprasarana');
     Route::view('ekstrakulikuler', 'profil.ekstrakulikuler')->name('profil.ekstrakulikuler');
     Route::view('mars', 'profil.mars')->name('profil.mars');
-    Route::view('hymne', 'profil.hymne')->name('profil.hymne');
+
+    Route::get('hymne', [PublicPagesController::class, 'showHymne'])->name('profil.hymne');
 });
 
 Route::prefix('galeri')->group(function () {
@@ -96,7 +104,35 @@ Route::middleware(['auth'])->group(function () {
         'destroy' => 'cms.admin.galeri.video.destroy',
     ])->except(['show']);
     
-    
+    // Route untuk Manajemen Staff dan Guru (URL: cms/admin/staff-guru)
+    Route::resource('cms/admin/staff-guru', StaffDanGuruController::class)->parameters([
+        'staff-guru' => 'staffDanGuru'
+    ])->names([
+        'index' => 'cms.admin.staff_dan_guru.index',
+        'create' => 'cms.admin.staff_dan_guru.create',
+        'store' => 'cms.admin.staff_dan_guru.store',
+        'edit' => 'cms.admin.staff_dan_guru.edit',
+        'update' => 'cms.admin.staff_dan_guru.update',
+        'destroy' => 'cms.admin.staff_dan_guru.destroy',
+    ]);
+
+    // Route untuk Manajemen Ekstrakulikuler (URL: cms/admin/ekstrakulikuler)
+    Route::resource('cms/admin/ekstrakulikuler', EkstrakulikulerController::class)->names([
+        'index' => 'cms.admin.ekstrakulikuler.index',
+        'create' => 'cms.admin.ekstrakulikuler.create',
+        'store' => 'cms.admin.ekstrakulikuler.store',
+        'edit' => 'cms.admin.ekstrakulikuler.edit',
+        'update' => 'cms.admin.ekstrakulikuler.update',
+        'destroy' => 'cms.admin.ekstrakulikuler.destroy',
+    ]);
+
+    // Rute untuk Manajemen Halaman Sejarah di CMS
+    Route::get('cms/admin/sejarah', [SejarahController::class, 'index'])->name('cms.admin.sejarah.index');
+    Route::post('cms/admin/sejarah', [SejarahController::class, 'storeOrUpdate'])->name('cms.admin.sejarah.store_or_update');
+
+    // Rute untuk Manajemen Halaman Hymne Abadiyah di CMS
+    Route::get('cms/admin/hymne-abadiyah', [AdminHymneAbadiyahController::class, 'index'])->name('cms.admin.hymne_abadiyah.index');
+    Route::post('cms/admin/hymne-abadiyah', [AdminHymneAbadiyahController::class, 'storeOrUpdate'])->name('cms.admin.hymne_abadiyah.store_or_update');
 
 });
 

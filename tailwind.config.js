@@ -42,7 +42,7 @@ export default {
     },
   },
   plugins: [
-    
+    require('@tailwindcss/typography'), // Tambahkan baris ini
   ],
 }
 

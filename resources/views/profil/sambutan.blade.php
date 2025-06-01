@@ -10,7 +10,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <title>MTs Abadiyah</title>
 </head>
-<body class="font-inter">
+<body>
 
   @include('partials.header')
 

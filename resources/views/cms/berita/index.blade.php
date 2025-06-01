@@ -27,16 +27,19 @@
         <table class="min-w-full leading-normal">
             <thead>
                 <tr>
-                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        Foto/Header
+                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        No
                     </th>
-                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        Foto Header
+                    </th>
+                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
                         Judul Berita
                     </th>
-                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
                         Status
                     </th>
-                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
                         Pengupload
                     </th>
                     <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -47,6 +50,9 @@
             <tbody>
                 @forelse ($beritas as $berita)
                     <tr class="hover:bg-gray-50">
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                            {{ $loop->iteration + ($beritas->currentPage() - 1) * $beritas->perPage() }}
+                        </td>
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <div class="flex-shrink-0 h-20 w-32 overflow-hidden rounded-md">
                                 @if ($berita->header_url)
@@ -67,7 +73,7 @@
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <span class="relative inline-block px-3 py-1 font-semibold leading-tight {{ $berita->status ? 'text-green-900' : 'text-red-900' }}">
                                 <span aria-hidden="true" class="absolute inset-0 opacity-50 rounded-full {{ $berita->status ? 'bg-green-200' : 'bg-red-200' }}"></span>
-                                <span class="relative">{{ $berita->status ? 'Aktif' : 'Draft' }}</span>
+                                <span class="relative">{{ $berita->status ? 'Publish' : 'Draft' }}</span>
                             </span>
                         </td>
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -75,16 +81,20 @@
                             <div class="text-xs text-gray-500">{{ $berita->created_at->format('d M Y, H:i') }}</div>
                         </td>
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                            <a href="{{ route('cms.berita.edit', $berita) }}" class="text-amber-600 hover:text-amber-900 mr-3">
-                                <i class="fas fa-edit"></i> Edit
-                            </a>
-                            <form action="{{ route('cms.berita.destroy', $berita) }}" method="POST" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menghapus berita ini?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:text-red-900">
-                                    <i class="fas fa-trash-alt"></i> Hapus
-                                </button>
-                            </form>
+                            <div class="flex flex-col items-center space-y-2">
+                                <a href="{{ route('cms.berita.edit', $berita) }}" 
+                                class="text-amber-600 hover:text-amber-900 px-3 py-1 rounded-md border border-amber-600 hover:border-amber-900 transition duration-200 w-24 text-center">
+                                    <i class="fas fa-edit mr-1"></i> Edit
+                                </a>
+                                <form action="{{ route('cms.berita.destroy', $berita) }}" method="POST" 
+                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus berita ini?');" class="w-24">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:text-red-900 px-3 py-1 rounded-md border border-red-600 hover:border-red-900 transition duration-200 w-full text-center">
+                                        <i class="fas fa-trash-alt mr-1"></i> Hapus
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 @empty

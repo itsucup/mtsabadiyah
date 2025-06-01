@@ -27,7 +27,7 @@
                 <div class="flex-1 space-y-2 text-gray-800">
                     <p class="text-lg font-bold flex items-center"><i class="fas fa-school mr-2 text-emerald-600"></i> <span id="institutionNameDisplay">Madrasah Tsanawiyah Abadiyah</span></p>
                     <p class="text-sm text-gray-600 flex items-start"><i class="fas fa-map-marker-alt mr-2 mt-1 text-emerald-600"></i> <span id="institutionAddressDisplay">Jl. Raya Gabus - Pati No. 123, Gabus, Pati, Jawa Tengah</span></p>
-                    <p class="text-sm text-gray-600 flex items-start"><i class="fas fa-phone-alt mr-2 mt-1 text-emerald-600"></i> <span id="institutionAddressDisplay">(0295) 123456</span></p>
+                    <p class="text-sm text-gray-600 flex items-start"><i class="fas fa-phone-alt mr-2 mt-1 text-emerald-600"></i> <span id="institutionAddressDisplay">+62 812-3456-7890</span></p>
                     <p class="text-sm text-gray-600 flex items-start"><i class="fas fa-envelope mr-2 mt-1 text-emerald-600"></i> <span id="institutionAddressDisplay">info@mtsabadiyah.sch.id</span></p>
                 </div>
 

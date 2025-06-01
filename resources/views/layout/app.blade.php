@@ -6,6 +6,8 @@
     <title>Dashboard MTS Abadiyah</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 </head>
 <body class="flex h-screen bg-gray-50"> {{-- Latar belakang body menggunakan abu-abu sangat terang --}}
 
