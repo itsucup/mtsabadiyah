@@ -1,8 +1,14 @@
-@extends('layout.app') {{-- Sesuaikan dengan layout CMS Anda --}}
+@extends('layout.app')
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold text-gray-800 mb-6">Tambah Staff dan Guru Baru</h1>
+
+    @if (session('success'))
+        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4" role="alert">
+            {{ session('success') }}
+        </div>
+    @endif
 
     @if ($errors->any())
         <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
@@ -64,7 +70,7 @@
             <div class="mb-6">
                 <label for="status_aktif" class="block text-gray-700 text-sm font-bold mb-2">Status Aktif:</label>
                 <label class="inline-flex items-center">
-                    <input type="checkbox" name="status_aktif" id="status_aktif" value="1" class="form-checkbox h-5 w-5 text-emerald-600" {{ old('status_aktif', true) ? 'checked' : '' }}>
+                    <input type="checkbox" name="status_aktif" id="status_aktif" value="1" class="form-checkbox h-5 w-5 text-emerald-600" {{ old('status_aktif') ? 'checked' : '' }}>
                     <span class="ml-2 text-gray-700">Aktif</span>
                 </label>
                 @error('status_aktif')

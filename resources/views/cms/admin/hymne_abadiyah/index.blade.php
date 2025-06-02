@@ -1,8 +1,8 @@
 @extends('layout.app') {{-- Sesuaikan dengan layout CMS Anda --}}
 
 @section('content')
-<div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold text-gray-800 mb-6">Kelola Halaman Hymne Abadiyah</h1>
+<div class="container mx-auto">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6 border-b-4 border-emerald-600 pb-2 inline-block">Manajemen Hymne Abadiyah</h1>
 
     @if (session('success'))
         <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4" role="alert">

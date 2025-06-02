@@ -3,25 +3,23 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Ekstrakulikuler; // Pastikan model sudah diimpor
+use App\Models\Ekstrakulikuler;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage; // Pastikan facade Storage sudah diimpor
+use Illuminate\Support\Facades\Storage; // Untuk upload/hapus file
 
 class EkstrakulikulerController extends Controller
 {
     /**
-     * Menampilkan daftar semua resource (ekstrakulikuler).
+     * Display a listing of the resource.
      */
     public function index()
     {
-        // Ambil semua data ekstrakulikuler, diurutkan dari yang terbaru dan dipaginasi
-        $ekstrakulikulers = Ekstrakulikuler::latest()->paginate(10); // Menggunakan latest() untuk order by created_at DESC
-
+        $ekstrakulikulers = Ekstrakulikuler::latest()->paginate(10);
         return view('cms.admin.ekstrakulikuler.index', compact('ekstrakulikulers'));
     }
 
     /**
-     * Menampilkan form untuk membuat resource baru.
+     * Show the form for creating a new resource.
      */
     public function create()
     {
@@ -29,58 +27,36 @@ class EkstrakulikulerController extends Controller
     }
 
     /**
-     * Menyimpan resource yang baru dibuat ke storage.
+     * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        // Validasi input dari form
         $request->validate([
-            'nama_ekstrakulikuler' => 'required|string|max:100',
-            'foto_ekstrakulikuler' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Max 2MB
+            'nama' => 'required|string|max:100',
+            'foto_icon' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validasi file gambar/ikon
             'deskripsi_singkat' => 'nullable|string',
-            // Validasi 'boolean' di sini penting jika Anda ingin memastikan nilai yang datang adalah 0 atau 1
-            // Namun, metode $request->boolean() di bawah akan menangani kasus tidak adanya field
-            // jadi validasi ini opsional jika Anda percaya pada $request->boolean().
-            // Jika ada nilai lain yang mungkin dikirim, tetap pakai 'boolean'.
-            'status_aktif' => 'boolean',
+            'status_aktif' => 'boolean', // Validasi untuk checkbox
         ]);
 
-        // Inisialisasi variabel untuk URL foto
-        $fotoUrl = null;
-
-        // Proses upload foto jika ada
-        if ($request->hasFile('foto_ekstrakulikuler')) {
-            $path = $request->file('foto_ekstrakulikuler')->store('public/ekstrakulikuler_photos');
-            $fotoUrl = Storage::url($path); // Dapatkan URL yang bisa diakses publik
+        $fotoIconUrl = null;
+        if ($request->hasFile('foto_icon')) {
+            $path = $request->file('foto_icon')->store('public/ekstrakulikuler_icons');
+            $fotoIconUrl = Storage::url($path);
         }
 
-        // Membuat record baru di database
         Ekstrakulikuler::create([
-            'nama_ekstrakulikuler' => $request->nama_ekstrakulikuler,
-            'foto_ekstrakulikuler' => $fotoUrl,
+            'nama' => $request->nama,
+            'foto_icon' => $fotoIconUrl,
             'deskripsi_singkat' => $request->deskripsi_singkat,
-            // $request->boolean('status_aktif') akan mengembalikan:
-            // true jika checkbox dicentang (nilai '1' atau 'on')
-            // false jika checkbox tidak dicentang (field tidak ada di request)
             'status_aktif' => $request->boolean('status_aktif'),
         ]);
 
-        // Redirect dengan pesan sukses
         return redirect()->route('cms.admin.ekstrakulikuler.index')
                          ->with('success', 'Ekstrakulikuler berhasil ditambahkan!');
     }
 
     /**
-     * Menampilkan resource yang ditentukan.
-     */
-    public function show(Ekstrakulikuler $ekstrakulikuler)
-    {
-        // Umumnya tidak terlalu sering digunakan di CMS jika detail sudah terlihat di index atau edit
-        return view('cms.admin.ekstrakulikuler.show', compact('ekstrakulikuler'));
-    }
-
-    /**
-     * Menampilkan form untuk mengedit resource yang ditentukan.
+     * Show the form for editing the specified resource.
      */
     public function edit(Ekstrakulikuler $ekstrakulikuler)
     {
@@ -88,58 +64,60 @@ class EkstrakulikulerController extends Controller
     }
 
     /**
-     * Memperbarui resource yang ditentukan di storage.
+     * Update the specified resource in storage.
      */
     public function update(Request $request, Ekstrakulikuler $ekstrakulikuler)
     {
-        // Validasi input
         $request->validate([
-            'nama_ekstrakulikuler' => 'required|string|max:100',
-            'foto_ekstrakulikuler' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'nama' => 'required|string|max:100',
+            'foto_icon' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'deskripsi_singkat' => 'nullable|string',
             'status_aktif' => 'boolean',
+            'delete_foto_icon' => 'nullable|boolean', // Untuk checkbox hapus foto/ikon
         ]);
 
-        // Pertahankan URL foto lama jika tidak ada upload baru
-        $fotoUrl = $ekstrakulikuler->foto_ekstrakulikuler; 
+        $fotoIconUrl = $ekstrakulikuler->foto_icon;
 
-        // Proses upload foto baru jika ada
-        if ($request->hasFile('foto_ekstrakulikuler')) {
-            // Hapus foto lama jika ada
-            if ($ekstrakulikuler->foto_ekstrakulikuler) {
-                Storage::delete(str_replace('/storage', 'public', $ekstrakulikuler->foto_ekstrakulikuler));
+        // Logika Hapus Gambar/Ikon
+        if ($request->boolean('delete_foto_icon')) {
+            if ($ekstrakulikuler->foto_icon) {
+                Storage::delete(str_replace('/storage', 'public', $ekstrakulikuler->foto_icon));
             }
-            $path = $request->file('foto_ekstrakulikuler')->store('public/ekstrakulikuler_photos');
-            $fotoUrl = Storage::url($path);
+            $fotoIconUrl = null;
         }
 
-        // Perbarui record di database
+        // Proses upload gambar/ikon BARU
+        if ($request->hasFile('foto_icon')) {
+            if ($ekstrakulikuler->foto_icon && !$request->boolean('delete_foto_icon')) {
+                 Storage::delete(str_replace('/storage', 'public', $ekstrakulikuler->foto_icon));
+            }
+            $path = $request->file('foto_icon')->store('public/ekstrakulikuler_icons');
+            $fotoIconUrl = Storage::url($path);
+        }
+
         $ekstrakulikuler->update([
-            'nama_ekstrakulikuler' => $request->nama_ekstrakulikuler,
-            'foto_ekstrakulikuler' => $fotoUrl,
+            'nama' => $request->nama,
+            'foto_icon' => $fotoIconUrl,
             'deskripsi_singkat' => $request->deskripsi_singkat,
             'status_aktif' => $request->boolean('status_aktif'),
         ]);
 
-        // Redirect dengan pesan sukses
         return redirect()->route('cms.admin.ekstrakulikuler.index')
-                         ->with('success', 'Data Ekstrakulikuler berhasil diperbarui!');
+                         ->with('success', 'Ekstrakulikuler berhasil diperbarui!');
     }
 
     /**
-     * Menghapus resource yang ditentukan dari storage.
+     * Remove the specified resource from storage.
      */
     public function destroy(Ekstrakulikuler $ekstrakulikuler)
     {
-        // Hapus foto terkait dari storage jika ada
-        if ($ekstrakulikuler->foto_ekstrakulikuler) {
-            Storage::delete(str_replace('/storage', 'public', $ekstrakulikuler->foto_ekstrakulikuler));
+        // Hapus foto/ikon dari storage jika ada
+        if ($ekstrakulikuler->foto_icon) {
+            Storage::delete(str_replace('/storage', 'public', $ekstrakulikuler->foto_icon));
         }
 
-        // Hapus record dari database
         $ekstrakulikuler->delete();
 
-        // Redirect dengan pesan sukses
         return redirect()->route('cms.admin.ekstrakulikuler.index')
                          ->with('success', 'Ekstrakulikuler berhasil dihapus!');
     }

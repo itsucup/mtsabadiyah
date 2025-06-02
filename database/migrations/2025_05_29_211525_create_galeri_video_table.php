@@ -13,15 +13,10 @@ return new class extends Migration
     {
         Schema::create('galeri_video', function (Blueprint $table) {
             $table->id();
-            $table->string('judul'); // Judul video
-            $table->text('deskripsi')->nullable(); // Deskripsi video, opsional
-            $table->string('video_url'); // URL link YouTube (misal: https://www.youtube.com/watch?v=dQw4w9WgXcQ)
-            $table->string('thumbnail_url')->nullable(); // URL thumbnail video (opsional, bisa diambil dari YouTube API)
-            $table->boolean('status')->default(true); // Status: true (aktif/tayang), false (tidak aktif/draft)
-
-            // Foreign key untuk user yang mengunggah/menambahkan link video
-            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
-
+            $table->string('youtube_link');
+            $table->string('judul');
+            $table->boolean('status_aktif')->default(true);
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

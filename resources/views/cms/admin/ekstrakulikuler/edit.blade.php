@@ -1,8 +1,14 @@
-@extends('layout.app') {{-- Sesuaikan dengan layout CMS Anda --}}
+@extends('layout.app')
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold text-gray-800 mb-6">Edit Ekstrakulikuler: {{ $ekstrakulikuler->nama_ekstrakulikuler }}</h1>
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Edit Ekstrakulikuler: {{ $ekstrakulikuler->nama }}</h1>
+
+    @if (session('success'))
+        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4" role="alert">
+            {{ session('success') }}
+        </div>
+    @endif
 
     @if ($errors->any())
         <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
@@ -18,27 +24,35 @@
     <div class="bg-white shadow-md rounded-lg p-6">
         <form action="{{ route('cms.admin.ekstrakulikuler.update', $ekstrakulikuler->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
-            @method('PUT') {{-- Penting untuk method PUT --}}
+            @method('PUT')
 
             <div class="mb-4">
-                <label for="nama_ekstrakulikuler" class="block text-gray-700 text-sm font-bold mb-2">Nama Ekstrakulikuler:</label>
-                <input type="text" name="nama_ekstrakulikuler" id="nama_ekstrakulikuler" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('nama_ekstrakulikuler') border-red-500 @enderror" value="{{ old('nama_ekstrakulikuler', $ekstrakulikuler->nama_ekstrakulikuler) }}" required>
-                @error('nama_ekstrakulikuler')
+                <label for="nama" class="block text-gray-700 text-sm font-bold mb-2">Nama Ekstrakulikuler:</label>
+                <input type="text" name="nama" id="nama" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('nama') border-red-500 @enderror" value="{{ old('nama', $ekstrakulikuler->nama) }}" required>
+                @error('nama')
                     <p class="text-red-500 text-xs italic">{{ $message }}</p>
                 @enderror
             </div>
 
             <div class="mb-4">
-                <label for="foto_ekstrakulikuler" class="block text-gray-700 text-sm font-bold mb-2">Foto Ekstrakulikuler (Opsional):</label>
-                @if ($ekstrakulikuler->foto_ekstrakulikuler)
+                <label for="foto_icon" class="block text-gray-700 text-sm font-bold mb-2">Foto/Ikon Ekstrakulikuler (Opsional):</label>
+                @if ($ekstrakulikuler->foto_icon)
                     <div class="mb-2">
-                        <img src="{{ $ekstrakulikuler->foto_ekstrakulikuler }}" alt="Foto {{ $ekstrakulikuler->nama_ekstrakulikuler }}" class="w-24 h-24 object-cover rounded">
-                        <p class="text-xs text-gray-500 mt-1">Foto saat ini</p>
+                        <img src="{{ $ekstrakulikuler->foto_icon }}" alt="{{ $ekstrakulikuler->nama }}" class="w-24 h-24 object-contain rounded">
+                        <p class="text-xs text-gray-500 mt-1">Foto/Ikon saat ini</p>
+
+                        {{-- Checkbox untuk menghapus foto/ikon --}}
+                        <div class="mt-2">
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" name="delete_foto_icon" value="1" class="form-checkbox h-5 w-5 text-red-600">
+                                <span class="ml-2 text-sm text-red-700">Hapus Foto/Ikon Saat Ini</span>
+                            </label>
+                        </div>
                     </div>
                 @endif
-                <input type="file" name="foto_ekstrakulikuler" id="foto_ekstrakulikuler" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('foto_ekstrakulikuler') border-red-500 @enderror">
-                <p class="text-xs text-gray-500 mt-1">Pilih foto baru jika ingin mengubah. Format: JPEG, PNG, JPG, GIF, SVG. Max: 2MB.</p>
-                @error('foto_ekstrakulikuler')
+                <input type="file" name="foto_icon" id="foto_icon" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('foto_icon') border-red-500 @enderror">
+                <p class="text-xs text-gray-500 mt-1">Pilih gambar/ikon baru jika ingin mengubah. Format: JPEG, PNG, JPG, GIF, SVG. Max: 2MB.</p>
+                @error('foto_icon')
                     <p class="text-red-500 text-xs italic">{{ $message }}</p>
                 @enderror
             </div>

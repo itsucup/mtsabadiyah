@@ -13,12 +13,15 @@ return new class extends Migration
     {
         Schema::create('berita', function (Blueprint $table) {
             $table->id();
-            $table->string('judul');
-            $table->longText('konten');
-            $table->string('header_url')->nullable(); // Path gambar header berita
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Siapa yang upload
+            $table->string('judul', 255); // Judul berita
+            $table->string('foto_header')->nullable(); // URL foto header berita
+            $table->longText('konten'); // Isi berita, menggunakan longText untuk Markdown
+            $table->boolean('status_aktif')->default(true); // Status aktif (tampil) atau draft (tidak tampil)
+
+            // Kolom untuk pengupload
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+
             $table->timestamps();
-            $table->boolean('status')->default(true); // Status berita: true (aktif/publish) atau false (draft/tidak aktif)
         });
     }
 

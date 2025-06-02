@@ -1,8 +1,8 @@
 @extends('layout.app') {{-- Sesuaikan dengan layout CMS Anda --}}
 
 @section('content')
-<div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold text-gray-800 mb-6">Kelola Halaman Sejarah</h1>
+<div class="container mx-auto">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6 border-b-4 border-emerald-600 pb-2 inline-block">Manajemen Halaman Sejarah</h1>
 
     @if (session('success'))
         <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4" role="alert">
@@ -40,6 +40,14 @@
                     <div class="mb-2">
                         <img src="{{ $sejarah->header_image }}" alt="Gambar Header Sejarah" class="w-48 h-auto object-cover rounded-md">
                         <p class="text-xs text-gray-500 mt-1">Gambar saat ini</p>
+
+                        {{-- TAMBAHAN: Checkbox untuk menghapus gambar --}}
+                        <div class="mt-2">
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" name="delete_header_image" value="1" class="form-checkbox h-5 w-5 text-red-600">
+                                <span class="ml-2 text-sm text-red-700">Hapus Gambar Saat Ini</span>
+                            </label>
+                        </div>
                     </div>
                 @endif
                 <input type="file" name="header_image" id="header_image" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('header_image') border-red-500 @enderror">
@@ -52,7 +60,7 @@
             <div class="mb-6">
                 <label for="isi_konten" class="block text-gray-700 text-sm font-bold mb-2">Isi Konten Sejarah (Markdown):</label>
                 <textarea name="isi_konten" id="isi_konten" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('isi_konten') border-red-500 @enderror" rows="15">{{ old('isi_konten', $sejarah->isi_konten ?? '') }}</textarea>
-                <p class="text-xs text-gray-500 mt-1">Gunakan Markdown: `*italic*`, `**bold**`, `- list item`, `![Deskripsi Gambar](URL_GAMBAR)`</p>
+                <p class="text-xs text-gray-500 mt-1">Gunakan Markdown: `*italic*`, `**bold**`, `1. Item Angka`, `- Item Bulat`, `![Deskripsi Gambar](URL_GAMBAR)`</p>
                 @error('isi_konten')
                     <p class="text-red-500 text-xs italic mt-1">{{ $message }}</p>
                 @enderror

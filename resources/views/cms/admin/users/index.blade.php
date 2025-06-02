@@ -66,17 +66,18 @@
                         </span>
                     </td>
                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                        {{-- Hapus link show/detail --}}
-                        <a href="{{ route('cms.admin.users.edit', $user) }}" class="text-amber-600 hover:text-amber-900 mr-3">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <form action="{{ route('cms.admin.users.destroy', $user) }}" method="POST" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="text-red-600 hover:text-red-900">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </form>
+                        <div class="flex flex-col items-center space-y-2">
+                            <a href="{{ route('cms.admin.users.edit', $user) }}" class="text-amber-600 hover:text-amber-900 px-3 py-1 rounded-md border border-amber-600 hover:border-amber-900 transition duration-200 w-24 text-center">
+                                <i class="fas fa-edit">Edit</i>
+                            </a>
+                            <form action="{{ route('cms.admin.users.destroy', $user) }}" method="POST" class="w-24" onsubmit="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-600 hover:text-red-900 px-3 py-1 rounded-md border border-red-600 hover:border-red-900 transition duration-200 w-full text-center">
+                                    <i class="fas fa-trash-alt">Hapus</i>
+                                </button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
                 @empty

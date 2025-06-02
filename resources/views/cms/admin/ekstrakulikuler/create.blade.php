@@ -1,4 +1,4 @@
-@extends('layout.app') {{-- Sesuaikan dengan layout CMS Anda --}}
+@extends('layout.app')
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
@@ -20,18 +20,18 @@
             @csrf
 
             <div class="mb-4">
-                <label for="nama_ekstrakulikuler" class="block text-gray-700 text-sm font-bold mb-2">Nama Ekstrakulikuler:</label>
-                <input type="text" name="nama_ekstrakulikuler" id="nama_ekstrakulikuler" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('nama_ekstrakulikuler') border-red-500 @enderror" value="{{ old('nama_ekstrakulikuler') }}" required>
-                @error('nama_ekstrakulikuler')
+                <label for="nama" class="block text-gray-700 text-sm font-bold mb-2">Nama Ekstrakulikuler:</label>
+                <input type="text" name="nama" id="nama" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('nama') border-red-500 @enderror" value="{{ old('nama') }}" required>
+                @error('nama')
                     <p class="text-red-500 text-xs italic">{{ $message }}</p>
                 @enderror
             </div>
 
             <div class="mb-4">
-                <label for="foto_ekstrakulikuler" class="block text-gray-700 text-sm font-bold mb-2">Foto Ekstrakulikuler (Opsional):</label>
-                <input type="file" name="foto_ekstrakulikuler" id="foto_ekstrakulikuler" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('foto_ekstrakulikuler') border-red-500 @enderror">
-                <p class="text-xs text-gray-500 mt-1">Format: JPEG, PNG, JPG, GIF, SVG. Max: 2MB.</p>
-                @error('foto_ekstrakulikuler')
+                <label for="foto_icon" class="block text-gray-700 text-sm font-bold mb-2">Foto/Ikon Ekstrakulikuler (Opsional):</label>
+                <input type="file" name="foto_icon" id="foto_icon" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('foto_icon') border-red-500 @enderror">
+                <p class="text-xs text-gray-500 mt-1">Pilih gambar/ikon. Format: JPEG, PNG, JPG, GIF, SVG. Max: 2MB.</p>
+                @error('foto_icon')
                     <p class="text-red-500 text-xs italic">{{ $message }}</p>
                 @enderror
             </div>
@@ -47,7 +47,7 @@
             <div class="mb-6">
                 <label for="status_aktif" class="block text-gray-700 text-sm font-bold mb-2">Status Aktif:</label>
                 <label class="inline-flex items-center">
-                    <input type="checkbox" name="status_aktif" id="status_aktif" value="1" class="form-checkbox h-5 w-5 text-emerald-600" {{ old('status_aktif') ? 'checked' : '' }}> {{-- Hapus 'true' dari sini --}}
+                    <input type="checkbox" name="status_aktif" id="status_aktif" value="1" class="form-checkbox h-5 w-5 text-emerald-600" {{ old('status_aktif') ? 'checked' : '' }}>
                     <span class="ml-2 text-gray-700">Aktif</span>
                 </label>
                 @error('status_aktif')

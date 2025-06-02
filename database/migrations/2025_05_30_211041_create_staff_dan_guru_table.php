@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('staff_dan_guru', function (Blueprint $table) {
             $table->id();
             $table->string('nama', 100);
-            $table->string('foto')->nullable();
+            $table->string('foto')->nullable(); // Path/URL foto
             $table->string('jabatan', 50);
             $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']);
-            $table->boolean('status_aktif')->default(true);
+            $table->boolean('status_aktif')->default(true); // Status aktif atau tidak aktif
             $table->timestamps();
         });
     }

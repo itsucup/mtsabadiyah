@@ -28,7 +28,7 @@
         <ul class="absolute left-0 mt-0 w-40 bg-white shadow-md rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200 text-sm font-normal z-10">
           <li><a href="{{ route('profil.sambutan') }}" class="block px-4 py-2 hover:bg-green-100">Kata Sambutan</a></li>
           <li><a href="{{ route('profil.sejarah') }}" class="block px-4 py-2 hover:bg-green-100">Sejarah</a></li>
-          <li><a href="{{ route('profil.visimisi') }}" class="block px-4 py-2 hover:bg-green-100">Visi dan Misi</a></li>
+          <li><a href="{{ route('profil.visi_misi') }}" class="block px-4 py-2 hover:bg-green-100">Visi dan Misi</a></li>
           <li><a href="{{ route('profil.staffdanguru') }}" class="block px-4 py-2 hover:bg-green-100">Staff dan Guru</a></li>
           <li><a href="{{ route('profil.saranaprasarana') }}" class="block px-4 py-2 hover:bg-green-100">Sarana dan Prasarana</a></li>
           <li><a href="{{ route('profil.ekstrakulikuler') }}" class="block px-4 py-2 hover:bg-green-100">Ekstrakulikuler</a></li>
@@ -75,7 +75,7 @@
       <div class="ml-4 space-y-1">
         <a href="{{ route('profil.sambutan') }}" class="block hover:text-green-700">Kata Sambutan</a>
         <a href="{{ route('profil.sejarah') }}" class="block hover:text-green-700">Sejarah</a>
-        <a href="{{ route('profil.visimisi') }}" class="block hover:text-green-700">Visi dan Misi</a>
+        <a href="{{ route('profil.visi_misi') }}" class="block hover:text-green-700">Visi dan Misi</a>
         <a href="{{ route('profil.staffdanguru') }}" class="block hover:text-green-700">Staff dan Guru</a>
         <a href="{{ route('profil.saranaprasarana') }}" class="block hover:text-green-700">Sarana dan Prasarana</a>
         <a href="{{ route('profil.ekstrakulikuler') }}" class="block hover:text-green-700">Ekstrakulikuler</a>

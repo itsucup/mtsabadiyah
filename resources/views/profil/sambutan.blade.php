@@ -1,59 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ $sambutan->judul ?? 'Sambutan Kepala Sekolah' }}</title> {{-- Judul dinamis --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <title>MTs Abadiyah</title>
 </head>
-<body>
+<body class="font-inter">
 
-  @include('partials.header')
+    @include('partials.header')
 
     <!-- Section Breadcumb -->
-    <section class="font-inter bg-sky-100 mx-20 my-6 p-4">
-      <div class="">
-        <a class="text-slate-500" href="/">Home</a>
-        >
-        <a class="text-slate-500" href="/galeri">Profil</a>
-        >
-        <span class="text-emerald-700 font-semibold">Sambutan Kepala Sekolah</span>
-      </div>
-    </section>
-
-    <!-- Section Gambar Berita -->
-    <section class="">
-      <div class="bg-slate-400 mx-20 my-6 ">
-        <a href="#">
-          <img src="https://mtsabadiyah.sch.id/uploads/pasfoto_kepalasekolah.png" 
-              class="w-full max-h-[600px] object-contain rounded-lg shadow mx-auto" 
-              alt="Gambar Berita">            
-        </a>
-      </div>
-    </section>
-
-    <!-- Section Berita -->
-    <section class="mx-20 my-6">
-      <div>
-
-         <h2 class="mb-2 text-3xl font-semibold">Sambutan Kepala Sekolah</h2>
-        <div class="mb-4 text-emerald-500">
-            <hr class="mt-4">
+    <section class="bg-sky-100 mx-4 md:mx-20 my-6 p-4 rounded-lg shadow-sm">
+        <div class="flex items-center text-sm text-slate-500 space-x-1">
+            <a href="/" class="hover:text-emerald-600 font-medium transition-colors duration-200">Home</a>
+            <span>></span>
+            <a href="{{ route('profil.sambutan') }}" class="hover:text-emerald-600 font-medium transition-colors duration-200">Profil</a>
+            <span>></span>
+            <span class="text-emerald-700 font-semibold">Sambutan</span>
         </div>
-        <p class="pb-1">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nisi quae velit pariatur atque sint! Inventore ad id iste debitis ipsa velit totam dolor sint incidunt vel quo expedita modi dicta labore eveniet, sapiente eligendi fugit dignissimos! Doloremque, eius placeat hic molestiae, facilis porro necessitatibus modi ea perferendis alias nulla repellat?
-        </p>
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet velit, error at placeat deleniti alias distinctio facere, laborum, beatae commodi ea dicta officia architecto? Hic dolor doloremque vero dignissimos unde! Nesciunt tempora ex dolores voluptatibus! Similique dolore et facilis distinctio, maiores optio dolorum saepe est, ad aliquid perspiciatis, illo facere reprehenderit doloribus impedit placeat! Nesciunt voluptatum illum nulla aspernatur eius rem, fugit quisquam ducimus quidem unde excepturi odio, harum cumque accusamus porro, alias nemo! Sequi blanditiis, similique minima voluptatem doloribus consequuntur accusantium consequatur corrupti incidunt ducimus dolores totam doloremque cumque veritatis tempore! Facere, neque. Temporibus consequuntur earum maxime fuga alias?
-        </p>
-      </div>
+    </section>
+        
+    <section class="mx-4 md:mx-20 mb-10">
+        @if ($sambutan)
+
+            @if ($sambutan->gambar_header)
+                <img src="{{ $sambutan->gambar_header }}" alt="Gambar Header Sambutan" class="w-full h-64 object-cover rounded-lg shadow-md mb-8">
+            @endif
+
+            <h1 class="pb-2 text-3xl font-semibold text-gray-800">{{ $sambutan->judul ?? 'Sambutan Kepala Sekolah' }}</h1>
+            <div class="pb-4">
+                <hr class="border-gray-300">
+            </div>
+            
+            @if ($sambutan->sambutan_text)
+                <div class="text-gray-800 leading-relaxed text-justify">
+                    {!! nl2br(e($sambutan->sambutan_text)) !!}
+                </div>
+            @else
+                <div class="text-center text-gray-600 py-6">
+                    <p>Teks sambutan belum tersedia.</p>
+                </div>
+            @endif
+
+            <div class="mt-8 text-right">
+                <p class="text-xl font-semibold text-gray-800">{{ $sambutan->nama_kepala_sekolah ?? '' }}</p>
+                <p class="text-gray-600">{{ $sambutan->jabatan_kepala_sekolah ?? 'Kepala Sekolah' }}</p>
+            </div>
+
+        @else
+            <div class="text-center text-gray-600 py-10">
+                <p class="text-lg">Konten Sambutan Kepala Sekolah belum tersedia. Silakan hubungi administrator.</p>
+            </div>
+        @endif
     </section>
 
-  @include('partials.footer')
+    @include('partials.footer')
 
 </body>
 </html>

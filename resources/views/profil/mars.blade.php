@@ -1,56 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mars Madrasah Abadiyah</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <title>MTs Abadiyah</title>
 </head>
-<body class="font-inter">
+<body class="font-inter ">
 
-  @include('partials.header')
+    @include('partials.header')
 
-  <!-- Section Breadcumb -->
-    <section class="font-inter bg-sky-100 mx-20 my-6 p-4">
-      <div class="">
-        <a class="text-slate-500" href="/">Home</a>
-        >
-        <span class="text-emerald-700 font-semibold">Mars MTs Abadiyah</span>
-      </div>
-    </section>
-
-    <!-- Section Video Hymne -->
-    <section class="mx-20 my-8">
-      <div class="aspect-video w-full h-[600px] md:h-[600px] overflow-hidden rounded-lg shadow-lg">
-        <iframe class="w-full h-full"
-        src="https://www.youtube.com/embed/tgbNymZ7vqY"
-        title="Video 1"
-        frameborder="0"
-        allowfullscreen></iframe> 
-      </div>
-    </section>
-
-    <!-- Section Konten -->
-    <section class="mx-20 my-6">
-      <div>
-         <h2 class="mb-2 text-3xl font-semibold">Lirik Mars MTs Abadiyah</h2>
-        <div class="mb-4 text-emerald-500">
-            <hr class="text-slate-400 mt-4">
+    <section class="bg-sky-100 mx-4 md:mx-20 my-6 p-4 rounded-lg shadow-sm">
+        <div class="flex items-center text-sm text-slate-500 space-x-1">
+            <a href="/" class="hover:text-emerald-600 font-medium transition-colors duration-200">Home</a>
+            <span>></span>
+            <a href="{{ route('profil.mars') }}" class="hover:text-emerald-600 font-medium transition-colors duration-200">Profil</a>
+            <span>></span>
+            <span class="text-emerald-700 font-semibold">Mars</span>
         </div>
-        <p class="pb-1">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nisi quae velit pariatur atque sint! Inventore ad id iste debitis ipsa velit totam dolor sint incidunt vel quo expedita modi dicta labore eveniet, sapiente eligendi fugit dignissimos! Doloremque, eius placeat hic molestiae, facilis porro necessitatibus modi ea perferendis alias nulla repellat?
-        </p>
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet velit, error at placeat deleniti alias distinctio facere, laborum, beatae commodi ea dicta officia architecto? Hic dolor doloremque vero dignissimos unde! Nesciunt tempora ex dolores voluptatibus! Similique dolore et facilis distinctio, maiores optio dolorum saepe est, ad aliquid perspiciatis, illo facere reprehenderit doloribus impedit placeat! Nesciunt voluptatum illum nulla aspernatur eius rem, fugit quisquam ducimus quidem unde excepturi odio, harum cumque accusamus porro, alias nemo! Sequi blanditiis, similique minima voluptatem doloribus consequuntur accusantium consequatur corrupti incidunt ducimus dolores totam doloremque cumque veritatis tempore! Facere, neque. Temporibus consequuntur earum maxime fuga alias?
-        </p>
-      </div>
     </section>
 
-  @include('partials.footer')
+    <section class="mx-4 md:mx-20 mb-10">
+        @if ($mars)
+
+            @if ($mars->video_url)
+                <div class="mb-8">
+                    @php
+                        $embedUrl = $mars->video_url;
+                        if (str_contains($embedUrl, 'watch?v=')) {
+                            $embedUrl = str_replace('watch?v=', 'embed/', $embedUrl);
+                            $embedUrl = explode('&', $embedUrl)[0]; // Hapus parameter tambahan
+                        } elseif (str_contains($embedUrl, 'youtu.be/')) {
+                            $embedUrl = str_replace('youtu.be/', 'www.youtube.com/embed/', $embedUrl);
+                            $embedUrl = explode('?', $embedUrl)[0]; // Hapus parameter tambahan
+                        } else {
+                            $embedUrl = null; // Set null jika tidak bisa di-embed
+                        }
+                    @endphp
+                    @if ($embedUrl)
+                        <div class="relative overflow-hidden rounded-lg shadow-md" style="padding-top: 56.25%"> {{-- 16:9 aspect ratio --}}
+                            <iframe class="absolute top-0 left-0 w-full h-full" src="{{ $embedUrl }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    @else
+                        <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-lg" role="alert">
+                            <p>URL video tidak valid atau tidak dapat disematkan (hanya mendukung format YouTube).</p>
+                        </div>
+                    @endif
+                </div>
+            @endif
+
+            <h1 class="pb-2 text-3xl font-semibold text-gray-800">Lirik Mars Madrasah Abadiyah</h1> {{-- Menambahkan warna teks --}}
+            <div class="pb-4">
+                <hr class="border-gray-300"> {{-- Menggunakan border-gray-300 untuk warna HR --}}
+            </div>
+
+            @if ($mars->lirik)
+                <div class="text-gray-800 leading-relaxed text-justify"> {{-- whitespace-pre-wrap untuk baris baru --}}
+                    {!! nl2br(e($mars->lirik)) !!} {{-- Gunakan nl2br dan e() untuk menampilkan lirik dengan baris baru aman --}}
+                </div>
+            @else
+                <div class="text-center text-gray-600 py-6">
+                    <p>Lirik Mars belum tersedia.</p>
+                </div>
+            @endif
+
+        @else
+            <div class="text-center text-gray-600 py-10">
+                <p class="text-lg">Konten Mars Madrasah Abadiyah belum tersedia. Silakan hubungi administrator.</p>
+            </div>
+        @endif
+    </section>
+
+    @include('partials.footer')
 
 </body>
 </html>

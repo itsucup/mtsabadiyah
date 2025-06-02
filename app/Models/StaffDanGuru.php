@@ -20,7 +20,6 @@ class StaffDanGuru extends Model
     ];
 
     protected $casts = [
-        'status_aktif' => 'boolean',
+        'status_aktif' => 'boolean', // Penting untuk checkbox
     ];
-
 }

@@ -39,13 +39,13 @@
                 <i class="fas fa-chevron-down text-sm transition-transform duration-200 transform" id="profilDropdownArrow"></i>
             </button>
             <div id="profilDropdownMenu" class="pl-6 mt-2 space-y-1 hidden">
-                <a href="{{ route('profil.sambutan') }}" class="block py-2 px-4 rounded hover:bg-emerald-700 transition duration-200 text-sm">
+                <a href="{{ route('cms.admin.sambutan_kepala_sekolah.index') }}" class="block py-2 px-4 rounded hover:bg-emerald-700 transition duration-200 text-sm">
                     Kata Sambutan
                 </a>
                 <a href="{{ route('cms.admin.sejarah.index') }}" class="block py-2 px-4 rounded hover:bg-emerald-700 transition duration-200 text-sm">
                     Sejarah
                 </a>
-                <a href="{{ route('profil.visimisi') }}" class="block py-2 px-4 rounded hover:bg-emerald-700 transition duration-200 text-sm">
+                <a href="{{ route('cms.admin.visi_misi.index') }}" class="block py-2 px-4 rounded hover:bg-emerald-700 transition duration-200 text-sm">
                     Visi dan Misi
                 </a>
                 <a href="{{ route('cms.admin.staff_dan_guru.index') }}" class="block py-2 px-4 rounded hover:bg-emerald-700 transition duration-200 text-sm">
@@ -57,14 +57,17 @@
                 <a href="{{ route('cms.admin.ekstrakulikuler.index') }}" class="block py-2 px-4 rounded hover:bg-emerald-700 transition duration-200 text-sm">
                     Ekstrakulikuler
                 </a>
-                <a href="{{ route('profil.mars') }}" class="block py-2 px-4 rounded hover:bg-emerald-700 transition duration-200 text-sm">
+                <a href="{{ route('cms.admin.mars_madrasah_abadiyah.index') }}" class="block py-2 px-4 rounded hover:bg-emerald-700 transition duration-200 text-sm">
                     Mars Madrasah Abadiyah
                 </a>
                 <a href="{{ route('cms.admin.hymne_abadiyah.index') }}" class="block py-2 px-4 rounded hover:bg-emerald-700 transition duration-200 text-sm">
                     Hymne Abadiyah
                 </a>
-                <a href="{{ route('profil.hymne') }}" class="block py-2 px-4 rounded hover:bg-emerald-700 transition duration-200 text-sm">
+                <a href="{{ route('cms.admin.program_kelas.index') }}" class="block py-2 px-4 rounded hover:bg-emerald-700 transition duration-200 text-sm">
                     Program Kelas
+                </a>
+                <a href="{{ route('cms.admin.prestasi.index') }}" class="block py-2 px-4 rounded hover:bg-emerald-700 transition duration-200 text-sm">
+                    Prestasi
                 </a>
             </div>
         </div>

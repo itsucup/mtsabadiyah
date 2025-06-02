@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="">
+<body class="font-inter">
 
     @include('partials.header')
 
@@ -27,13 +27,17 @@
         
     <section class="mx-4 md:mx-20 mb-10">
         @if ($sejarah) {{-- Cek apakah objek $sejarah ada --}}
-            <h1 class="text-4xl font-extrabold text-gray-800 mb-6 text-center md:text-left">{{ $sejarah->judul }}</h1>
 
             @if ($sejarah->header_image)
                 <img src="{{ $sejarah->header_image }}" alt="Gambar Header Sejarah" class="w-full h-64 object-cover rounded-lg shadow-md mb-8">
             @endif
 
-            <div class="prose max-w-none prose-emerald lg:prose-lg">
+            <h1 class="pb-2 text-3xl font-semibold text-gray-800">{{ $sejarah->judul }}</h1>
+            <div class="pb-4">
+                <hr class="border-gray-300"> {{-- Menggunakan border-gray-300 untuk warna HR --}}
+            </div>
+
+            <div class="prose max-w-none prose-emerald lg:prose-lg text-justify">
                 @php
                     $parser = new Parsedown();
                 @endphp

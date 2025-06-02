@@ -1,6 +1,7 @@
-@extends('layout.app') {{-- Sesuaikan dengan layout CMS Anda --}}
+@extends('layout.app')
 
 @section('content')
+<div class="container mx-auto">
     <h1 class="text-3xl font-bold text-gray-800 mb-6 border-b-4 border-emerald-600 pb-2 inline-block">Manajemen Ekstrakulikuler</h1>
 
     @if (session('success'))
@@ -11,7 +12,7 @@
 
     <div class="mb-6 flex justify-between items-center">
         <a href="{{ route('cms.admin.ekstrakulikuler.create') }}" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-lg shadow transition duration-300 ease-in-out transform hover:scale-105 flex items-center">
-            <i class="fas fa-plus mr-2"></i> Tambah Ekstrakulikuler
+            <i class="fas fa-plus mr-2"></i> Tambah Ekstrakulikuler Baru
         </a>
     </div>
 
@@ -20,19 +21,19 @@
             <table class="min-w-full leading-normal">
                 <thead>
                     <tr>
-                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                             No
                         </th>
-                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                            Foto
-                        </th>
-                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                             Nama Ekstrakulikuler
                         </th>
-                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Foto/Ikon
+                        </th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                             Deskripsi Singkat
                         </th>
-                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                             Status
                         </th>
                         <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -43,21 +44,21 @@
                 <tbody>
                     @forelse ($ekstrakulikulers as $ekstra)
                         <tr>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                 {{ $loop->iteration + ($ekstrakulikulers->currentPage() - 1) * $ekstrakulikulers->perPage() }}
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                @if ($ekstra->foto_ekstrakulikuler)
-                                    <img src="{{ $ekstra->foto_ekstrakulikuler }}" alt="{{ $ekstra->nama_ekstrakulikuler }}" class="w-12 h-12 object-cover rounded">
+                                {{ $ekstra->nama }}
+                            </td>
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                @if ($ekstra->foto_icon)
+                                    <img src="{{ $ekstra->foto_icon }}" alt="{{ $ekstra->nama }}" class="w-12 h-12 object-contain rounded">
                                 @else
-                                    <div class="w-12 h-12 bg-gray-200 rounded flex items-center justify-center text-gray-500 text-xs">No Foto</div>
+                                    <div class="w-12 h-12 bg-gray-200 rounded flex items-center justify-center text-gray-500 text-xs text-center">No Icon</div>
                                 @endif
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                {{ $ekstra->nama_ekstrakulikuler }}
-                            </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                {{ Str::limit($ekstra->deskripsi_singkat, 50) }} {{-- Memotong deskripsi jika terlalu panjang --}}
+                                {{ Str::limit($ekstra->deskripsi_singkat, 50) }}
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                                 <span class="relative inline-block px-3 py-1 font-semibold leading-tight">
@@ -91,7 +92,8 @@
             </table>
         </div>
         <div class="p-4">
-            {{ $ekstrakulikulers->links() }} {{-- Menampilkan link paginasi --}}
+            {{ $ekstrakulikulers->links() }}
         </div>
     </div>
+</div>
 @endsection

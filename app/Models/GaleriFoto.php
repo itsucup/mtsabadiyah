@@ -14,15 +14,18 @@ class GaleriFoto extends Model
     protected $fillable = [
         'gambar_url',
         'judul',
-        'deskripsi',
-        'status',
-        'user_id',
+        'deskripsi_singkat',
+        'status_aktif',
+        'user_id', // Pastikan user_id bisa diisi
     ];
 
     protected $casts = [
-        'status' => 'boolean',
+        'status_aktif' => 'boolean',
     ];
 
+    /**
+     * Relasi ke model User (pengunggah)
+     */
     public function user()
     {
         return $this->belongsTo(User::class);

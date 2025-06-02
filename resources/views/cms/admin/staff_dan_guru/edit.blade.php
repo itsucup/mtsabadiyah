@@ -1,8 +1,14 @@
-@extends('layout.app') {{-- Sesuaikan dengan layout CMS Anda --}}
+@extends('layout.app')
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold text-gray-800 mb-6">Edit Staff dan Guru: {{ $staffDanGuru->nama }}</h1>
+
+    @if (session('success'))
+        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4" role="alert">
+            {{ session('success') }}
+        </div>
+    @endif
 
     @if ($errors->any())
         <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
@@ -18,7 +24,7 @@
     <div class="bg-white shadow-md rounded-lg p-6">
         <form action="{{ route('cms.admin.staff_dan_guru.update', $staffDanGuru->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
-            @method('PUT') {{-- Penting untuk method PUT --}}
+            @method('PUT')
 
             <div class="mb-4">
                 <label for="nama" class="block text-gray-700 text-sm font-bold mb-2">Nama:</label>
@@ -32,8 +38,16 @@
                 <label for="foto" class="block text-gray-700 text-sm font-bold mb-2">Foto (Opsional):</label>
                 @if ($staffDanGuru->foto)
                     <div class="mb-2">
-                        <img src="{{ $staffDanGuru->foto }}" alt="Foto {{ $staffDanGuru->nama }}" class="w-24 h-24 object-cover rounded-full">
+                        <img src="{{ $staffDanGuru->foto }}" alt="{{ $staffDanGuru->nama }}" class="w-24 h-24 object-cover rounded-full">
                         <p class="text-xs text-gray-500 mt-1">Foto saat ini</p>
+
+                        {{-- Checkbox untuk menghapus foto --}}
+                        <div class="mt-2">
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" name="delete_foto" value="1" class="form-checkbox h-5 w-5 text-red-600">
+                                <span class="ml-2 text-sm text-red-700">Hapus Foto Saat Ini</span>
+                            </label>
+                        </div>
                     </div>
                 @endif
                 <input type="file" name="foto" id="foto" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('foto') border-red-500 @enderror">

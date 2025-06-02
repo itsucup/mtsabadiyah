@@ -10,37 +10,35 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="">
+<body class="font-inter">
 
     @include('partials.header')
 
     <section class="bg-sky-100 mx-4 md:mx-20 my-6 p-4 rounded-lg shadow-sm">
         <div class="flex items-center text-sm text-slate-500 space-x-1">
             <a href="/" class="hover:text-emerald-600 font-medium transition-colors duration-200">Home</a>
-            <span>&gt;</span>
+            <span>></span>
             <a href="{{ route('profil.hymne') }}" class="hover:text-emerald-600 font-medium transition-colors duration-200">Profil</a>
-            <span>&gt;</span>
+            <span>></span>
             <span class="text-emerald-700 font-semibold">Hymne</span>
         </div>
     </section>
 
     <section class="mx-4 md:mx-20 mb-10">
         @if ($hymne)
-            <h1 class="text-4xl font-extrabold text-gray-800 mb-6 text-center md:text-left">Hymne Abadiyah</h1>
 
             @if ($hymne->video_url)
-                <div class="mb-4">
+                <div class="mb-8">
                     @php
                         $embedUrl = $hymne->video_url;
-                        if (str_contains($embedUrl, 'youtube.com/watch?v=')) {
+                        // Logika untuk mengubah URL YouTube ke format embed
+                        if (str_contains($embedUrl, 'watch?v=')) {
                             $embedUrl = str_replace('watch?v=', 'embed/', $embedUrl);
                             $embedUrl = explode('&', $embedUrl)[0]; // Hapus parameter tambahan
-                        } elseif (str_contains($embedUrl, 'youtu.be/')) {
+                        } elseif (str_contains($embedUrl, 'youtu.be/')) { // Contoh URL pendek YouTube
                             $embedUrl = str_replace('youtu.be/', 'www.youtube.com/embed/', $embedUrl);
                             $embedUrl = explode('?', $embedUrl)[0]; // Hapus parameter tambahan
                         } else {
-                            // Jika URL tidak dikenali sebagai YouTube, biarkan saja atau tampilkan pesan error
-                            // Anda bisa menambahkan logika untuk Vimeo, Google Drive, dll.
                             $embedUrl = null; // Set null jika tidak bisa di-embed
                         }
                     @endphp
@@ -56,14 +54,14 @@
                 </div>
             @endif
 
-            <h2 class="pb-2 text-3xl font-semibold">Lirik Mars MTs Abadiyah</h2>
+            <h1 class="pb-2 text-3xl font-semibold text-gray-800">Lirik Hymne Abadiyah</h1> {{-- Menambahkan warna teks --}}
             <div class="pb-4">
-                <hr class="text-slate-40">
+                <hr class="border-gray-300"> {{-- Menggunakan border-gray-300 untuk warna HR --}}
             </div>
 
             @if ($hymne->lirik)
-                <div class="bg-white shadow-md rounded-lg p-6 text-gray-800 leading-relaxed whitespace-pre-wrap"> {{-- whitespace-pre-wrap untuk baris baru --}}
-                    {!! nl2br(e($hymne->lirik)) !!} {{-- Gunakan nl2br dan e() untuk menampilkan lirik dengan baris baru aman --}}
+                <div class="text-gray-800 leading-relaxed text-justify">
+                    {!! nl2br(e($hymne->lirik)) !!}
                 </div>
             @else
                 <div class="text-center text-gray-600 py-6">

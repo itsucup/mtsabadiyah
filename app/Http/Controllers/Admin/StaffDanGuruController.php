@@ -14,8 +14,7 @@ class StaffDanGuruController extends Controller
      */
     public function index()
     {
-        // Ambil semua data staff dan guru, bisa ditambahkan paginasi jika banyak
-        $staffs = StaffDanGuru::orderBy('created_at', 'desc')->paginate(10); // Contoh paginasi 10 item per halaman
+        $staffs = StaffDanGuru::latest()->paginate(10);
         return view('cms.admin.staff_dan_guru.index', compact('staffs'));
     }
 
@@ -34,33 +33,28 @@ class StaffDanGuruController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:100',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Max 2MB
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validasi file foto
             'jabatan' => 'required|string|max:50',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-            'status_aktif' => 'boolean',
+            'status_aktif' => 'boolean', // Validasi untuk checkbox
         ]);
 
-        $data = $request->all();
-
+        $fotoUrl = null;
         if ($request->hasFile('foto')) {
             $path = $request->file('foto')->store('public/staff_photos');
-            $data['foto'] = Storage::url($path); // Simpan path yang bisa diakses publik
+            $fotoUrl = Storage::url($path);
         }
 
-        StaffDanGuru::create($data);
+        StaffDanGuru::create([
+            'nama' => $request->nama,
+            'foto' => $fotoUrl,
+            'jabatan' => $request->jabatan,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'status_aktif' => $request->boolean('status_aktif'),
+        ]);
 
         return redirect()->route('cms.admin.staff_dan_guru.index')
-                         ->with('success', 'Staff/Guru berhasil ditambahkan.');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(StaffDanGuru $staffDanGuru)
-    {
-        // Dalam konteks CMS, show mungkin tidak terlalu diperlukan jika semua info ada di index atau edit
-        // Tapi kita tetap definisikan untuk kelengkapan resource controller
-        return view('cms.admin.staff_dan_guru.show', compact('staffDanGuru'));
+                         ->with('success', 'Staff/Guru berhasil ditambahkan!');
     }
 
     /**
@@ -78,27 +72,42 @@ class StaffDanGuruController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:100',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Max 2MB
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'jabatan' => 'required|string|max:50',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
             'status_aktif' => 'boolean',
+            'delete_foto' => 'nullable|boolean', // Untuk checkbox hapus foto
         ]);
 
-        $data = $request->all();
+        $fotoUrl = $staffDanGuru->foto;
 
-        if ($request->hasFile('foto')) {
-            // Hapus foto lama jika ada
+        // Logika Hapus Foto
+        if ($request->boolean('delete_foto')) {
             if ($staffDanGuru->foto) {
                 Storage::delete(str_replace('/storage', 'public', $staffDanGuru->foto));
             }
-            $path = $request->file('foto')->store('public/staff_photos');
-            $data['foto'] = Storage::url($path);
+            $fotoUrl = null;
         }
 
-        $staffDanGuru->update($data);
+        // Proses upload foto BARU
+        if ($request->hasFile('foto')) {
+            if ($staffDanGuru->foto && !$request->boolean('delete_foto')) {
+                 Storage::delete(str_replace('/storage', 'public', $staffDanGuru->foto));
+            }
+            $path = $request->file('foto')->store('public/staff_photos');
+            $fotoUrl = Storage::url($path);
+        }
+
+        $staffDanGuru->update([
+            'nama' => $request->nama,
+            'foto' => $fotoUrl,
+            'jabatan' => $request->jabatan,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'status_aktif' => $request->boolean('status_aktif'),
+        ]);
 
         return redirect()->route('cms.admin.staff_dan_guru.index')
-                         ->with('success', 'Data Staff/Guru berhasil diperbarui.');
+                         ->with('success', 'Staff/Guru berhasil diperbarui!');
     }
 
     /**
@@ -114,6 +123,6 @@ class StaffDanGuruController extends Controller
         $staffDanGuru->delete();
 
         return redirect()->route('cms.admin.staff_dan_guru.index')
-                         ->with('success', 'Staff/Guru berhasil dihapus.');
+                         ->with('success', 'Staff/Guru berhasil dihapus!');
     }
 }

@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('galeri_foto', function (Blueprint $table) {
             $table->id();
-            $table->string('gambar_url');
-            $table->string('judul');
-            $table->text('deskripsi')->nullable();
-            $table->boolean('status')->default(true); // true = aktif, false = tidak aktif
+            $table->string('gambar_url'); // URL gambar
+            $table->string('judul', 255); // Judul foto
+            $table->text('deskripsi_singkat')->nullable(); // Deskripsi singkat
+            $table->boolean('status_aktif')->default(true); // Status aktif (tampil) atau draft (tidak tampil)
 
-            // Opsional: Foreign key untuk user yang mengupload
-            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
+            // Kolom untuk pengupload
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
 
             $table->timestamps();
         });

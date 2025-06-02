@@ -9,24 +9,23 @@ class Berita extends Model
 {
     use HasFactory;
 
-    // Tentukan nama tabel jika berbeda dari konvensi Laravel (plural nama model)
-    protected $table = 'berita'; // Opsional, jika nama tabel Anda adalah 'berita' bukan 'beritas'
+    protected $table = 'berita'; // Nama tabel di database
 
-    // Kolom yang dapat diisi secara massal
     protected $fillable = [
         'judul',
+        'foto_header',
         'konten',
-        'header_url',
-        'user_id',
-        'status', // Tambahkan ini
+        'status_aktif',
+        'user_id', // Pastikan user_id bisa diisi
     ];
 
-    // Cast kolom status ke boolean
     protected $casts = [
-        'status' => 'boolean',
+        'status_aktif' => 'boolean',
     ];
 
-    // Definisi relasi: Berita dimiliki oleh User
+    /**
+     * Relasi ke model User (pengunggah berita)
+     */
     public function user()
     {
         return $this->belongsTo(User::class);

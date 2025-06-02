@@ -12,14 +12,13 @@ class Ekstrakulikuler extends Model
     protected $table = 'ekstrakulikuler';
 
     protected $fillable = [
-        'nama_ekstrakulikuler',
-        'foto_ekstrakulikuler',
+        'nama',
+        'foto_icon',
         'deskripsi_singkat',
         'status_aktif',
     ];
 
     protected $casts = [
-        'status_aktif' => 'boolean',
+        'status_aktif' => 'boolean', // Penting untuk checkbox
     ];
-
 }
