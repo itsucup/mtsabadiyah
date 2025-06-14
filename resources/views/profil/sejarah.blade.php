@@ -10,12 +10,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-inter">
+<body class="font-inter pt-20 md:pt-24">
 
     @include('partials.header')
 
     <!-- Section Breadcumb -->
-    <section class="bg-sky-100 mx-4 md:mx-20 my-6 p-4 rounded-lg shadow-sm">
+    <section class="bg-emerald-50 mx-4 md:mx-20 my-6 p-4 rounded-lg shadow-sm">
         <div class="flex items-center text-sm text-slate-500 space-x-1">
             <a href="/" class="hover:text-emerald-600 font-medium transition-colors duration-200">Home</a>
             <span>&gt;</span>
@@ -29,7 +29,9 @@
         @if ($sejarah) {{-- Cek apakah objek $sejarah ada --}}
 
             @if ($sejarah->header_image)
-                <img src="{{ $sejarah->header_image }}" alt="Gambar Header Sejarah" class="w-full h-64 object-cover rounded-lg shadow-md mb-8">
+                <div class="relative w-full aspect-w-15 aspect-h-7 overflow-hidden rounded-lg shadow-md mb-8">
+                    <img src="{{ $sejarah->header_image }}" alt="Gambar Header Sejarah" class="absolute inset-0 w-full h-full object-cover">
+                </div>
             @endif
 
             <h1 class="pb-2 text-3xl font-semibold text-gray-800">{{ $sejarah->judul }}</h1>

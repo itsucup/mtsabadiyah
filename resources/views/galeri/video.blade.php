@@ -10,11 +10,11 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <title>MTs Abadiyah - Galeri Video</title>
 </head>
-<body class="font-inter bg-gray-50"> {{-- Menambahkan bg-gray-50 untuk konsistensi --}}
+<body class="font-inter pt-20 md:pt-24">
 
     @include('partials.header')
 
-    <section class="bg-sky-100 mx-5 md:mx-20 my-4 p-4 rounded-lg shadow-sm">
+    <section class="bg-emerald-50 mx-5 md:mx-20 my-6 p-4 rounded-lg shadow-sm">
         <div class="flex items-center text-sm text-slate-500 space-x-1">
             <a class="hover:text-emerald-600 font-medium transition-colors duration-200" href="/">Home</a>
             <span>></span>
@@ -25,11 +25,11 @@
     </section>
 
     <section class="mx-5 md:mx-20 my-8">
-        <h2 class="text-2xl font-bold text-emerald-600 mb-6">Galeri Video</h2>
+        <h1 class="pb-6 text-3xl font-semibold text-center text-gray-800">Galeri Video</h1>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             @forelse ($galeriVideos as $video)
-                <div class="aspect-video w-full overflow-hidden rounded-lg shadow-lg">
+                <div class="aspect-video w-full h-48 overflow-hidden rounded-lg shadow-lg">
                     @php
                         $embedUrl = $video->youtube_link;
 

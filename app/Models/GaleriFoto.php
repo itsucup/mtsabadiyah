@@ -14,20 +14,25 @@ class GaleriFoto extends Model
     protected $fillable = [
         'gambar_url',
         'judul',
-        'deskripsi_singkat',
-        'status_aktif',
-        'user_id', // Pastikan user_id bisa diisi
+        'deskripsi',
+        'kategori',
+        'status',
+        'user_id',
+        'kategori_foto_id',
     ];
 
     protected $casts = [
-        'status_aktif' => 'boolean',
+        'status' => 'boolean',
     ];
 
-    /**
-     * Relasi ke model User (pengunggah)
-     */
+    // Relasi: GaleriFoto dimiliki oleh User
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function kategoriFoto()
+    {
+        return $this->belongsTo(KategoriFoto::class, 'kategori_foto_id');
     }
 }

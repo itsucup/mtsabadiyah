@@ -32,4 +32,12 @@ class User extends Authenticatable implements MustVerifyEmail // implements Must
         'password' => 'hashed',
         'status' => 'boolean', // Penting: cast status ke boolean
     ];
+
+    /**
+     * Get the news articles for the user.
+     */
+    public function beritas()
+    {
+        return $this->hasMany(Berita::class, 'user_id'); // User memiliki banyak Berita
+    }
 }

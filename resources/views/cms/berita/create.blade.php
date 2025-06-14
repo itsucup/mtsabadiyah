@@ -42,6 +42,23 @@
                 @enderror
             </div>
 
+            {{-- --- KOLOM KATEGORI BARU --- --}}
+            <div class="mb-4">
+                <label for="kategori_id" class="block text-gray-700 text-sm font-bold mb-2">Kategori:</label>
+                <select name="kategori_id" id="kategori_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('kategori_id') border-red-500 @enderror">
+                    <option value="">Pilih Kategori</option>
+                    @foreach ($kategoris as $kategori)
+                        <option value="{{ $kategori->id }}" {{ old('kategori_id') == $kategori->id ? 'selected' : '' }}>
+                            {{ $kategori->nama }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('kategori_id')
+                    <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                @enderror
+            </div>
+            {{-- --- AKHIR KOLOM KATEGORI BARU --- --}}
+
             <div class="mb-6">
                 <label for="konten" class="block text-gray-700 text-sm font-bold mb-2">Isi Berita (Markdown):</label>
                 <textarea name="konten" id="konten" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('konten') border-red-500 @enderror" rows="15">{{ old('konten') }}</textarea>
@@ -52,12 +69,12 @@
             </div>
 
             <div class="mb-6">
-                <label for="status_aktif" class="block text-gray-700 text-sm font-bold mb-2">Status:</label>
+                <label for="status" class="block text-gray-700 text-sm font-bold mb-2">Status:</label> {{-- Menggunakan 'status' sesuai nama kolom DB --}}
                 <label class="inline-flex items-center">
-                    <input type="checkbox" name="status_aktif" id="status_aktif" value="1" class="form-checkbox h-5 w-5 text-emerald-600" {{ old('status_aktif', true) ? 'checked' : '' }}>
+                    <input type="checkbox" name="status" id="status" value="1" class="form-checkbox h-5 w-5 text-emerald-600" {{ old('status', true) ? 'checked' : '' }}>
                     <span class="ml-2 text-gray-700">Aktif (Tampilkan di Publik)</span>
                 </label>
-                @error('status_aktif')
+                @error('status') {{-- Menggunakan 'status' --}}
                     <p class="text-red-500 text-xs italic">{{ $message }}</p>
                 @enderror
             </div>

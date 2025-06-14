@@ -5,7 +5,7 @@
             <i class="fas fa-bars text-xl"></i>
         </button>
         <div class="text-2xl font-bold text-gray-800">
-            Dashboard <span class="text-emerald-600">MTs Abadiyah</span>
+            Dashboard <span class="text-emerald-600">{{ $lembagaSettings->nama_lembaga ?? 'Nama Lembaga Belum Disetel' }}</span>
         </div>
     </div>
 

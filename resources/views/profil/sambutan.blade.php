@@ -10,14 +10,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-inter">
+<body class="font-inter pt-20 md:pt-24">
 
     @include('partials.header')
 
     <!-- Section Breadcumb -->
-    <section class="bg-sky-100 mx-4 md:mx-20 my-6 p-4 rounded-lg shadow-sm">
+    <section class="font-inter bg-emerald-50 mx-4 md:mx-20 my-6 p-4 rounded-lg shadow-sm">
         <div class="flex items-center text-sm text-slate-500 space-x-1">
-            <a href="/" class="hover:text-emerald-600 font-medium transition-colors duration-200">Home</a>
+            <a href="{{ route('beranda') }}" class="hover:text-emerald-600 font-medium transition-colors duration-200">Home</a>
             <span>></span>
             <a href="{{ route('profil.sambutan') }}" class="hover:text-emerald-600 font-medium transition-colors duration-200">Profil</a>
             <span>></span>
@@ -29,7 +29,10 @@
         @if ($sambutan)
 
             @if ($sambutan->gambar_header)
-                <img src="{{ $sambutan->gambar_header }}" alt="Gambar Header Sambutan" class="w-full h-64 object-cover rounded-lg shadow-md mb-8">
+                {{-- Alternatif menggunakan plugin aspect-ratio (lebih disarankan jika sudah install) --}}
+                <div class="relative w-full aspect-w-15 aspect-h-7 overflow-hidden rounded-lg shadow-md mb-8">
+                    <img src="{{ $sambutan->gambar_header }}" alt="Gambar Header Sambutan" class="absolute inset-0 w-full h-full object-cover">
+                </div>
             @endif
 
             <h1 class="pb-2 text-3xl font-semibold text-gray-800">{{ $sambutan->judul ?? 'Sambutan Kepala Sekolah' }}</h1>
@@ -38,7 +41,7 @@
             </div>
             
             @if ($sambutan->sambutan_text)
-                <div class="text-gray-800 leading-relaxed text-justify">
+                <div class="text-gray-800 leading-relaxed text-justify prose max-w-none"> {{-- Menambahkan 'prose max-w-none' untuk styling typography --}}
                     {!! nl2br(e($sambutan->sambutan_text)) !!}
                 </div>
             @else

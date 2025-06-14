@@ -4,13 +4,41 @@ use App\Http\Controllers\Controller;
 use App\Models\Prestasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class PrestasiController extends Controller
 {
-    public function index()
+    /**
+     * Display a listing of the resource (Prestasi).
+     */
+    public function index(Request $request)
     {
-        $prestasis = Prestasi::latest()->paginate(10);
-        return view('cms.admin.prestasi.index', compact('prestasis'));
+        $query = Prestasi::query();
+
+        // Filter Pencarian (Search)
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_lengkap_anggota', 'like', '%' . $search . '%')
+                  ->orWhere('nama_prestasi', 'like', '%' . $search . '%')
+                  ->orWhere('instansi_penyelenggara', 'like', '%' . $search . '%');
+            });
+        }
+
+        // Filter Tahun
+        if ($request->filled('tahun')) {
+            $query->where('tahun', $request->input('tahun'));
+        }
+
+        // Urutkan berdasarkan tahun terbaru dan nama (atau sesuai kebutuhan)
+        $prestasis = $query->orderBy('tahun', 'desc')->orderBy('nama_lengkap_anggota')->paginate(10); // Maksimal 25 data
+
+        // Ambil daftar tahun yang unik untuk dropdown filter
+        $availableYears = Prestasi::select(DB::raw('DISTINCT tahun'))
+                                ->orderBy('tahun', 'desc')
+                                ->pluck('tahun');
+
+        return view('cms.admin.prestasi.index', compact('prestasis', 'availableYears'));
     }
 
     public function create()

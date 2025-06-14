@@ -9,25 +9,29 @@ class Berita extends Model
 {
     use HasFactory;
 
-    protected $table = 'berita'; // Nama tabel di database
+    protected $table = 'berita';
 
     protected $fillable = [
         'judul',
-        'foto_header',
         'konten',
-        'status_aktif',
-        'user_id', // Pastikan user_id bisa diisi
+        'header_url',
+        'user_id',
+        'kategori_id', // <--- TAMBAHKAN INI
+        'status',
     ];
 
     protected $casts = [
-        'status_aktif' => 'boolean',
+        'status' => 'boolean',
     ];
 
-    /**
-     * Relasi ke model User (pengunggah berita)
-     */
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    // Relasi: Berita dimiliki oleh KategoriBerita
+    public function kategori()
+    {
+        return $this->belongsTo(KategoriBerita::class, 'kategori_id');
     }
 }

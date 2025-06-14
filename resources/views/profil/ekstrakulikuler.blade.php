@@ -21,11 +21,11 @@
         }
     </style>
 </head>
-<body class="font-inter bg-gray-50">
+<body class="font-inter pt-20 md:pt-24">
 
     @include('partials.header')
 
-    <section class="bg-sky-100 mx-4 md:mx-20 my-6 p-4 rounded-lg shadow-sm">
+    <section class="bg-emerald-50 mx-4 md:mx-20 my-6 p-4 rounded-lg shadow-sm">
         <div class="flex items-center text-sm text-slate-500 space-x-1">
             <a href="/" class="hover:text-emerald-600 font-medium transition-colors duration-200">Home</a>
             <span>></span>
@@ -44,9 +44,8 @@
                     <summary class="p-4">
                         <div class="flex flex-col items-center text-center">
                             @if ($ekstra->foto_icon)
-                                <img src="{{ $ekstra->foto_icon }}" alt="{{ $ekstra->nama }}" class="w-16 h-16 mb-3 object-contain" />
+                                <img src="{{ $ekstra->foto_icon }}" alt="{{ $ekstra->nama }}" class="w-16 h-16 mb-3 object-contain rounded" />
                             @else
-                                {{-- Placeholder jika tidak ada ikon --}}
                                 <div class="w-16 h-16 mb-3 bg-gray-200 rounded-full flex items-center justify-center text-gray-500 text-xs">No Icon</div>
                             @endif
                             <h3 class="font-semibold text-lg text-gray-800">{{ $ekstra->nama }}</h3>

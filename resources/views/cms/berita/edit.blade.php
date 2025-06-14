@@ -35,10 +35,10 @@
             </div>
 
             <div class="mb-4">
-                <label for="foto_header" class="block text-gray-700 text-sm font-bold mb-2">Foto Header (Opsional, untuk mengubah):</label>
-                @if ($berita->foto_header)
+                <label for="header_image" class="block text-gray-700 text-sm font-bold mb-2">Foto Header (Opsional, untuk mengubah):</label>
+                @if ($berita->header_url) {{-- Menggunakan header_url --}}
                     <div class="mb-2">
-                        <img src="{{ $berita->foto_header }}" alt="{{ $berita->judul }}" class="w-48 h-32 object-cover rounded">
+                        <img src="{{ $berita->header_url }}" alt="{{ $berita->judul }}" class="w-48 h-32 object-cover rounded"> {{-- Menggunakan header_url --}}
                         <p class="text-xs text-gray-500 mt-1">Foto Header saat ini</p>
 
                         {{-- Checkbox untuk menghapus foto header --}}
@@ -52,12 +52,29 @@
                 @else
                     <p class="text-xs text-gray-500 mb-1">Belum ada foto header.</p>
                 @endif
-                <input type="file" name="foto_header" id="foto_header" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('foto_header') border-red-500 @enderror">
-                <p class="text-xs text-gray-500 mt-1">Pilih gambar baru jika ingin mengubah. Format: JPEG, PNG, JPG, GIF, SVG. Max: 2MB.</p>
-                @error('foto_header')
+                <input type="file" name="header_image" id="header_image" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('header_image') border-red-500 @enderror"> {{-- Menggunakan header_image untuk input file --}}
+                <p class="text-xs text-gray-500 mt-1">Pilih gambar baru jika ingin mengubah. Format: JPEG, PNG, JPG, GIF. Max: 2MB.</p>
+                @error('header_image') {{-- Menggunakan header_image --}}
                     <p class="text-red-500 text-xs italic">{{ $message }}</p>
                 @enderror
             </div>
+
+            {{-- --- KOLOM KATEGORI BARU --- --}}
+            <div class="mb-4">
+                <label for="kategori_id" class="block text-gray-700 text-sm font-bold mb-2">Kategori:</label>
+                <select name="kategori_id" id="kategori_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('kategori_id') border-red-500 @enderror">
+                    <option value="">Pilih Kategori</option>
+                    @foreach ($kategoris as $kategori)
+                        <option value="{{ $kategori->id }}" {{ old('kategori_id', $berita->kategori_id) == $kategori->id ? 'selected' : '' }}>
+                            {{ $kategori->nama }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('kategori_id')
+                    <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                @enderror
+            </div>
+            {{-- --- AKHIR KOLOM KATEGORI BARU --- --}}
 
             <div class="mb-6">
                 <label for="konten" class="block text-gray-700 text-sm font-bold mb-2">Isi Berita (Markdown):</label>
@@ -69,12 +86,12 @@
             </div>
 
             <div class="mb-6">
-                <label for="status_aktif" class="block text-gray-700 text-sm font-bold mb-2">Status:</label>
+                <label for="status" class="block text-gray-700 text-sm font-bold mb-2">Status:</label> {{-- Menggunakan 'status' --}}
                 <label class="inline-flex items-center">
-                    <input type="checkbox" name="status_aktif" id="status_aktif" value="1" class="form-checkbox h-5 w-5 text-emerald-600" {{ old('status_aktif', $berita->status_aktif) ? 'checked' : '' }}>
+                    <input type="checkbox" name="status" id="status" value="1" class="form-checkbox h-5 w-5 text-emerald-600" {{ old('status', $berita->status) ? 'checked' : '' }}> {{-- Menggunakan 'status' --}}
                     <span class="ml-2 text-gray-700">Aktif (Tampilkan di Publik)</span>
                 </label>
-                @error('status_aktif')
+                @error('status') {{-- Menggunakan 'status' --}}
                     <p class="text-red-500 text-xs italic">{{ $message }}</p>
                 @enderror
             </div>

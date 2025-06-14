@@ -40,7 +40,7 @@
                 @enderror
             </div>
 
-            <div class="flex items-center justify-between mb-6">
+            <!-- <div class="flex items-center justify-between mb-6">
                 <div class="flex items-center">
                     <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}
                            class="form-checkbox h-4 w-4 text-emerald-600 rounded focus:ring-emerald-500 transition duration-150 ease-in-out">
@@ -52,7 +52,7 @@
                         Lupa Password?
                     </a>
                 @endif
-            </div>
+            </div> -->
 
             <div class="mb-6">
                 <button type="submit"

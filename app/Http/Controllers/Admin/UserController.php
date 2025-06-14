@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth; // <--- TAMBAHKAN BARIS INI
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {

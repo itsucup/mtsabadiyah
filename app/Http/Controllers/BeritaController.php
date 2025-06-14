@@ -4,6 +4,8 @@ namespace App\Http\Controllers; // Pastikan namespace ini sesuai lokasi controll
 
 use App\Http\Controllers\Controller;
 use App\Models\Berita; // Impor Model Berita
+use App\Models\KategoriBerita;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; // Untuk mendapatkan user yang sedang login
 use Illuminate\Support\Facades\Storage; // Untuk upload file
@@ -14,17 +16,65 @@ class BeritaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Tampilkan berita berdasarkan role
-        if (Auth::user()->role === 'admin') {
-            $beritas = Berita::with('user')->latest()->paginate(10);
-        } else {
-            // Kontributor hanya melihat berita yang mereka upload
-            $beritas = Berita::where('user_id', Auth::id())->with('user')->latest()->paginate(10);
+        $query = Berita::with('user', 'kategori'); // Eager load user and kategori
+
+        // Implementasi otorisasi: Kontributor hanya melihat berita mereka sendiri, admin melihat semua
+        if (Auth::user()->role === 'kontributor') {
+            $query->where('user_id', Auth::id());
         }
 
-        return view('cms.berita.index', compact('beritas'));
+        // --- Logika Filter ---
+
+        // Filter Pencarian (Search)
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('judul', 'like', '%' . $search . '%')
+                  ->orWhere('konten', 'like', '%' . $search . '%');
+            });
+        }
+
+        // Filter Kategori
+        if ($request->filled('kategori')) {
+            $kategoriId = $request->input('kategori');
+            // Pastikan kategoriId adalah integer yang valid jika tidak nol
+            if ($kategoriId !== '0') { // 0 akan digunakan untuk "Semua Kategori" jika Anda ingin
+                $query->where('kategori_id', $kategoriId);
+            }
+        }
+
+        // Filter Status
+        if ($request->filled('status_filter')) { // Menggunakan nama berbeda agar tidak konflik dengan nama kolom
+            $statusValue = $request->input('status_filter');
+            // '1' untuk aktif, '0' untuk draft
+            if ($statusValue === '1') {
+                $query->where('status', true);
+            } elseif ($statusValue === '0') {
+                $query->where('status', false);
+            }
+        }
+
+        // Filter Pengupload (Uploader)
+        if ($request->filled('uploader')) {
+            $uploaderId = $request->input('uploader');
+            // Pastikan uploaderId adalah integer yang valid jika tidak nol
+            if ($uploaderId !== '0') {
+                $query->where('user_id', $uploaderId);
+            }
+        }
+
+        // --- Akhir Logika Filter ---
+
+        $beritas = $query->latest()->paginate(10)->withQueryString(); // Urutkan terbaru, 10 per halaman, pertahankan query string
+
+        // Data untuk Filter di View
+        $kategoris = KategoriBerita::orderBy('nama')->get();
+        // Ambil hanya user yang pernah mengupload berita untuk dropdown filter
+        $uploaders = User::whereHas('beritas')->orderBy('name')->get(); // Menggunakan whereHas untuk memastikan user punya berita
+
+        return view('cms.berita.index', compact('beritas', 'kategoris', 'uploaders'));
     }
 
     /**
@@ -32,7 +82,8 @@ class BeritaController extends Controller
      */
     public function create()
     {
-        return view('cms.berita.create');
+        $kategoris = KategoriBerita::orderBy('nama')->get(); // Ambil semua kategori, urutkan berdasarkan nama
+        return view('cms.berita.create', compact('kategoris')); // Kirim kategori ke view
     }
 
     /**
@@ -42,23 +93,25 @@ class BeritaController extends Controller
     {
         $request->validate([
             'judul' => 'required|string|max:255',
-            'foto_header' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Foto header
-            'konten' => 'required|string', // Konten dari Markdown
-            'status_aktif' => 'boolean', // status bisa true/false
+            'konten' => 'required|string',
+            'header_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'kategori_id' => 'nullable|exists:kategori_berita,id', // <-- Validasi kategori_id
+            'status' => 'boolean',
         ]);
 
-        $fotoHeaderUrl = null;
-        if ($request->hasFile('foto_header')) {
-            $path = $request->file('foto_header')->store('public/berita_headers');
-            $fotoHeaderUrl = Storage::url($path);
+        $headerUrl = null;
+        if ($request->hasFile('header_image')) {
+            $path = $request->file('header_image')->store('public/berita_headers');
+            $headerUrl = Storage::url($path);
         }
 
         Berita::create([
             'judul' => $request->judul,
-            'foto_header' => $fotoHeaderUrl,
             'konten' => $request->konten,
-            'status_aktif' => $request->boolean('status_aktif'),
-            'user_id' => Auth::id(), // ID user yang sedang login
+            'header_url' => $headerUrl,
+            'user_id' => Auth::id(),
+            'kategori_id' => $request->kategori_id, // <-- Simpan kategori_id
+            'status' => $request->boolean('status'),
         ]);
 
         return redirect()->route('cms.berita.index')->with('success', 'Berita berhasil ditambahkan!');
@@ -74,63 +127,56 @@ class BeritaController extends Controller
         if (!$berita->status_aktif && (Auth::guest() || (Auth::user()->role !== 'admin' && $berita->user_id !== Auth::id()))) {
             abort(404); // Berita tidak ditemukan atau tidak aktif
         }
-        return view('berita.detail', compact('berita'));
+        return view('berita.show', compact('berita'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Berita $berita)
+    public function edit(Berita $berita) 
     {
-        // Pastikan hanya admin atau pemilik berita yang bisa mengedit
-        if (Auth::user()->role !== 'admin' && $berita->user_id !== Auth::id()) {
-            return redirect()->route('cms.berita.index')->with('error', 'Anda tidak memiliki izin untuk mengedit berita ini.');
-        }
-        return view('cms.berita.edit', compact('berita'));
+        $kategoris = KategoriBerita::orderBy('nama')->get(); // Ambil semua kategori, urutkan berdasarkan nama
+        return view('cms.berita.edit', compact('berita', 'kategoris')); // Kirim berita dan kategori ke view
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Berita $berita)
+    public function update(Request $request, Berita $berita) // Model binding
     {
-        // Pastikan hanya admin atau pemilik berita yang bisa mengupdate
-        if (Auth::user()->role !== 'admin' && $berita->user_id !== Auth::id()) {
-            return redirect()->route('cms.berita.index')->with('error', 'Anda tidak memiliki izin untuk memperbarui berita ini.');
-        }
-
+        // Model binding di sini akan menjadi $beritum, sesuaikan penggunaan di bawah
         $request->validate([
             'judul' => 'required|string|max:255',
-            'foto_header' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'konten' => 'required|string',
-            'status_aktif' => 'boolean',
-            'delete_foto_header' => 'nullable|boolean', // Checkbox hapus foto header
+            'header_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi foto header
+            'kategori_id' => 'nullable|exists:kategori_berita,id', // <-- Validasi kategori_id
+            'status' => 'boolean', // Validasi status
         ]);
 
-        $fotoHeaderUrl = $berita->foto_header; // Pertahankan URL lama
+        $headerUrl = $berita->header_url; // Pertahankan URL lama jika tidak ada upload baru
 
-        // Logika Hapus Foto Header
-        if ($request->boolean('delete_foto_header')) {
-            if ($berita->foto_header) {
-                Storage::delete(str_replace('/storage', 'public', $berita->foto_header));
-            }
-            $fotoHeaderUrl = null;
+        // Logika untuk menghapus gambar lama jika checkbox 'delete_foto_header' dicentang
+        if ($request->has('delete_foto_header') && $berita->header_url) {
+            Storage::delete(str_replace('/storage', 'public', $berita->header_url));
+            $headerUrl = null; // Set URL header menjadi null
         }
 
-        // Proses upload foto header BARU
-        if ($request->hasFile('foto_header')) {
-            if ($berita->foto_header && !$request->boolean('delete_foto_header')) {
-                 Storage::delete(str_replace('/storage', 'public', $berita->foto_header));
+        // Logika untuk upload gambar baru
+        if ($request->hasFile('header_image')) {
+            // Hapus gambar lama (jika ada dan belum dihapus oleh checkbox) sebelum mengunggah yang baru
+            if ($berita->header_url && !$request->has('delete_foto_header')) {
+                Storage::delete(str_replace('/storage', 'public', $berita->header_url));
             }
-            $path = $request->file('foto_header')->store('public/berita_headers');
-            $fotoHeaderUrl = Storage::url($path);
+            $path = $request->file('header_image')->store('public/berita_headers');
+            $headerUrl = Storage::url($path);
         }
 
         $berita->update([
             'judul' => $request->judul,
-            'foto_header' => $fotoHeaderUrl,
             'konten' => $request->konten,
-            'status_aktif' => $request->boolean('status_aktif'),
+            'header_url' => $headerUrl, // Gunakan URL yang sudah diupdate/hapus
+            'kategori_id' => $request->kategori_id, // <-- Simpan kategori_id
+            'status' => $request->boolean('status'), // Perbarui status
         ]);
 
         return redirect()->route('cms.berita.index')->with('success', 'Berita berhasil diperbarui!');

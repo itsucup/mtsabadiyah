@@ -38,6 +38,6 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/'); // Arahkan ke halaman utama atau login
+        return redirect('/admin/login'); // Arahkan ke halaman utama atau login
     }
 }

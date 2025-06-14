@@ -14,30 +14,37 @@ use App\Models\GaleriFoto;
 use App\Models\GaleriVideo;
 use App\Models\Berita;
 use App\Models\Prestasi;
+use App\Models\KategoriBerita;
+use App\Models\KategoriFoto;
+use App\Models\KategoriJabatan;
+use App\Models\HeaderSlider;
+use App\Models\SaranaPrasarana;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon; 
 
 class PublicPagesController extends Controller
 {
 
     /**
-     * Menampilkan halaman beranda dengan berita terbaru dan program kelas unggulan.
+     * Menampilkan halaman beranda dengan header slider.
      */
     public function showBeranda()
     {
-        // Ambil 6 berita terbaru yang aktif (sesuai dengan 6 card di desain Anda)
-        $latestBeritas = Berita::where('status_aktif', true)
-                               ->latest()
-                               ->take(6) // Ambil hanya 6
-                               ->with('user') // Ambil data user yang mengupload
-                               ->get();
+        // Ambil 6 berita terbaru yang aktif
+        $latestBeritas = Berita::where('status', true)->latest()->take(6)->with('user')->get();
 
-        // Ambil semua program kelas yang aktif (sesuai dengan desain Anda)
-        $unggulanProgramKelas = ProgramKelas::where('status_aktif', true)
-                                            ->latest() // Urutkan terbaru, atau sesuaikan jika ada urutan lain
-                                            ->get();
+        // Ambil 6 program kelas yang aktif
+        $unggulanProgramKelas = ProgramKelas::where('status_aktif', true)->latest()->take(6)->get();
 
-        return view('beranda', compact('latestBeritas', 'unggulanProgramKelas'));
+        // Ambil semua gambar slider
+        $headerSliders = HeaderSlider::all();
+
+        // Mengambil link embed google maps
+        $lembagaSettings = \App\Models\LembagaSetting::firstOrCreate([]);
+
+        return view('beranda', compact('latestBeritas', 'unggulanProgramKelas', 'headerSliders', 'lembagaSettings')); // <-- Kirim ke view
     }
     
     /**
@@ -115,39 +122,63 @@ class PublicPagesController extends Controller
      */
     public function showStaffDanGuru(Request $request)
     {
-        // Ambil semua jabatan unik untuk opsi filter dropdown
-        $uniquePositions = StaffDanGuru::select('jabatan')
-                                        ->distinct()
-                                        ->pluck('jabatan')
-                                        ->sort()
-                                        ->toArray();
+        $query = StaffDanGuru::with('kategoriJabatan')->where('status_aktif', true); // Eager load kategoriJabatan
 
-        // Ambil filter jabatan dari request (URL query parameter, misal ?position=Guru)
-        $selectedPosition = $request->input('position', 'all'); // Default 'all' jika tidak ada filter
+        // Filter Pencarian (Search)
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('nama', 'like', '%' . $search . '%');
+            });
+        }
 
-        // Query dasar: ambil staff yang aktif
-        $query = StaffDanGuru::where('status_aktif', true);
-
-        // Terapkan filter jabatan jika ada yang dipilih (selain 'all')
-        if ($selectedPosition !== 'all') {
-            $query->where('jabatan', $selectedPosition);
+        // Filter Kategori Jabatan
+        if ($request->filled('kategori_jabatan')) {
+            $kategoriJabatanSlug = $request->input('kategori_jabatan');
+            $kategori = KategoriJabatan::where('slug', $kategoriJabatanSlug)->first();
+            if ($kategori) {
+                $query->where('kategori_jabatan_id', $kategori->id);
+            }
         }
 
         // Terapkan paginasi di sisi server (8 item per halaman)
         $staffs = $query->orderBy('nama')->paginate(8)->withQueryString();
-        // withQueryString() penting agar filter tetap aktif saat paginasi
 
-        return view('profil.staffdanguru', compact('staffs', 'uniquePositions', 'selectedPosition'));
+        // Ambil semua kategori jabatan untuk opsi filter dropdown
+        $availableKategoriJabatans = KategoriJabatan::orderBy('nama')->get();
+
+        return view('profil.staffdanguru', compact('staffs', 'availableKategoriJabatans')); // Kirimkan ini
     }
 
     /**
-     * Menampilkan daftar galeri foto di sisi publik.
+     * Menampilkan daftar galeri foto di sisi publik dengan filter kategori.
      */
-    public function showGaleriFoto()
+    public function showGaleriFoto(Request $request)
     {
-        // Hanya tampilkan foto yang status_aktif-nya true
-        $galeriFotos = GaleriFoto::where('status_aktif', true)->latest()->get();
-        return view('galeri.foto', compact('galeriFotos'));
+        $query = GaleriFoto::with('kategoriFoto')->where('status', true); // Hanya foto aktif, eager load kategori
+
+        // Filter Pencarian (Search)
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('judul', 'like', '%' . $search . '%');
+            });
+        }
+
+        // Filter Kategori
+        if ($request->filled('kategori')) {
+            $kategoriId = $request->input('kategori');
+            if ($kategoriId !== '0') { // '0' akan jadi "Semua Kategori"
+                $query->where('kategori_foto_id', $kategoriId);
+            }
+        }
+
+        $galeriFotos = $query->latest()->paginate(12)->withQueryString(); // 12 foto per halaman
+
+        // Ambil semua kategori foto untuk dropdown filter
+        $kategoriFotosFilter = KategoriFoto::orderBy('nama')->get();
+
+        return view('galeri.foto', compact('galeriFotos', 'kategoriFotosFilter')); // Kirimkan data kategori untuk filter
     }
 
     /**
@@ -161,23 +192,119 @@ class PublicPagesController extends Controller
     }
 
     /**
-     * Menampilkan daftar berita di sisi publik.
+     * Menampilkan daftar berita di sisi publik dengan filter.
      */
-    public function showBeritaList()
+    public function showBeritaList(Request $request)
     {
-        // Hanya tampilkan berita yang status_aktif-nya true
-        $beritas = Berita::where('status_aktif', true)->latest()->paginate(5); // Contoh 5 berita per halaman
-        return view('berita', compact('beritas'));
+        $query = Berita::with('user', 'kategori')->where('status', true); // Hanya berita aktif, eager load user & kategori
+
+        // Filter Pencarian (Search)
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('judul', 'like', '%' . $search . '%')
+                  ->orWhere('konten', 'like', '%' . $search . '%');
+            });
+        }
+
+        // Filter Kategori
+        if ($request->filled('kategori')) {
+            $kategoriSlug = $request->input('kategori');
+            $kategori = KategoriBerita::where('slug', $kategoriSlug)->first();
+            if ($kategori) {
+                $query->where('kategori_id', $kategori->id);
+            }
+        }
+
+        // Filter Tahun dan Bulan
+        if ($request->filled('year')) {
+            $year = $request->input('year');
+            $query->whereYear('created_at', $year);
+            if ($request->filled('month')) {
+                $month = $request->input('month');
+                $query->whereMonth('created_at', $month);
+            }
+        }
+
+        $beritas = $query->latest()->paginate(5)->withQueryString(); // 5 berita per halaman
+
+        // Data untuk Sidebar Filter
+        $kategoris = KategoriBerita::orderBy('nama')->get();
+        $archives = Berita::select(
+                DB::raw('YEAR(created_at) as year'),
+                DB::raw('MONTH(created_at) as month'),
+                DB::raw('COUNT(*) as count')
+            )
+            ->where('status', true)
+            ->groupBy('year', 'month')
+            ->orderBy('year', 'desc')
+            ->orderBy('month', 'desc')
+            ->get();
+        
+        // Format archives menjadi nested array untuk view: [tahun => [bulan => count]]
+        $archiveYears = [];
+        foreach ($archives as $archive) {
+            $archiveYears[$archive->year][] = [
+                'month_num' => $archive->month,
+                'month_name' => Carbon::createFromDate($archive->year, $archive->month)->translatedFormat('F'), // Menggunakan Carbon
+                'count' => $archive->count,
+            ];
+        }
+
+        return view('berita.index', compact('beritas', 'kategoris', 'archiveYears'));
     }
 
     /**
-     * Menampilkan daftar prestasi di sisi publik.
+     * Menampilkan detail berita di sisi publik.
      */
-    public function showPrestasiList()
+    public function showBeritaDetail(Berita $berita) // Menggunakan Route Model Binding
     {
-        $prestasis = Prestasi::orderBy('tahun', 'desc')->orderBy('nama_prestasi')->paginate(10);
-
-        return view('prestasi', compact('prestasis'));
+        // Pastikan berita aktif sebelum ditampilkan
+        if (!$berita->status) {
+            // Jika berita tidak aktif, kembalikan 404 atau redirect
+            abort(404); // Atau redirect()->route('berita.index')->with('error', 'Berita tidak ditemukan atau tidak aktif.');
+        }
+        return view('berita.show', compact('berita'));
     }
 
+    /**
+     * Menampilkan daftar prestasi di sisi publik dengan filter.
+     */
+    public function showPrestasiList(Request $request)
+    {
+        $query = Prestasi::query();
+
+        // Filter Pencarian (Search)
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_lengkap_anggota', 'like', '%' . $search . '%')
+                  ->orWhere('nama_prestasi', 'like', '%' . $search . '%')
+                  ->orWhere('instansi_penyelenggara', 'like', '%' . $search . '%');
+            });
+        }
+
+        // Filter Tahun
+        if ($request->filled('tahun')) {
+            $query->where('tahun', $request->input('tahun'));
+        }
+
+        $prestasis = $query->orderBy('tahun', 'desc')->orderBy('nama_lengkap_anggota')->paginate(10)->withQueryString();
+
+        // Ambil daftar tahun yang unik untuk dropdown filter
+        $availableYears = Prestasi::select(DB::raw('DISTINCT tahun'))
+                                ->orderBy('tahun', 'desc')
+                                ->pluck('tahun');
+
+        return view('prestasi', compact('prestasis', 'availableYears'));
+    }
+
+    /**
+     * Menampilkan daftar sarana dan prasarana di sisi publik.
+     */
+    public function showSaranaPrasaranaList()
+    {
+        $saranas = SaranaPrasarana::where('status', true)->latest()->paginate(12); // Hanya yang aktif
+        return view('profil.saranaprasarana', compact('saranas'));
+    }
 }

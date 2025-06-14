@@ -5,7 +5,6 @@ export default {
     "./resources/**/*.blade.php",
     "./resources/**/*.js",
     "./resources/**/*.vue",
-    "./**/*.html",
   ],
   theme: {
     extend: {
@@ -43,6 +42,8 @@ export default {
   },
   plugins: [
     require('@tailwindcss/typography'), // Tambahkan baris ini
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/aspect-ratio'),
   ],
 }
 

@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
 {
+
     /**
      * The application's global HTTP middleware stack.
      *
@@ -53,19 +54,11 @@ class Kernel extends HttpKernel
      * @var array<string, string>
      */
     protected $routeMiddleware = [
-        // ... middleware bawaan Laravel
         'auth' => \App\Http\Middleware\Authenticate::class,
-        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
-        'can' => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
-        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
 
-        // --- MIDDLEWARE CUSTOM ANDA ---
-        'admin' => \App\Http\Middleware\AdminMiddleware::class, // Tambahkan baris ini
+        // --- Middleware Kustom Anda ---
+        'admin' => \App\Http\Middleware\AdminMiddleware::class,       // Alias untuk admin saja
+        'cms.access' => \App\Http\Middleware\CmsAccessMiddleware::class, // Alias untuk admin atau kontributor
     ];
 
     /**

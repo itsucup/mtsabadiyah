@@ -10,30 +10,51 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <title>MTs Abadiyah - Prestasi</title>
 </head>
-<body class="font-inter bg-gray-50"> {{-- Menambahkan bg-gray-50 untuk konsistensi --}}
+<body class="font-inter pt-20 md:pt-24">
 
     @include('partials.header')
 
-    <section class="bg-sky-100 mx-5 md:mx-20 my-6 p-4 rounded-lg shadow-sm">
+    <section class="bg-emerald-50 mx-5 md:mx-20 my-6 p-4 rounded-lg shadow-sm">
         <div class="flex items-center text-sm text-slate-500 space-x-1">
-            <a class="hover:text-emerald-600 font-medium transition-colors duration-200" href="/">Home</a>
+            <a class="hover:text-emerald-600 font-medium transition-colors duration-200" href="{{ route('beranda') }}">Home</a>
             <span>></span>
             <span class="text-emerald-700 font-semibold">Prestasi</span>
         </div>
     </section>
 
-    <!-- <section class="mx-5 md:mx-20 my-6">
-        @if ($prestasis->isNotEmpty() && $prestasis->first()->foto_header_url)
-            <img src="{{ $prestasis->first()->foto_header_url }}" class="w-full h-[300px] md:h-[600px] object-cover rounded-lg shadow" alt="Gambar Prestasi">
-        @else
-            <div class="w-full h-[300px] md:h-[600px] bg-gray-200 flex items-center justify-center text-gray-500 text-lg rounded-lg shadow">No Image</div>
-        @endif
-    </section> -->
-
     <section class="mx-5 md:mx-20 my-6">
         <div>
             <h2 class="mb-2 text-3xl font-semibold text-gray-800">Data Prestasi</h2>
             <hr class="my-4 border-gray-200">
+
+            {{-- Form Filter dan Pencarian --}}
+            <div class="mb-6 flex flex-col md:flex-row justify-end items-center space-y-4 md:space-y-0 md:space-x-4">
+                <form action="{{ route('prestasi') }}" method="GET" class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 w-full md:w-auto">
+                    <div class="relative w-full md:w-auto">
+                        <input type="text" name="search" placeholder="Cari nama/prestasi/instansi..." value="{{ request('search') }}"
+                               class="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                            <i class="text-gray-400"></i>
+                        </div>
+                    </div>
+                    
+                    <select name="tahun" class="block w-full md:w-auto py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
+                        <option value="">Semua Tahun</option>
+                        @foreach($availableYears as $year)
+                            <option value="{{ $year }}" {{ request('tahun') == $year ? 'selected' : '' }}>{{ $year }}</option>
+                        @endforeach
+                    </select>
+
+                    <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-md shadow transition duration-300 ease-in-out">
+                        Filter
+                    </button>
+                    @if(request('search') || request('tahun'))
+                        <a href="{{ route('prestasi') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-md shadow transition duration-300 ease-in-out flex items-center justify-center">
+                            Reset
+                        </a>
+                    @endif
+                </form>
+            </div>
 
             <div class="overflow-x-auto bg-white rounded-lg shadow">
                 <table class="min-w-full text-left border border-gray-200">
@@ -66,7 +87,7 @@
                 </table>
             </div>
             <div class="mt-4 p-4">
-                {{ $prestasis->links() }} {{-- Menampilkan link paginasi --}}
+                {{ $prestasis->appends(request()->query())->links() }} {{-- Menampilkan link paginasi --}}
             </div>
         </div>
     </section>

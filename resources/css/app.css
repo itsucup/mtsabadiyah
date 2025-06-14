@@ -3,15 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom class untuk menyembunyikan scrollbar */
-.scrollbar-hide {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;     /* Firefox */
-}
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;             /* Chrome, Safari, Opera */
-}
-
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
@@ -23,6 +14,36 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
 
 }
+
+/* Custom class untuk menyembunyikan scrollbar */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;             /* Chrome, Safari, Opera */
+}
+
+
+/* Custom Scrollbar Styles */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px; /* Lebar scrollbar */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1); /* Warna track scrollbar */
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3); /* Warna thumb scrollbar (putih transparan) */
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5); /* Warna thumb saat hover */
+}
+
 
 /* Definisi Warna Kustom */
 @layer base {
@@ -48,7 +69,7 @@
         --color-gray-100: #f5f7fa; /* Latar belakang bersih */
         --color-gray-200: #e4e7eb; /* Pembatas/area sekunder */
         --color-gray-700: #4b5563; /* Teks gelap */
-        --color-gray-800: #1f2937; /* Teks sangat gelap/background kontras */
+        /* --color-gray-800: #1f2937; Teks sangat gelap/background kontras */
         --color-gray-900: #111827; /* Teks tergelap/background tergelap */
     }
 }

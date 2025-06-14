@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use App\Models\User; // Import model User
 use Illuminate\Support\Facades\Hash; // Import facade Hash untuk mengenkripsi password
 
-class AdminUserSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.

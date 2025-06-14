@@ -13,13 +13,19 @@ class StaffDanGuru extends Model
 
     protected $fillable = [
         'nama',
+        // 'jabatan', // <-- Hapus ini jika Anda menghapus kolom 'jabatan' di migrasi
+        'kategori_jabatan_id', // <-- Tambahkan ini
         'foto',
-        'jabatan',
-        'jenis_kelamin',
         'status_aktif',
     ];
 
     protected $casts = [
-        'status_aktif' => 'boolean', // Penting untuk checkbox
+        'status_aktif' => 'boolean',
     ];
+
+    // Relasi: StaffDanGuru dimiliki oleh KategoriJabatan
+    public function kategoriJabatan()
+    {
+        return $this->belongsTo(KategoriJabatan::class, 'kategori_jabatan_id');
+    }
 }

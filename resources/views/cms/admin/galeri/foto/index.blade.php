@@ -1,6 +1,7 @@
 @extends('layout.app')
 
 @section('content')
+<div class="container mx-auto">
     <h1 class="text-3xl font-bold text-gray-800 mb-6 border-b-4 border-emerald-600 pb-2 inline-block">Manajemen Galeri Foto</h1>
 
     @if (session('success'))
@@ -9,8 +10,8 @@
         </div>
     @endif
 
-    <div class="mb-6 flex justify-between items-center">
-        <a href="{{ route('cms.admin.galeri.foto.create') }}" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-lg shadow transition duration-300 ease-in-out transform hover:scale-105 flex items-center">
+    <div class="mb-4">
+        <a href="{{ route('cms.admin.galeri.foto.create') }}" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200 inline-block">
             <i class="fas fa-plus mr-2"></i> Tambah Foto Baru
         </a>
     </div>
@@ -20,66 +21,57 @@
             <table class="min-w-full leading-normal">
                 <thead>
                     <tr>
-                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                            No
-                        </th>
-                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                            Gambar
-                        </th>
-                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                            Judul
-                        </th>
-                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                            Deskripsi Singkat
-                        </th>
-                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                            Status
-                        </th>
-                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                            Pengupload
-                        </th>
-                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                            Aksi
-                        </th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">No</th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Gambar</th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Judul</th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Kategori</th> {{-- <-- KOLOM KATEGORI --}}
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Pengupload</th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($galeriFotos as $foto)
-                        <tr>
+                    @forelse ($fotos as $foto)
+                        <tr class="hover:bg-gray-50">
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                {{ $loop->iteration + ($galeriFotos->currentPage() - 1) * $galeriFotos->perPage() }}
+                                {{ $loop->iteration + ($fotos->currentPage() - 1) * $fotos->perPage() }}
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                @if ($foto->gambar_url)
-                                    <img src="{{ $foto->gambar_url }}" alt="{{ $foto->judul }}" class="w-16 h-16 object-cover rounded">
-                                @else
-                                    <div class="w-16 h-16 bg-gray-200 rounded flex items-center justify-center text-gray-500 text-xs">No Img</div>
-                                @endif
+                                <div class="flex-shrink-0 h-20 w-32 overflow-hidden rounded-md">
+                                    @if ($foto->gambar_url)
+                                        <img class="h-full w-full object-cover" src="{{ $foto->gambar_url }}" alt="{{ $foto->judul }}">
+                                    @else
+                                        <div class="h-full w-full bg-gray-200 flex items-center justify-center text-gray-500 text-xs">No Image</div>
+                                    @endif
+                                </div>
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                {{ $foto->judul }}
+                                <div class="text-sm font-medium text-gray-900">
+                                    {{ $foto->judul }}
+                                </div>
                             </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                {{ Str::limit($foto->deskripsi_singkat, 50) }}
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm"> {{-- <-- SEL KATEGORI --}}
+                                {{ $foto->kategoriFoto->nama ?? 'Tidak Berkategori' }}
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                                 <span class="relative inline-block px-3 py-1 font-semibold leading-tight">
-                                    <span aria-hidden class="absolute inset-0 {{ $foto->status_aktif ? 'bg-green-200' : 'bg-red-200' }} opacity-50 rounded-full"></span>
-                                    <span class="relative text-{{ $foto->status_aktif ? 'green' : 'red' }}-900">{{ $foto->status_aktif ? 'Aktif' : 'Draft' }}</span>
+                                    <span aria-hidden class="absolute inset-0 {{ $foto->status ? 'bg-green-200' : 'bg-red-200' }} opacity-50 rounded-full"></span>
+                                    <span class="relative text-{{ $foto->status ? 'green' : 'red' }}-900">{{ $foto->status ? 'Aktif' : 'Tidak Aktif' }}</span>
                                 </span>
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                {{ $foto->user->name ?? 'N/A' }} {{-- Tampilkan nama user yang mengupload --}}
+                                <div class="text-sm text-gray-900">{{ $foto->user->name ?? 'N/A' }}</div>
+                                <div class="text-xs text-gray-500">{{ $foto->created_at->format('d M Y, H:i') }}</div>
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
-                                <div class="flex flex-col items-center space-y-2">
-                                    <a href="{{ route('cms.admin.galeri.foto.edit', $foto->id) }}" class="text-amber-600 hover:text-amber-900 px-3 py-1 rounded-md border border-amber-600 hover:border-amber-900 transition duration-200 w-24 text-center">
+                                <div class="flex items-center space-x-3 justify-center">
+                                    <a href="{{ route('cms.admin.galeri.foto.edit', $foto) }}" class="text-amber-600 hover:text-amber-900 px-3 py-1 rounded-md border border-amber-600 hover:border-amber-900 transition duration-200">
                                         <i class="fas fa-edit mr-1"></i> Edit
                                     </a>
-                                    <form action="{{ route('cms.admin.galeri.foto.destroy', $foto->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus foto ini?');" class="w-24">
+                                    <form action="{{ route('cms.admin.galeri.foto.destroy', $foto) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus foto ini?');">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-red-600 hover:text-red-900 px-3 py-1 rounded-md border border-red-600 hover:border-red-900 transition duration-200 w-full text-center">
+                                        <button type="submit" class="text-red-600 hover:text-red-900 px-3 py-1 rounded-md border border-red-600 hover:border-red-900 transition duration-200">
                                             <i class="fas fa-trash-alt mr-1"></i> Hapus
                                         </button>
                                     </form>
@@ -97,7 +89,8 @@
             </table>
         </div>
         <div class="p-4">
-            {{ $galeriFotos->links() }}
+            {{ $fotos->links() }}
         </div>
     </div>
+</div>
 @endsection

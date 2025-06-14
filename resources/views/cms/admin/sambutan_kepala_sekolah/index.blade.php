@@ -50,7 +50,7 @@
                     </div>
                 @endif
                 <input type="file" name="gambar_header" id="gambar_header" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('gambar_header') border-red-500 @enderror">
-                <p class="text-xs text-gray-500 mt-1">Pilih gambar baru jika ingin mengubah. Format: JPEG, PNG, JPG, GIF, SVG. Max: 2MB.</p>
+                <p class="text-xs text-gray-500 mt-1">Pilih gambar baru jika ingin mengubah. Format: JPEG, PNG, JPG, GIF, SVG. Max: 2MB. (Lebih baik resolusi 1500x700 pixel)</p>
                 @error('gambar_header')
                     <p class="text-red-500 text-xs italic">{{ $message }}</p>
                 @enderror
