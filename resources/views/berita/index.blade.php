@@ -116,11 +116,5 @@
     </section>
 
     @include('partials.footer')
-
-    <script>
-        // Script ini diperlukan jika Anda menggunakan JavaScript di partials.header atau di welcome.blade.php
-        // Pastikan tidak ada duplikasi script.
-        // Jika script di app.js sudah ada, ini bisa dihapus atau dipindahkan ke app.js
-    </script>
 </body>
 </html>

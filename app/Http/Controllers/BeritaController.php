@@ -94,40 +94,27 @@ class BeritaController extends Controller
         $request->validate([
             'judul' => 'required|string|max:255',
             'konten' => 'required|string',
-            'header_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto_header' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'kategori_id' => 'nullable|exists:kategori_berita,id', // <-- Validasi kategori_id
             'status' => 'boolean',
         ]);
 
         $headerUrl = null;
-        if ($request->hasFile('header_image')) {
-            $path = $request->file('header_image')->store('public/berita_headers');
+        if ($request->hasFile('foto_header')) {
+            $path = $request->file('foto_header')->store('public/berita_headers');
             $headerUrl = Storage::url($path);
         }
 
         Berita::create([
             'judul' => $request->judul,
             'konten' => $request->konten,
-            'header_url' => $headerUrl,
+            'foto_header' => $headerUrl,
             'user_id' => Auth::id(),
             'kategori_id' => $request->kategori_id, // <-- Simpan kategori_id
             'status' => $request->boolean('status'),
         ]);
 
         return redirect()->route('cms.berita.index')->with('success', 'Berita berhasil ditambahkan!');
-    }
-
-    /**
-     * Display the specified resource.
-     * Ini adalah method untuk halaman DETAIL BERITA PUBLIK.
-     */
-    public function show(Berita $berita) // Menggunakan $berita sebagai variabel model binding
-    {
-        // Tampilkan berita hanya jika aktif atau jika user adalah admin/penguploadnya
-        if (!$berita->status_aktif && (Auth::guest() || (Auth::user()->role !== 'admin' && $berita->user_id !== Auth::id()))) {
-            abort(404); // Berita tidak ditemukan atau tidak aktif
-        }
-        return view('berita.show', compact('berita'));
     }
 
     /**
@@ -148,7 +135,7 @@ class BeritaController extends Controller
         $request->validate([
             'judul' => 'required|string|max:255',
             'konten' => 'required|string',
-            'header_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi foto header
+            'foto_header' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi foto header
             'kategori_id' => 'nullable|exists:kategori_berita,id', // <-- Validasi kategori_id
             'status' => 'boolean', // Validasi status
         ]);
@@ -162,19 +149,19 @@ class BeritaController extends Controller
         }
 
         // Logika untuk upload gambar baru
-        if ($request->hasFile('header_image')) {
+        if ($request->hasFile('foto_header')) {
             // Hapus gambar lama (jika ada dan belum dihapus oleh checkbox) sebelum mengunggah yang baru
             if ($berita->header_url && !$request->has('delete_foto_header')) {
                 Storage::delete(str_replace('/storage', 'public', $berita->header_url));
             }
-            $path = $request->file('header_image')->store('public/berita_headers');
+            $path = $request->file('foto_header')->store('public/berita_headers');
             $headerUrl = Storage::url($path);
         }
 
         $berita->update([
             'judul' => $request->judul,
             'konten' => $request->konten,
-            'header_url' => $headerUrl, // Gunakan URL yang sudah diupdate/hapus
+            'foto_header' => $headerUrl, // Gunakan URL yang sudah diupdate/hapus
             'kategori_id' => $request->kategori_id, // <-- Simpan kategori_id
             'status' => $request->boolean('status'), // Perbarui status
         ]);

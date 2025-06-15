@@ -12,9 +12,28 @@ class ProgramKelasController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $programKelas = ProgramKelas::latest()->paginate(10);
+        // Mulai query untuk model ProgramKelas
+        $programKelas = ProgramKelas::query();
+
+        // 1. Filter berdasarkan pencarian nama atau deskripsi
+        if ($search = $request->input('search')) {
+            $programKelas->where(function ($query) use ($search) {
+                $query->where('nama', 'like', '%' . $search . '%')
+                      ->orWhere('deskripsi', 'like', '%' . $search . '%');
+            });
+        }
+
+        // 2. Filter berdasarkan status_aktif
+        if ($request->has('status_filter') && $request->input('status_filter') !== null && $request->input('status_filter') !== '') {
+            $status = (bool) $request->input('status_filter'); // Konversi string '1'/'0' ke boolean true/false
+            $programKelas->where('status_aktif', $status);
+        }
+
+        // Urutkan dan tambahkan paginasi
+        $programKelas = $programKelas->orderBy('nama', 'asc')->paginate(10); // Sesuaikan jumlah item per halaman dan kolom pengurutan
+
         return view('cms.admin.program_kelas.index', compact('programKelas'));
     }
 

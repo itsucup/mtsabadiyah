@@ -226,7 +226,7 @@ class PublicPagesController extends Controller
             }
         }
 
-        $beritas = $query->latest()->paginate(5)->withQueryString(); // 5 berita per halaman
+        $beritas = $query->latest()->paginate(6)->withQueryString(); // 5 berita per halaman
 
         // Data untuk Sidebar Filter
         $kategoris = KategoriBerita::orderBy('nama')->get();
@@ -257,12 +257,10 @@ class PublicPagesController extends Controller
     /**
      * Menampilkan detail berita di sisi publik.
      */
-    public function showBeritaDetail(Berita $berita) // Menggunakan Route Model Binding
+    public function showBeritaDetail(Berita $berita) 
     {
-        // Pastikan berita aktif sebelum ditampilkan
         if (!$berita->status) {
-            // Jika berita tidak aktif, kembalikan 404 atau redirect
-            abort(404); // Atau redirect()->route('berita.index')->with('error', 'Berita tidak ditemukan atau tidak aktif.');
+            abort(404);
         }
         return view('berita.show', compact('berita'));
     }

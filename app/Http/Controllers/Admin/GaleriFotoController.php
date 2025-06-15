@@ -4,18 +4,59 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\GaleriFoto;
-use App\Models\KategoriFoto; // <-- Tambahkan import ini
+use App\Models\KategoriFoto;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class GaleriFotoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Eager load relasi 'kategoriFoto' untuk menghindari N+1 problem
-        $fotos = GaleriFoto::with('user', 'kategoriFoto')->latest()->paginate(10);
-        return view('cms.admin.galeri.foto.index', compact('fotos'));
+        // Mulai query untuk model GaleriFoto dengan eager loading relasi
+        $fotos = GaleriFoto::with(['kategoriFoto', 'user']);
+
+        // 1. Filter berdasarkan pencarian judul
+        if ($search = $request->input('search')) {
+            $fotos->where('judul', 'like', '%' . $search . '%');
+        }
+
+        // 2. Filter berdasarkan kategori
+        if ($kategoriId = $request->input('kategori')) {
+            // Pastikan '0' berarti semua kategori, bukan ID kategori 0
+            if ($kategoriId != 0) {
+                $fotos->where('kategori_foto_id', $kategoriId);
+            }
+        }
+
+        // 3. Filter berdasarkan status
+        // 'status_filter' dari request bisa '1' (aktif), '0' (tidak aktif), atau kosong
+        if ($request->has('status_filter') && $request->input('status_filter') !== null && $request->input('status_filter') !== '') {
+            $status = (bool) $request->input('status_filter'); // Konversi string '1'/'0' ke boolean true/false
+            $fotos->where('status', $status);
+        }
+
+        // 4. Filter berdasarkan pengupload
+        if ($uploaderId = $request->input('uploader')) {
+             // Pastikan '0' berarti semua pengupload, bukan ID user 0
+            if ($uploaderId != 0) {
+                $fotos->where('user_id', $uploaderId);
+            }
+        }
+
+        // Urutkan dan tambahkan paginasi
+        $fotos = $fotos->orderBy('created_at', 'desc')->paginate(10); // Sesuaikan jumlah item per halaman
+
+        // Ambil semua kategori foto untuk dropdown filter
+        $kategoriFotos = KategoriFoto::all();
+
+        // Ambil semua user yang pernah mengupload foto untuk dropdown filter
+        // Ambil hanya user yang memiliki role 'admin' atau 'user'
+        $uploaders = User::whereIn('role', ['admin', 'user'])->get();
+
+
+        return view('cms.admin.galeri.foto.index', compact('fotos', 'kategoriFotos', 'uploaders'));
     }
 
     public function create()

@@ -12,9 +12,28 @@ class EkstrakulikulerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $ekstrakulikulers = Ekstrakulikuler::latest()->paginate(10);
+        // Mulai query untuk model Ekstrakulikuler
+        $ekstrakulikulers = Ekstrakulikuler::query();
+
+        // 1. Filter berdasarkan pencarian nama atau deskripsi singkat
+        if ($search = $request->input('search')) {
+            $ekstrakulikulers->where(function ($query) use ($search) {
+                $query->where('nama', 'like', '%' . $search . '%')
+                      ->orWhere('deskripsi_singkat', 'like', '%' . $search . '%');
+            });
+        }
+
+        // 2. Filter berdasarkan status_aktif
+        if ($request->has('status_filter') && $request->input('status_filter') !== null && $request->input('status_filter') !== '') {
+            $status = (bool) $request->input('status_filter'); // Konversi string '1'/'0' ke boolean true/false
+            $ekstrakulikulers->where('status_aktif', $status);
+        }
+
+        // Urutkan dan tambahkan paginasi
+        $ekstrakulikulers = $ekstrakulikulers->orderBy('nama', 'asc')->paginate(10); // Sesuaikan jumlah item per halaman dan kolom pengurutan
+
         return view('cms.admin.ekstrakulikuler.index', compact('ekstrakulikulers'));
     }
 

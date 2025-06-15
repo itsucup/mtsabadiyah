@@ -12,9 +12,30 @@ use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::latest()->paginate(10);
+        $users = User::query();
+
+        if ($search = $request->input('search')) {
+            $users->where(function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                      ->orWhere('email', 'like', '%' . $search . '%');
+            });
+        }
+
+        if ($role = $request->input('role')) {
+            $users->where('role', $role);
+        }
+
+        if ($request->has('status') && $request->input('status') !== null && $request->input('status') !== '') {
+            $status = (bool) $request->input('status'); // Konversi string '1'/'0' ke boolean true/false
+            $users->where('status', $status);
+        }
+
+        // Urutkan dan tambahkan paginasi
+        $users = $users->orderBy('name', 'asc')->paginate(10); // Sesuaikan kolom pengurutan dan jumlah per halaman
+
+        // Kirim data pengguna ke view
         return view('cms.admin.users.index', compact('users'));
     }
 

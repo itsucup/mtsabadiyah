@@ -2,6 +2,7 @@
 
 export default {
   content: [
+    "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
     "./resources/**/*.blade.php",
     "./resources/**/*.js",
     "./resources/**/*.vue",
@@ -9,7 +10,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        inter: ['Inter']
+        inter: ['Inter', 'sans-serif']
       },
 
       colors: {

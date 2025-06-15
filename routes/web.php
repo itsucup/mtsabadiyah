@@ -58,8 +58,6 @@ Route::get('/berita/{berita}', [PublicPagesController::class, 'showBeritaDetail'
 Route::get('/prestasi', [PublicPagesController::class, 'showPrestasiList'])->name('prestasi');
 
 Route::get('/program-kelas', [PublicPagesController::class, 'showProgramKelas'])->name('programkelas');
-    
-// });
 
 // --- ROUTE KHUSUS ADMIN ---
 Route::middleware(['auth'])->group(function () {
@@ -75,7 +73,7 @@ Route::middleware(['auth'])->group(function () {
         'edit' => 'cms.berita.edit',
         'update' => 'cms.berita.update',
         'destroy' => 'cms.berita.destroy',
-    ]);
+    ])->except('show');
 
     // Route untuk Manajemen Kategori Berita
     Route::resource('cms/admin/kategori-berita', KategoriBeritaController::class)->names([
@@ -97,7 +95,7 @@ Route::middleware(['auth'])->group(function () {
         'edit' => 'cms.admin.galeri.foto.edit',
         'update' => 'cms.admin.galeri.foto.update',
         'destroy' => 'cms.admin.galeri.foto.destroy',
-    ]);
+    ])->except('show');
 
     // Route untuk Manajemen Kategori Berita
     Route::resource('cms/admin/galeri/kategori', KategoriFotoController::class)->parameters([

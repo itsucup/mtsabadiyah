@@ -11,11 +11,31 @@ use Illuminate\Support\Facades\Storage;
 
 class StaffDanGuruController extends Controller
 {
-
-    public function index()
+    public function index(Request $request)
     {
-        $s = StaffDanGuru::with('kategoriJabatan')->latest()->paginate(10); // Eager load kategoriJabatan
-        return view('cms.admin.staff_dan_guru.index', compact('s'));
+        $s = StaffdanGuru::with('kategoriJabatan');
+
+        if ($search = $request->input('search')) {
+            $s->where(function ($query) use ($search) {
+                $query->where('nama', 'like', '%' . $search . '%')
+                      ->orWhereHas('kategoriJabatan', function ($q) use ($search) {
+                          $q->where('nama', 'like', '%' . $search . '%');
+                      });
+            });
+        }
+
+        if ($request->has('status_filter') && $request->input('status_filter') !== null && $request->input('status_filter') !== '') {
+            $status = (bool) $request->input('status_filter'); // Konversi string '1'/'0' ke boolean true/false
+            $s->where('status_aktif', $status); // Gunakan 'status_aktif' sesuai migrasi
+        }
+
+        // Urutkan dan tambahkan paginasi
+        $s = $s->orderBy('created_at', 'desc')->paginate(10); // Sesuaikan jumlah item per halaman dan kolom pengurutan
+
+        // Ambil semua kategori jabatan untuk dropdown filter
+        $kategoriJabatans = KategoriJabatan::all();
+
+        return view('cms.admin.staff_dan_guru.index', compact('s', 'kategoriJabatans')); // Pastikan variabel view sesuai
     }
 
     public function create()

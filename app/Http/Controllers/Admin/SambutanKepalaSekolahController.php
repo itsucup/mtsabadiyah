@@ -18,6 +18,7 @@ class SambutanKepalaSekolahController extends Controller
     public function storeOrUpdate(Request $request)
     {
         $request->validate([
+            'judul' => 'required|string|max:100',
             'gambar_header' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'sambutan_text' => 'nullable|string',
             'nama_kepala_sekolah' => 'required|string|max:100',
@@ -45,6 +46,7 @@ class SambutanKepalaSekolahController extends Controller
             $gambarHeaderUrl = Storage::url($path);
         }
 
+        $sambutan->judul = $request->judul;
         $sambutan->gambar_header = $gambarHeaderUrl;
         $sambutan->sambutan_text = $request->sambutan_text;
         $sambutan->nama_kepala_sekolah = $request->nama_kepala_sekolah;

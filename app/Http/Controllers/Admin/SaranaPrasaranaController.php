@@ -14,9 +14,28 @@ class SaranaPrasaranaController extends Controller
     /**
      * Menampilkan daftar sarana dan prasarana.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $saranas = SaranaPrasarana::with('user')->latest()->paginate(10);
+        // Mulai query untuk model SaranaPrasarana
+        $saranas = SaranaPrasarana::query();
+
+        // 1. Filter berdasarkan pencarian nama atau deskripsi
+        if ($search = $request->input('search')) {
+            $saranas->where(function ($query) use ($search) {
+                $query->where('nama', 'like', '%' . $search . '%')
+                      ->orWhere('deskripsi', 'like', '%' . $search . '%');
+            });
+        }
+
+        // 2. Filter berdasarkan status
+        if ($request->has('status_filter') && $request->input('status_filter') !== null && $request->input('status_filter') !== '') {
+            $status = (bool) $request->input('status_filter'); // Konversi string '1'/'0' ke boolean true/false
+            $saranas->where('status', $status);
+        }
+
+        // Urutkan dan tambahkan paginasi
+        $saranas = $saranas->orderBy('created_at', 'desc')->paginate(10); // Sesuaikan jumlah item per halaman dan kolom pengurutan
+
         return view('cms.admin.sarana_prasarana.index', compact('saranas'));
     }
 
