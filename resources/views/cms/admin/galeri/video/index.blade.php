@@ -21,19 +21,19 @@
                 <table class="min-w-full leading-normal">
                     <thead>
                         <tr>
-                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                 No
                             </th>
-                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                 Judul
                             </th>
-                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                 Link YouTube
                             </th>
-                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                 Status
                             </th>
-                             <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                             <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                 Pengupload
                             </th>
                             <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -44,7 +44,7 @@
                     <tbody>
                         @forelse ($galeriVideos as $video)
                             <tr>
-                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                                     {{ $loop->iteration + ($galeriVideos->currentPage() - 1) * $galeriVideos->perPage() }}
                                 </td>
                                  <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -59,8 +59,8 @@
                                         <span class="relative text-{{ $video->status_aktif ? 'green' : 'red' }}-900">{{ $video->status_aktif ? 'Aktif' : 'Draft' }}</span>
                                     </span>
                                 </td>
-                                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    {{ $video->user->name ?? 'N/A' }} {{-- Tampilkan nama user yang mengupload --}}
+                                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                                    {{ $video->user->name ?? 'N/A' }} 
                                 </td>
                                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                                     <div class="flex flex-col items-center space-y-2">

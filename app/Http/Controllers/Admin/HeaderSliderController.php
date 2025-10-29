@@ -35,7 +35,7 @@ class HeaderSliderController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5120', // Hanya validasi image
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Hanya validasi image
         ]);
 
         $imageUrl = null;
@@ -65,7 +65,7 @@ class HeaderSliderController extends Controller
     public function update(Request $request, HeaderSlider $slider)
     {
         $request->validate([
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120', // Hanya validasi image
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Hanya validasi image
         ]);
 
         $imageUrl = $slider->image_url;

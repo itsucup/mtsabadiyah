@@ -54,10 +54,12 @@
                 </div>
 
                 <div class="flex items-center justify-between">
-                    <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200">
+                    <button type="submit"
+                        class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200">
                         Perbarui Video
                     </button>
-                    <a href="{{ route('cms.admin.galeri.video.index') }}" class="inline-block align-baseline font-bold text-sm text-gray-600 hover:text-gray-800">
+                    <a href="{{ route('cms.admin.galeri.video.index') }}"
+                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200">
                         Batal
                     </a>
                 </div>

@@ -54,7 +54,7 @@ class SaranaPrasaranaController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:255',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120', // Opsional, max 5MB
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'deskripsi' => 'nullable|string|max:2000',
             'status' => 'boolean',
         ]);
@@ -91,7 +91,7 @@ class SaranaPrasaranaController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:255',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'deskripsi' => 'nullable|string|max:2000',
             'status' => 'boolean',
         ]);

@@ -61,7 +61,7 @@
             </div>
 
             <div class="mb-4">
-                <label for="deskripsi_singkat" class="block text-gray-700 text-sm font-bold mb-2">Deskripsi Singkat Lembaga (Opsional):</label>
+                <label for="deskripsi_singkat" class="block text-gray-700 text-sm font-bold mb-2">Deskripsi Singkat Lembaga:</label>
                 <textarea name="deskripsi_singkat" id="deskripsi_singkat" rows="3"
                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('deskripsi_singkat') border-red-500 @enderror">{{ old('deskripsi_singkat', $settings->deskripsi_singkat) }}</textarea>
                 @error('deskripsi_singkat')

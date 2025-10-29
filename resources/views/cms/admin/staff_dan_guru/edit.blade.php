@@ -35,7 +35,6 @@
                 @enderror
             </div>
 
-            {{-- --- DROPDOWN KATEGORI JABATAN --- --}}
             <div class="mb-4">
                 <label for="kategori_jabatan_id" class="block text-gray-700 text-sm font-bold mb-2">Jabatan:</label>
                 <select name="kategori_jabatan_id" id="kategori_jabatan_id" required
@@ -49,7 +48,24 @@
                     <p class="text-red-500 text-xs italic">{{ $message }}</p>
                 @enderror
             </div>
-            {{-- --- AKHIR DROPDOWN KATEGORI JABATAN --- --}}
+
+            <div class="mb-4">
+                <label for="jenis_kelamin" class="block text-gray-700 text-sm font-bold mb-2">Jenis Kelamin:</label>
+                <div class="relative">
+                    <select name="jenis_kelamin" id="jenis_kelamin" class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline @error('jenis_kelamin') border-red-500 @enderror" required>
+                        <option value="">Pilih Jenis Kelamin</option>
+                        @foreach ($jenisKelaminOptions as $option)
+                            <option value="{{ $option }}" {{ old('jenis_kelamin', $staffDanGuru->jenis_kelamin) == $option ? 'selected' : '' }}>{{ $option }}</option>
+                        @endforeach
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                    </div>
+                </div>
+                @error('jenis_kelamin')
+                    <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                @enderror
+            </div>
 
             <div class="mb-4">
                 <label for="foto" class="block text-gray-700 text-sm font-bold mb-2">Foto (Opsional, untuk mengubah):</label>
@@ -58,7 +74,7 @@
                 @endif
                 <input type="file" name="foto" id="foto" accept="image/*"
                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('foto') border-red-500 @enderror">
-                <p class="text-xs text-gray-500 mt-1">Pilih gambar baru jika ingin mengubah. Max: 5MB.</p>
+                <p class="text-xs text-gray-500 mt-1">Pilih gambar baru jika ingin mengubah. Ukuran Max: 2MB. Resolusi 1:1</p>
                 <div class="mt-2">
                     <label class="inline-flex items-center">
                         <input type="checkbox" name="delete_foto" value="1" class="form-checkbox h-5 w-5 text-red-600">
@@ -66,15 +82,6 @@
                     </label>
                 </div>
                 @error('foto')
-                    <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <div class="mb-4">
-                <label for="deskripsi" class="block text-gray-700 text-sm font-bold mb-2">Deskripsi (Opsional):</label>
-                <textarea name="deskripsi" id="deskripsi" rows="4"
-                          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('deskripsi') border-red-500 @enderror">{{ old('deskripsi', $staffDanGuru->deskripsi) }}</textarea>
-                @error('deskripsi')
                     <p class="text-red-500 text-xs italic">{{ $message }}</p>
                 @enderror
             </div>

@@ -42,7 +42,7 @@
                 @endif
                 <input type="file" name="foto" id="foto" accept="image/*"
                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('foto') border-red-500 @enderror">
-                <p class="text-xs text-gray-500 mt-1">Pilih gambar baru jika ingin mengubah. Max: 5MB.</p>
+                <p class="text-xs text-gray-500 mt-1">Pilih gambar baru jika ingin mengubah. Ukuran Max: 2MB.</p>
                 <div class="mt-2">
                     <label class="inline-flex items-center">
                         <input type="checkbox" name="delete_foto" value="1" class="form-checkbox h-5 w-5 text-red-600">
@@ -55,7 +55,7 @@
             </div>
 
             <div class="mb-4">
-                <label for="deskripsi" class="block text-gray-700 text-sm font-bold mb-2">Deskripsi (Opsional):</label>
+                <label for="deskripsi" class="block text-gray-700 text-sm font-bold mb-2">Deskripsi:</label>
                 <textarea name="deskripsi" id="deskripsi" rows="4"
                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('deskripsi') border-red-500 @enderror">{{ old('deskripsi', $saranaPrasarana->deskripsi) }}</textarea>
                 @error('deskripsi')

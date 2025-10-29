@@ -28,7 +28,7 @@
             </div>
 
             <div class="mb-4">
-                <label for="foto_icon" class="block text-gray-700 text-sm font-bold mb-2">Foto/Ikon Program Kelas (Opsional):</label>
+                <label for="foto_icon" class="block text-gray-700 text-sm font-bold mb-2">Foto/Ikon Program Kelas:</label>
                 <input type="file" name="foto_icon" id="foto_icon" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('foto_icon') border-red-500 @enderror">
                 <p class="text-xs text-gray-500 mt-1">Pilih gambar/ikon. Format: JPEG, PNG, JPG, GIF, SVG. Max: 2MB.</p>
                 @error('foto_icon')
@@ -37,7 +37,7 @@
             </div>
 
             <div class="mb-4">
-                <label for="deskripsi" class="block text-gray-700 text-sm font-bold mb-2">Deskripsi Program Kelas (Text Area):</label>
+                <label for="deskripsi" class="block text-gray-700 text-sm font-bold mb-2">Deskripsi Program Kelas:</label>
                 <textarea name="deskripsi" id="deskripsi" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('deskripsi') border-red-500 @enderror">{{ old('deskripsi') }}</textarea>
                 @error('deskripsi')
                     <p class="text-red-500 text-xs italic">{{ $message }}</p>

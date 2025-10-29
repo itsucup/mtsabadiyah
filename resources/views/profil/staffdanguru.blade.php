@@ -8,7 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <title>MTs Abadiyah - Staff & Guru</title>
+    <title>{{ $lembagaSettings->nama_lembaga ?? 'MTs Abadiyah Gabus Pati' }} - Staff & Guru</title>
+    <link rel="icon" href="{{ asset('images/logo_mtsabadiyah.png') }}" type="image/png">
 </head>
 <body class="font-inter pt-20 md:pt-24">
 
@@ -27,7 +28,6 @@
     <section class="mx-5 md:mx-20 my-8">
         <h1 class="pb-6 text-3xl font-semibold text-center text-gray-800">Staff & Guru Kami</h1>
 
-        {{-- Filter dan Pencarian --}}
         <div class="mb-6 flex flex-col md:flex-row justify-end items-center space-y-4 md:space-y-0 md:space-x-4">
             <form action="{{ route('profil.staffdanguru') }}" method="GET" class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 items-center">
                 <div class="relative w-full md:w-auto">
@@ -54,7 +54,6 @@
             </form>
         </div>
 
-        {{-- Staff Cards Container --}}
         <div id="staffCardsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6">
             @forelse ($staffs as $staff)
                 <div class="flex bg-white shadow-md rounded-lg overflow-hidden transform hover:scale-105 transition-transform duration-200 ease-in-out">

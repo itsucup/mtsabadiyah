@@ -35,17 +35,17 @@
             </div>
 
             <div class="mb-4">
-                <label for="foto" class="block text-gray-700 text-sm font-bold mb-2">Foto (Opsional):</label>
+                <label for="foto" class="block text-gray-700 text-sm font-bold mb-2">Foto:</label>
                 <input type="file" name="foto" id="foto" accept="image/*"
                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('foto') border-red-500 @enderror">
-                <p class="text-xs text-gray-500 mt-1">Format: JPEG, PNG, JPG, GIF, SVG. Max: 5MB.</p>
+                <p class="text-xs text-gray-500 mt-1">Format: JPEG, PNG, JPG, GIF, SVG. Ukuran Max: 2MB.</p>
                 @error('foto')
                     <p class="text-red-500 text-xs italic">{{ $message }}</p>
                 @enderror
             </div>
 
             <div class="mb-4">
-                <label for="deskripsi" class="block text-gray-700 text-sm font-bold mb-2">Deskripsi (Opsional):</label>
+                <label for="deskripsi" class="block text-gray-700 text-sm font-bold mb-2">Deskripsi:</label>
                 <textarea name="deskripsi" id="deskripsi" rows="4"
                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('deskripsi') border-red-500 @enderror">{{ old('deskripsi') }}</textarea>
                 @error('deskripsi')

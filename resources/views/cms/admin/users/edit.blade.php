@@ -17,8 +17,9 @@
     <div class="bg-white rounded-lg shadow p-6">
         <form action="{{ route('cms.admin.users.update', $user) }}" method="POST">
             @csrf
-            @method('PUT') {{-- Penting: Laravel akan menangani ini sebagai request PUT --}}
+            @method('PUT') {{-- Penting untuk update --}}
 
+            {{-- Nama --}}
             <div class="mb-4">
                 <label for="name" class="block text-gray-700 text-sm font-semibold mb-2">Nama</label>
                 <input type="text" id="name" name="name" value="{{ old('name', $user->name) }}" required
@@ -28,6 +29,7 @@
                 @enderror
             </div>
 
+            {{-- Email --}}
             <div class="mb-4">
                 <label for="email" class="block text-gray-700 text-sm font-semibold mb-2">Email</label>
                 <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}" required
@@ -37,6 +39,7 @@
                 @enderror
             </div>
 
+            {{-- Password --}}
             <div class="mb-4">
                 <label for="password" class="block text-gray-700 text-sm font-semibold mb-2">Password (Kosongkan jika tidak ingin diubah)</label>
                 <input type="password" id="password" name="password"
@@ -46,25 +49,35 @@
                 @enderror
             </div>
 
+            {{-- Konfirmasi Password --}}
             <div class="mb-4">
                 <label for="password_confirmation" class="block text-gray-700 text-sm font-semibold mb-2">Konfirmasi Password</label>
                 <input type="password" id="password_confirmation" name="password_confirmation"
                        class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
             </div>
 
+            {{-- Role --}}
             <div class="mb-4">
                 <label for="role" class="block text-gray-700 text-sm font-semibold mb-2">Role</label>
                 <select id="role" name="role" required
                         class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent @error('role') border-red-500 @enderror">
+                    
                     <option value="">Pilih Role</option>
-                    <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
-                    <option value="kontributor" {{ old('role', $user->role) == 'kontributor' ? 'selected' : '' }}>Kontributor</option>
+                    
+                    {{-- Loop dinamis dari User::ROLES --}}
+                    @foreach($roles as $value => $label)
+                        <option value="{{ $value }}" {{ old('role', $user->role) == $value ? 'selected' : '' }}>
+                            {{ $label }}
+                        </option>
+                    @endforeach
+
                 </select>
                 @error('role')
                     <p class="text-red-500 text-xs italic mt-2">{{ $message }}</p>
                 @enderror
             </div>
 
+            {{-- Alamat --}}
             <div class="mb-4">
                 <label for="alamat" class="block text-gray-700 text-sm font-semibold mb-2">Alamat</label>
                 <textarea id="alamat" name="alamat" rows="3"
@@ -74,6 +87,7 @@
                 @enderror
             </div>
 
+            {{-- Nomor Telepon --}}
             <div class="mb-4">
                 <label for="nomor_telepon" class="block text-gray-700 text-sm font-semibold mb-2">Nomor Telepon</label>
                 <input type="text" id="nomor_telepon" name="nomor_telepon" value="{{ old('nomor_telepon', $user->nomor_telepon) }}"
@@ -83,6 +97,7 @@
                 @enderror
             </div>
 
+            {{-- Status --}}
             <div class="mb-6 flex items-center">
                 <input type="checkbox" id="status" name="status" value="1" {{ old('status', $user->status) ? 'checked' : '' }}
                        class="form-checkbox h-4 w-4 text-emerald-600 rounded focus:ring-emerald-500 transition duration-150 ease-in-out">
@@ -92,6 +107,7 @@
                 @enderror
             </div>
 
+            {{-- Tombol --}}
             <div class="flex items-center justify-between">
                 <button type="submit"
                         class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300 ease-in-out transform hover:scale-105">

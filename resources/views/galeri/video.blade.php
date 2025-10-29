@@ -8,7 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <title>MTs Abadiyah - Galeri Video</title>
+    <title>{{ $lembagaSettings->nama_lembaga ?? 'MTs Abadiyah Gabus Pati' }} - Galeri Video</title>
+    <link rel="icon" href="{{ asset('images/logo_mtsabadiyah.png') }}" type="image/png">
 </head>
 <body class="font-inter pt-20 md:pt-24">
 

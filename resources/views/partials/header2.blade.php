@@ -5,7 +5,8 @@
             <i class="fas fa-bars text-xl"></i>
         </button>
         <div class="text-2xl font-bold text-gray-800">
-            Dashboard <span class="text-emerald-600">{{ $lembagaSettings->nama_lembaga ?? 'Nama Lembaga Belum Disetel' }}</span>
+            Dashboard <span
+                class="text-emerald-600">{{ $lembagaSettings->nama_lembaga ?? 'Nama Lembaga Belum Disetel' }}</span>
         </div>
     </div>
 
@@ -16,7 +17,8 @@
         </div>
 
         <div class="relative">
-            <button id="userDropdownToggle" class="flex items-center space-x-2 text-gray-700 hover:text-emerald-600 focus:outline-none">
+            <button id="userDropdownToggle"
+                class="flex items-center space-x-2 text-gray-700 hover:text-emerald-600 focus:outline-none">
                 {{-- Avatar Dinamis --}}
                 @auth {{-- Pastikan user sedang login --}}
                     @php
@@ -28,29 +30,34 @@
                         }
                     @endphp
                     <img class="w-8 h-8 rounded-full border-2 border-emerald-600" src="{{ $userAvatar }}" alt="User Avatar">
-                    <span class="hidden sm:block font-semibold">{{ Auth::user()->name }}</span> {{-- Tampilkan nama user --}}
+                    <span class="hidden sm:block font-semibold">{{ Auth::user()->name }}</span> {{-- Tampilkan nama user
+                    --}}
                     <i class="fas fa-chevron-down text-sm" id="userDropdownArrow"></i>
                 @else
                     {{-- Jika belum login, tampilkan link login --}}
                     <a href="{{ route('login') }}" class="text-gray-700 hover:text-emerald-600">Login</a>
                 @endauth
             </button>
-            
+
             {{-- Dropdown Menu (hidden by default) --}}
             @auth
-            <div id="userDropdownMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden">
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 disabled" style="pointer-events: none;">
-                    Role: <span class="font-bold">{{ ucfirst(Auth::user()->role) }}</span>
-                </a>
-                <div class="border-t border-gray-100"></div>
-                <div class="border-t border-gray-100"></div>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                        <i class="fas fa-sign-out-alt mr-2"></i> Logout
-                    </button>
-                </form>
-            </div>
+                <div id="userDropdownMenu"
+                    class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden">
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 disabled"
+                        style="pointer-events: none;">
+                        Role: <span class="font-bold">
+                            {{ Auth::user()::ROLES[Auth::user()->role] ?? ucfirst(Auth::user()->role) }}
+                        </span>
+                    </a>
+                    <div class="border-t border-gray-100"></div>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit"
+                            class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                        </button>
+                    </form>
+                </div>
             @endauth
         </div>
     </div>
@@ -90,15 +97,15 @@
         function updateDateTime() {
             const now = new Date();
             const optionsDate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const optionsTime = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+            const optionsTime = { hour: '2-digit', minute: '2-digit', hour12: false };
 
             const dateString = now.toLocaleDateString('id-ID', optionsDate); // Format tanggal Indonesia
-            const timeString = now.toLocaleTimeString('id-ID', optionsTime); // Format waktu Indonesia
+            const timeString = now.toLocaleTimeString('id-ID', optionsTime); // Format waktu Indonesia (sekarang tanpa detik)
 
             datetimeDisplay.textContent = `${dateString}, ${timeString} WIB`; // Tambahkan WIB
         }
 
         updateDateTime(); // Panggil sekali saat dimuat
-        setInterval(updateDateTime, 1000); // Perbarui setiap detik
+        setInterval(updateDateTime, 1000);
     });
 </script>

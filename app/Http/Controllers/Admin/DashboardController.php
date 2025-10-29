@@ -23,20 +23,16 @@ class DashboardController extends Controller
     {
         $lembagaSettings = LembagaSetting::firstOrCreate([]);
 
-        // Statistik Berita dan User (sudah ada)
+        // Statistik
         $totalBerita = Berita::count();
         $totalUsers = User::count();
-
-        // --- Statistik Baru ---
         $totalGaleriFoto = GaleriFoto::count();
         $totalGaleriVideo = GaleriVideo::count();
         $totalStaffDanGuru = StaffDanGuru::count();
         $totalEkstrakulikuler = Ekstrakulikuler::count();
         $totalProgramKelas = ProgramKelas::count();
         $totalPrestasi = Prestasi::count();
-        // --- Akhir Statistik Baru ---
 
-        // Pengumuman Terbaru (untuk kartu di dashboard)
         // Asumsi ada kategori dengan slug 'pengumuman'
         $latestAnnouncements = Berita::where('status', true)
                                     ->whereHas('kategori', function($query) {

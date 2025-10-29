@@ -13,8 +13,8 @@ class StaffDanGuru extends Model
 
     protected $fillable = [
         'nama',
-        // 'jabatan', // <-- Hapus ini jika Anda menghapus kolom 'jabatan' di migrasi
-        'kategori_jabatan_id', // <-- Tambahkan ini
+        'jenis_kelamin',
+        'kategori_jabatan_id',
         'foto',
         'status_aktif',
     ];

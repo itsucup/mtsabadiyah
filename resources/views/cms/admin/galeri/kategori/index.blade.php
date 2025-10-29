@@ -21,10 +21,11 @@
             <table class="min-w-full leading-normal">
                 <thead>
                     <tr>
-                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">No</th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
                             Nama
                         </th>
-                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
                             Slug
                         </th>
                         <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -35,6 +36,9 @@
                 <tbody>
                     @forelse ($kategoriFotos as $kategori)
                         <tr>
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                                {{ $loop->iteration + ($kategoriFotos->currentPage() - 1) * $kategoriFotos->perPage() }}
+                            </td>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                 {{ $kategori->nama }}
                             </td>

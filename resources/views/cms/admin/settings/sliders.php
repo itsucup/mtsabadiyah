@@ -65,7 +65,7 @@
                 <label for="image" class="block text-gray-700 text-sm font-bold mb-2">Gambar Slider:</label>
                 <input type="file" name="image" id="image" accept="image/*" required
                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('image') border-red-500 @enderror">
-                <p class="text-xs text-gray-500 mt-1">Format: JPEG, PNG, JPG, GIF, SVG. Max: 5MB.</p>
+                <p class="text-xs text-gray-500 mt-1">Format: JPEG, PNG, JPG, GIF, SVG. Max: 2MB.</p>
                 @error('image')
                     <p class="text-red-500 text-xs italic">{{ $message }}</p>
                 @enderror

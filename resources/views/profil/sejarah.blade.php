@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ $sejarah->judul ?? 'Sejarah Madrasah' }}</title>
+    <title>{{ $lembagaSettings->nama_lembaga ?? 'MTs Abadiyah Gabus Pati' }} - {{ $sejarah->judul ?? 'Sejarah Madrasah' }}</title>
+    <link rel="icon" href="{{ asset('images/logo_mtsabadiyah.png') }}" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
@@ -14,7 +15,6 @@
 
     @include('partials.header')
 
-    <!-- Section Breadcumb -->
     <section class="bg-emerald-50 mx-4 md:mx-20 my-6 p-4 rounded-lg shadow-sm">
         <div class="flex items-center text-sm text-slate-500 space-x-1">
             <a href="/" class="hover:text-emerald-600 font-medium transition-colors duration-200">Home</a>
@@ -26,25 +26,24 @@
     </section>
         
     <section class="mx-4 md:mx-20 mb-10">
-        @if ($sejarah) {{-- Cek apakah objek $sejarah ada --}}
+        @if ($sejarah)
 
             @if ($sejarah->header_image)
                 <div class="relative w-full aspect-w-15 aspect-h-7 overflow-hidden rounded-lg shadow-md mb-8">
-                    <img src="{{ $sejarah->header_image }}" alt="Gambar Header Sejarah" class="absolute inset-0 w-full h-full object-cover">
+                    <img src="{{ $sejarah->header_image }}" alt="Gambar Header Sejarah" 
+                         class="absolute inset-0 w-full h-full object-cover" loading="lazy">
                 </div>
             @endif
 
-            <h1 class="pb-2 text-3xl font-semibold text-gray-800">{{ $sejarah->judul }}</h1>
+            <h1 class="pb-2 text-2xl md:text-3xl font-semibold text-gray-800">{{ $sejarah->judul }}</h1>
             <div class="pb-4">
-                <hr class="border-gray-300"> {{-- Menggunakan border-gray-300 untuk warna HR --}}
+                <hr class="border-gray-300"> 
             </div>
 
-            <div class="prose max-w-none prose-emerald lg:prose-lg text-justify">
-                @php
-                    $parser = new Parsedown();
-                @endphp
-                {!! $parser->text($sejarah->isi_konten ?? '') !!} {{-- Ubah Markdown ke HTML --}}
+            <div class="text-gray-800 leading-relaxed max-w-none"> 
+                {!! $sejarah->isi_konten ?? '' !!}
             </div>
+
         @else
             <div class="text-center text-gray-600 py-10">
                 <p class="text-lg">Konten Sejarah belum tersedia. Silakan hubungi administrator.</p>

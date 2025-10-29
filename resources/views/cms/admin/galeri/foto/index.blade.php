@@ -67,22 +67,22 @@
             <table class="min-w-full leading-normal">
                 <thead>
                     <tr>
-                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">No</th>
-                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Gambar</th>
-                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Judul</th>
-                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Kategori</th>
-                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
-                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Pengupload</th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">No</th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Gambar</th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Judul</th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Kategori</th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Pengupload</th>
                         <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($fotos as $foto)
                         <tr class="hover:bg-gray-50">
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                                 {{ $loop->iteration + ($fotos->currentPage() - 1) * $fotos->perPage() }}
                             </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm flex justify-center">
                                 <div class="flex-shrink-0 h-20 w-32 overflow-hidden rounded-md">
                                     @if ($foto->gambar_url)
                                         <img class="h-full w-full object-cover" src="{{ $foto->gambar_url }}" alt="{{ $foto->judul }}">
@@ -96,7 +96,7 @@
                                     {{ Str::limit($foto->judul, 50) }}
                                 </div>
                             </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                                 {{ $foto->kategoriFoto->nama ?? 'Tidak Berkategori' }}
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
@@ -105,9 +105,9 @@
                                     <span class="relative text-{{ $foto->status ? 'green' : 'red' }}-900">{{ $foto->status ? 'Aktif' : 'Tidak Aktif' }}</span>
                                 </span>
                             </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                                 <div class="text-sm text-gray-900">{{ $foto->user->name ?? 'N/A' }}</div>
-                                <div class="text-xs text-gray-500">{{ $foto->created_at->format('d M Y, H:i') }}</div>
+                                <!-- <div class="text-xs text-gray-500">{{ $foto->created_at->format('d M Y, H:i') }}</div> -->
                             </td>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                                 <div class="flex items-center space-x-3 justify-center">

@@ -31,11 +31,11 @@ class UserSeeder extends Seeder
             $this->command->info('User Admin dengan email admin@example.com sudah ada.');
         }
 
-        // Contoh untuk menambahkan kontributor
-        if (!User::where('email', 'kontributor@example.com')->exists()) {
+        // Contoh untuk menambahkan kontributor berita
+        if (!User::where('email', 'kontributorberita@example.com')->exists()) {
             User::create([
                 'name' => 'Kontributor Pertama',
-                'email' => 'kontributor@example.com',
+                'email' => 'kontributorberita@example.com',
                 'password' => Hash::make('password'), // Ganti 'password' dengan password yang lebih kuat
                 'role' => 'kontributor', // Set role sebagai 'kontributor'
                 'alamat' => 'Jl. Kontributor No. 45, Surabaya',
@@ -44,7 +44,23 @@ class UserSeeder extends Seeder
                 'email_verified_at' => now(),
             ]);
 
-            $this->command->info('User Kontributor berhasil ditambahkan!');
+            $this->command->info('User Kontributor Berita berhasil ditambahkan!');
+        }
+
+        // Contoh untuk menambahkan kontributor prestasi
+        if (!User::where('email', 'kontributorprestasi@example.com')->exists()) {
+            User::create([
+                'name' => 'Kontributor Pertama',
+                'email' => 'kontributorprestasi@example.com',
+                'password' => Hash::make('password'), // Ganti 'password' dengan password yang lebih kuat
+                'role' => 'kontributor_prestasi', // Set role sebagai 'kontributor'
+                'alamat' => 'Jl. Kontributor No. 45, Surabaya',
+                'nomor_telepon' => '085678901234',
+                'status' => true,
+                'email_verified_at' => now(),
+            ]);
+
+            $this->command->info('User Kontributor Prestasi berhasil ditambahkan!');
         }
     }
 }

@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Visi dan Misi</title>
+    <title>{{ $lembagaSettings->nama_lembaga ?? 'MTs Abadiyah Gabus Pati' }} - Visi dan Misi</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="icon" href="{{ asset('images/logo_mtsabadiyah.png') }}" type="image/png">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
+
 <body class="font-inter pt-20 md:pt-24">
 
     @include('partials.header')
@@ -18,7 +23,8 @@
         <div class="flex items-center text-sm text-slate-500 space-x-1">
             <a href="/" class="hover:text-emerald-600 font-medium transition-colors duration-200">Home</a>
             <span>></span>
-            <a href="{{ route('profil.visi_misi') }}" class="hover:text-emerald-600 font-medium transition-colors duration-200">Profil</a>
+            <a href="{{ route('profil.visi_misi') }}"
+                class="hover:text-emerald-600 font-medium transition-colors duration-200">Profil</a>
             <span>></span>
             <span class="text-emerald-700 font-semibold">Visi & Misi</span>
         </div>
@@ -28,7 +34,8 @@
         @if ($visiMisi)
             @if ($visiMisi->gambar_header)
                 <div class="relative w-full aspect-w-15 aspect-h-7 overflow-hidden rounded-lg shadow-md mb-8">
-                    <img src="{{ $visiMisi->gambar_header }}" alt="Gambar Header Visi dan Misi" class="absolute inset-0 w-full h-full object-cover">
+                    <img src="{{ $visiMisi->gambar_header }}" alt="Gambar Header Visi dan Misi"
+                        class="absolute inset-0 w-full h-full object-cover">
                 </div>
             @endif
 
@@ -62,4 +69,5 @@
     @include('partials.footer')
 
 </body>
+
 </html>

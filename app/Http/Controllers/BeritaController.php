@@ -13,19 +13,14 @@ use Carbon\Carbon; // Untuk format tanggal
 
 class BeritaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
-        $query = Berita::with('user', 'kategori'); // Eager load user and kategori
+        $query = Berita::with('user', 'kategori');
 
         // Implementasi otorisasi: Kontributor hanya melihat berita mereka sendiri, admin melihat semua
         if (Auth::user()->role === 'kontributor') {
             $query->where('user_id', Auth::id());
         }
-
-        // --- Logika Filter ---
 
         // Filter Pencarian (Search)
         if ($request->filled('search')) {
@@ -39,16 +34,14 @@ class BeritaController extends Controller
         // Filter Kategori
         if ($request->filled('kategori')) {
             $kategoriId = $request->input('kategori');
-            // Pastikan kategoriId adalah integer yang valid jika tidak nol
-            if ($kategoriId !== '0') { // 0 akan digunakan untuk "Semua Kategori" jika Anda ingin
+            if ($kategoriId !== '0') {
                 $query->where('kategori_id', $kategoriId);
             }
         }
 
         // Filter Status
-        if ($request->filled('status_filter')) { // Menggunakan nama berbeda agar tidak konflik dengan nama kolom
+        if ($request->filled('status_filter')) { 
             $statusValue = $request->input('status_filter');
-            // '1' untuk aktif, '0' untuk draft
             if ($statusValue === '1') {
                 $query->where('status', true);
             } elseif ($statusValue === '0') {
@@ -59,13 +52,10 @@ class BeritaController extends Controller
         // Filter Pengupload (Uploader)
         if ($request->filled('uploader')) {
             $uploaderId = $request->input('uploader');
-            // Pastikan uploaderId adalah integer yang valid jika tidak nol
             if ($uploaderId !== '0') {
                 $query->where('user_id', $uploaderId);
             }
         }
-
-        // --- Akhir Logika Filter ---
 
         $beritas = $query->latest()->paginate(10)->withQueryString(); // Urutkan terbaru, 10 per halaman, pertahankan query string
 
@@ -94,21 +84,21 @@ class BeritaController extends Controller
         $request->validate([
             'judul' => 'required|string|max:255',
             'konten' => 'required|string',
-            'foto_header' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'header_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'kategori_id' => 'nullable|exists:kategori_berita,id', // <-- Validasi kategori_id
             'status' => 'boolean',
         ]);
 
         $headerUrl = null;
-        if ($request->hasFile('foto_header')) {
-            $path = $request->file('foto_header')->store('public/berita_headers');
+        if ($request->hasFile('header_url')) {
+            $path = $request->file('header_url')->store('public/berita_headers');
             $headerUrl = Storage::url($path);
         }
 
         Berita::create([
             'judul' => $request->judul,
             'konten' => $request->konten,
-            'foto_header' => $headerUrl,
+            'header_url' => $headerUrl,
             'user_id' => Auth::id(),
             'kategori_id' => $request->kategori_id, // <-- Simpan kategori_id
             'status' => $request->boolean('status'),
@@ -135,33 +125,33 @@ class BeritaController extends Controller
         $request->validate([
             'judul' => 'required|string|max:255',
             'konten' => 'required|string',
-            'foto_header' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi foto header
+            'header_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi foto header
             'kategori_id' => 'nullable|exists:kategori_berita,id', // <-- Validasi kategori_id
             'status' => 'boolean', // Validasi status
         ]);
 
         $headerUrl = $berita->header_url; // Pertahankan URL lama jika tidak ada upload baru
 
-        // Logika untuk menghapus gambar lama jika checkbox 'delete_foto_header' dicentang
-        if ($request->has('delete_foto_header') && $berita->header_url) {
+        // Logika untuk menghapus gambar lama jika checkbox 'delete_header_url' dicentang
+        if ($request->has('delete_header_url') && $berita->header_url) {
             Storage::delete(str_replace('/storage', 'public', $berita->header_url));
             $headerUrl = null; // Set URL header menjadi null
         }
 
         // Logika untuk upload gambar baru
-        if ($request->hasFile('foto_header')) {
+        if ($request->hasFile('header_url')) {
             // Hapus gambar lama (jika ada dan belum dihapus oleh checkbox) sebelum mengunggah yang baru
-            if ($berita->header_url && !$request->has('delete_foto_header')) {
+            if ($berita->header_url && !$request->has('delete_header_url')) {
                 Storage::delete(str_replace('/storage', 'public', $berita->header_url));
             }
-            $path = $request->file('foto_header')->store('public/berita_headers');
+            $path = $request->file('header_url')->store('public/berita_headers');
             $headerUrl = Storage::url($path);
         }
 
         $berita->update([
             'judul' => $request->judul,
             'konten' => $request->konten,
-            'foto_header' => $headerUrl, // Gunakan URL yang sudah diupdate/hapus
+            'header_url' => $headerUrl, // Gunakan URL yang sudah diupdate/hapus
             'kategori_id' => $request->kategori_id, // <-- Simpan kategori_id
             'status' => $request->boolean('status'), // Perbarui status
         ]);
@@ -180,8 +170,8 @@ class BeritaController extends Controller
         }
 
         // Hapus gambar terkait jika ada
-        if ($berita->foto_header) {
-            Storage::delete(str_replace('/storage', 'public', $berita->foto_header));
+        if ($berita->header_url) {
+            Storage::delete(str_replace('/storage', 'public', $berita->header_url));
         }
 
         $berita->delete();

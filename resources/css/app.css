@@ -15,6 +15,65 @@
 
 }
 
+.leading-relaxed ol {
+    list-style-type: decimal !important; /* Paksa jadi nomor */
+    margin: revert !important;
+    padding: revert !important; /* Kembalikan padding default untuk indentasi */
+}
+
+.leading-relaxed ul {
+    list-style-type: disc !important; /* Paksa jadi bullet */
+    margin: revert !important;
+    padding: revert !important; /* Kembalikan padding default untuk indentasi */
+}
+
+.leading-relaxed li {
+    display: list-item !important; /* Pastikan tampil sebagai item list */
+}
+
+.leading-relaxed h1 {   
+    font-size: 2em !important; /* Ukuran default H1 browser */
+    font-weight: bold !important;
+    margin: 0.67em 0 !important;
+}
+
+.leading-relaxed h2 {
+    font-size: 1.5em !important; /* Ukuran default H2 browser */
+    font-weight: bold !important;
+    margin: 0.83em 0 !important;
+}
+
+.leading-relaxed blockquote {
+    margin: 1em 40px !important; /* Margin default blockquote */
+    padding: revert !important;
+    border-left: revert !important; /* Border default browser */
+}
+
+/* Pastikan style alignment Quill tetap bisa menimpa */
+.ql-align-center { text-align: center !important; }
+.ql-align-right { text-align: right !important; }
+.ql-align-justify { text-align: justify !important; }
+
+/* Pastikan style font dan size Quill tetap bisa menimpa */
+.ql-font-serif { font-family: serif !important; }
+.ql-font-monospace { font-family: monospace !important; }
+
+.ql-size-small { font-size: 0.75em !important; }
+.ql-size-large { font-size: 1.5em !important; }
+.ql-size-huge { font-size: 2.5em !important; }
+
+.ql-editor img {
+    max-width: 100%; /* Agar responsif dan tidak keluar kontainer */
+    height: auto;
+    
+    /* Opsional: batasi tinggi maksimum */
+    max-height: 500px; 
+    
+    /* Opsional: beri border agar terlihat saat diedit */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
 /* Custom class untuk menyembunyikan scrollbar */
 .scrollbar-hide {
   -ms-overflow-style: none;  /* IE and Edge */

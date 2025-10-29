@@ -3,7 +3,7 @@
 @section('content')
     <h1 class="text-3xl font-bold text-gray-800 mb-6 border-b-4 border-emerald-600 pb-2 inline-block">Dashboard Overview</h1>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
         <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-200 border-t-4 border-emerald-600 col-span-full">
             <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-4">

@@ -41,6 +41,7 @@ class StaffDanGuruController extends Controller
     public function create()
     {
         $kategoriJabatans = KategoriJabatan::orderBy('nama')->get(); // Ambil semua kategori jabatan
+        $jenisKelaminOptions = ['Laki-laki', 'Perempuan'];
         return view('cms.admin.staff_dan_guru.create', compact('kategoriJabatans'));
     }
 
@@ -49,7 +50,8 @@ class StaffDanGuruController extends Controller
         $request->validate([
             'nama' => 'required|string|max:255',
             'kategori_jabatan_id' => 'required|exists:kategori_jabatan,id', // <-- Validasi ini
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
+            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status_aktif' => 'boolean',
         ]);
 
@@ -62,8 +64,8 @@ class StaffDanGuruController extends Controller
         StaffDanGuru::create([
             'nama' => $request->nama,
             'kategori_jabatan_id' => $request->kategori_jabatan_id, // <-- Simpan ID kategori
+            'jenis_kelamin' => $request->jenis_kelamin,
             'foto' => $fotoUrl,
-            'deskripsi' => $request->deskripsi,
             'status_aktif' => $request->boolean('status_aktif'),
         ]);
 
@@ -73,7 +75,8 @@ class StaffDanGuruController extends Controller
     public function edit(StaffDanGuru $staffDanGuru)
     {
         $kategoriJabatans = KategoriJabatan::orderBy('nama')->get(); // Ambil semua kategori jabatan
-        return view('cms.admin.staff_dan_guru.edit', compact('staffDanGuru', 'kategoriJabatans'));
+        $jenisKelaminOptions = ['Laki-laki', 'Perempuan'];
+        return view('cms.admin.staff_dan_guru.edit', compact('staffDanGuru', 'kategoriJabatans','jenisKelaminOptions'));
     }
 
     public function update(Request $request, StaffDanGuru $staffDanGuru)
@@ -81,8 +84,8 @@ class StaffDanGuruController extends Controller
         $request->validate([
             'nama' => 'required|string|max:255',
             'kategori_jabatan_id' => 'required|exists:kategori_jabatan,id', // <-- Validasi ini
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
-            'deskripsi' => 'nullable|string|max:2000',
+            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status_aktif' => 'boolean',
         ]);
 
@@ -98,8 +101,8 @@ class StaffDanGuruController extends Controller
         $staffDanGuru->update([
             'nama' => $request->nama,
             'kategori_jabatan_id' => $request->kategori_jabatan_id, // <-- Update ID kategori
+            'jenis_kelamin' => $request->jenis_kelamin,
             'foto' => $fotoUrl,
-            'deskripsi' => $request->deskripsi,
             'status_aktif' => $request->boolean('status_aktif'),
         ]);
 

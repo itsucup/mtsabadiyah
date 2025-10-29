@@ -68,7 +68,7 @@ class GaleriFotoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'gambar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
+            'gambar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'judul' => 'required|string|max:255',
             'deskripsi' => 'nullable|string|max:1000',
             'kategori_foto_id' => 'nullable|exists:kategori_foto,id', // <-- Validasi ini
@@ -102,7 +102,7 @@ class GaleriFotoController extends Controller
     public function update(Request $request, GaleriFoto $galeriFoto)
     {
         $request->validate([
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'judul' => 'required|string|max:255',
             'deskripsi' => 'nullable|string|max:1000',
             'kategori_foto_id' => 'nullable|exists:kategori_foto,id', // <-- Validasi ini

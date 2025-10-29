@@ -69,7 +69,7 @@ class BeritaSeeder extends Seeder
             if ($kategori) {
                 Berita::create([
                     'judul' => $beritaData['judul'],
-                    'foto_header' => $beritaData['header_image'],
+                    'header_url' => $beritaData['header_image'],
                     'kategori_id' => $kategori->id, // Ambil ID kategori yang sesuai
                     'konten' => $beritaData['deskripsi'],
                     'status' => true, // Default status aktif

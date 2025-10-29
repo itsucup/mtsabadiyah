@@ -46,7 +46,7 @@ class SettingController extends Controller
     public function storeSlider(Request $request)
     {
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5120', // Wajib, max 5MB
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'title' => 'nullable|string|max:255',
             'description' => 'nullable|string|max:1000',
             'order' => 'nullable|integer|min:0',
@@ -77,7 +77,7 @@ class SettingController extends Controller
     public function updateSlider(Request $request, HeaderSlider $slider) // Route Model Binding
     {
         $request->validate([
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'title' => 'nullable|string|max:255',
             'description' => 'nullable|string|max:1000',
             'order' => 'nullable|integer|min:0',

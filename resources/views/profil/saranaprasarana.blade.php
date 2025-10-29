@@ -8,7 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <title>MTs Abadiyah - Sarana & Prasarana</title>
+    <title>{{ $lembagaSettings->nama_lembaga ?? 'MTs Abadiyah Gabus Pati' }} - Sarana & Prasarana</title>
+    <link rel="icon" href="{{ asset('images/logo_mtsabadiyah.png') }}" type="image/png">
 </head>
 <body class="font-inter pt-20 md:pt-24">
 
@@ -29,8 +30,8 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             @forelse ($saranas as $sarana)
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200 cursor-pointer" 
-                    onclick="openSaranaModal('{{ $sarana->foto_url ?? asset('images/default_image.png') }}', '{{ $sarana->nama }}', '{{ $sarana->deskripsi ?? '' }}')"> {{-- Menambahkan onclick event --}}
+                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200 cursor-pointer text-center" 
+                    onclick="openSaranaModal('{{ $sarana->foto_url ?? asset('images/default_image.png') }}', '{{ $sarana->nama }}', '{{ $sarana->deskripsi ?? '' }}')"> 
                     
                     @if ($sarana->foto_url)
                         <img src="{{ $sarana->foto_url }}" alt="{{ $sarana->nama }}" class="w-full h-48 object-cover">
@@ -54,7 +55,6 @@
 
     @include('partials.footer')
 
-    {{-- Modal untuk Sarana & Prasarana --}}
     <div id="saranaModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-lg max-w-2xl w-[90%] max-h-[90vh] overflow-auto p-4 relative">
             <button onclick="closeSaranaModal()" class="absolute top-2 right-3 text-gray-600 text-2xl font-bold hover:text-red-500 z-10">&times;</button>
@@ -70,7 +70,7 @@
             document.getElementById('saranaModalTitle').textContent = title;
             document.getElementById('saranaModalDesc').textContent = description;
             document.getElementById('saranaModal').classList.remove('hidden');
-            document.body.style.overflow = 'hidden'; // Nonaktifkan scroll body
+            document.body.style.overflow = 'hidden'; 
         }
 
         function closeSaranaModal() {
@@ -78,19 +78,17 @@
             document.getElementById('saranaModalImage').src = '';
             document.getElementById('saranaModalTitle').textContent = '';
             document.getElementById('saranaModalDesc').textContent = '';
-            document.body.style.overflow = ''; // Aktifkan kembali scroll body
+            document.body.style.overflow = ''; 
         }
         
-        // Menutup modal dengan menekan tombol ESC
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape' && !document.getElementById('saranaModal').classList.contains('hidden')) {
                 closeSaranaModal();
             }
         });
         
-        // Menutup modal dengan klik di luar modal
         document.getElementById('saranaModal').addEventListener('click', function(event) {
-            if (event.target === this) { // Hanya jika klik langsung pada overlay modal
+            if (event.target === this) { 
                 closeSaranaModal();
             }
         });

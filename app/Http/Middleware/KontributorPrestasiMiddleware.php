@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; // Penting: Import Facade Auth
 use Symfony\Component\HttpFoundation\Response;
 
-class CmsAccessMiddleware
+class KontributorPrestasiMiddleware
 {
     /**
      * Handle an incoming request.
@@ -19,7 +19,7 @@ class CmsAccessMiddleware
         // 1. Periksa apakah pengguna sudah login
         if (Auth::check()) {
             // 2. Periksa apakah role pengguna adalah 'admin' ATAU 'kontributor'
-            if (Auth::user()->role === 'kontributor') {
+            if (Auth::user()->role === 'k_prestasi') {
                 return $next($request); // Jika ya, lanjutkan permintaan
             } else {
                 // 3. Jika pengguna login tetapi role tidak diizinkan, alihkan ke dashboard dengan pesan error.

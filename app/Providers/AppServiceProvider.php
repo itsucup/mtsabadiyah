@@ -2,8 +2,9 @@
 
 namespace App\Providers;
 
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use App\Models\User; // <-- PENTING: Import model User
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\View;
 use App\Models\LembagaSetting;
 
@@ -11,11 +12,10 @@ class AppServiceProvider extends ServiceProvider
 {
     /**
      * The model to policy mappings for the application.
-     *
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        //
+        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
     ];
 
     /**
@@ -23,14 +23,41 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Gate untuk mengakses halaman atau fungsionalitas khusus admin
-        Gate::define('view-admin-pages', function ($user) {
-            return $user->role === 'admin';
+        $this->registerPolicies();
+
+        // 1. SUPER ADMIN: (DEFINISI BARU)
+        // Gate::before() hanya untuk Super Admin.
+        // Jika user adalah SA, dia lolos SEMUA @can()
+        Gate::before(function (User $user, $ability) {
+            if ($user->isSuperAdmin()) {
+                return true;
+            }
+            return null; // Penting: biarkan Gate::define() yang memutuskan
         });
 
-        // Gate untuk mengakses halaman atau fungsionalitas CMS (admin atau kontributor)
-        Gate::define('view-cms-pages', function ($user) {
-            return $user->role === 'admin' || $user->role === 'kontributor';
+        // 2. ADMIN BIASA:
+        Gate::define('access-admin-only', function (User $user) {
+            return $user->isAdmin();
+        });
+
+        // 3. Izin Dashboard (Admin & Kontributor)
+        Gate::define('access-dashboard', function (User $user) {
+            return $user->isAdmin() || $user->isKontributor();
+        });
+
+        // 4. Izin Dropdown CMS (Admin & Kontributor)
+        Gate::define('access-cms-dropdown', function (User $user) {
+            return $user->isAdmin() || $user->isKontributor();
+        });
+
+        // 5. Izin Berita (Admin & Kontributor)
+        Gate::define('access-berita', function (User $user) {
+            return $user->isAdmin() || $user->isKontributor();
+        });
+
+        // 6. Izin Prestasi (Admin & Kontributor)
+        Gate::define('access-prestasi', function (User $user) {
+            return $user->isAdmin() || $user->isKontributor();
         });
 
         // Mengikat data pengaturan lembaga ke tampilan partials.footer DAN partials.header
@@ -40,17 +67,5 @@ class AppServiceProvider extends ServiceProvider
             $lembagaSettings = LembagaSetting::firstOrCreate([]);
             $view->with('lembagaSettings', $lembagaSettings);
         });
-
-        // Opsional: Gate untuk memeriksa role tertentu
-        /*
-        Gate::define('is-admin', function ($user) {
-            return $user->role === 'admin';
-        });
-
-        Gate::define('is-kontributor', function ($user) {
-            return $user->role === 'kontributor';
-        });
-        */
     }
-
 }

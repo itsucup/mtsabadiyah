@@ -287,7 +287,7 @@ class PublicPagesController extends Controller
             $query->where('tahun', $request->input('tahun'));
         }
 
-        $prestasis = $query->orderBy('tahun', 'desc')->orderBy('nama_lengkap_anggota')->paginate(10)->withQueryString();
+        $prestasis = $query->orderBy('tahun', 'desc')->orderBy('nama_lengkap_anggota')->paginate(20)->withQueryString();
 
         // Ambil daftar tahun yang unik untuk dropdown filter
         $availableYears = Prestasi::select(DB::raw('DISTINCT tahun'))

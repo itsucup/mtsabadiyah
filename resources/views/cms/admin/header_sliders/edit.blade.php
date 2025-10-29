@@ -16,7 +16,7 @@
                     @endif
                     <input type="file" name="image" id="image" accept="image/*"
                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('image') border-red-500 @enderror">
-                    <p class="text-xs text-gray-500 mt-1">Pilih gambar baru jika ingin mengubah. Max: 5MB.</p>
+                    <p class="text-xs text-gray-500 mt-1">Pilih gambar baru jika ingin mengubah. Max: 2MB.</p>
                     <div class="mt-2">
                         <label class="inline-flex items-center">
                             <input type="checkbox" name="delete_image" value="1" class="form-checkbox h-5 w-5 text-red-600">

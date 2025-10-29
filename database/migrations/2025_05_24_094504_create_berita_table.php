@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('berita', function (Blueprint $table) {
             $table->id();
             $table->string('judul', 255); // Judul berita
-            $table->string('foto_header')->nullable(); // URL foto header berita
+            $table->string('header_url')->nullable(); // URL foto header berita
             $table->foreignId('kategori_id')->nullable()->constrained('kategori_berita')->onDelete('set null');
             $table->longText('konten'); // Isi berita, menggunakan longText untuk Markdown
             $table->boolean('status')->default(true); // Status aktif (tampil) atau draft (tidak tampil)

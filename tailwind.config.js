@@ -7,6 +7,21 @@ export default {
     "./resources/**/*.js",
     "./resources/**/*.vue",
   ],
+  safelist: [
+    {
+      pattern: /ql-/, // Ini akan menjaga SEMUA kelas yang dimulai dengan 'ql-'
+    },
+    // Anda mungkin juga perlu menjaga tag HTML dasar jika prose dihapus total
+    'h1', 
+    'h2',
+    'ol',
+    'ul',
+    'li',
+    'blockquote',
+    'strong', // Nama tag untuk bold
+    'em',     // Nama tag untuk italic
+    'u',      // Nama tag untuk underline
+  ],
   theme: {
     extend: {
       fontFamily: {
@@ -42,7 +57,7 @@ export default {
     },
   },
   plugins: [
-    require('@tailwindcss/typography'), // Tambahkan baris ini
+    // require('@tailwindcss/typography'), // Tambahkan baris ini
     require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
   ],

@@ -1,8 +1,18 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
+// Controller Publik
+use App\Http\Controllers\PublicPagesController;
+
+// Controller Auth
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
+// Controller CMS (Semua Role)
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\BeritaController; // Ini adalah 'CmsBeritaController' Anda
+
+// Controller CMS (Hanya Admin)
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\GaleriFotoController as AdminGaleriFotoController;
@@ -16,22 +26,21 @@ use App\Http\Controllers\Admin\SambutanKepalaSekolahController as AdminSambutanC
 use App\Http\Controllers\Admin\VisiMisiController as AdminVisiMisiController;
 use App\Http\Controllers\Admin\EkstrakulikulerController as AdminEkstrakulikulerController;
 use App\Http\Controllers\Admin\ProgramKelasController as AdminProgramKelasController;
-use App\Http\Controllers\Admin\PrestasiController as AdminPrestasiController;
 use App\Http\Controllers\Admin\LembagaSettingController;
-use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\HeaderSliderController;
 use App\Http\Controllers\Admin\KategoriBeritaController;
 use App\Http\Controllers\Admin\KategoriFotoController;
 use App\Http\Controllers\Admin\KategoriJabatanController;
 use App\Http\Controllers\Admin\SaranaPrasaranaController;
 
-use App\Http\Controllers\BeritaController as CmsBeritaController; // Alias untuk CMS Berita
+// Controller CMS (Hanya Kontributor Prestasi)
+use App\Http\Controllers\Admin\PrestasiController as AdminPrestasiController;
 
-use App\Http\Controllers\BeritaController;
-use App\Http\Controllers\PublicPagesController;
-
-use App\Http\Middleware\AdminMiddleware;
-
+/*
+|--------------------------------------------------------------------------
+| 1. ROUTE PUBLIK (TIDAK PERLU LOGIN)
+|--------------------------------------------------------------------------
+*/
 Route::get('/', [PublicPagesController::class, 'showBeranda'])->name('beranda');
 
 Route::prefix('profil')->group(function () {
@@ -48,189 +57,135 @@ Route::prefix('profil')->group(function () {
 Route::prefix('galeri')->group(function () {
     Route::get('foto', [PublicPagesController::class, 'showGaleriFoto'])->name('galeri.foto');
     Route::get('video', [PublicPagesController::class, 'showGaleriVideo'])->name('galeri.video');
-    Route::view('karya', 'galeri.karya')->name('galeri.karya');
+    Route::view('karya', 'galeri.karya')->name('galeri.karya'); // Asumsi ini view statis
 });
 
-// Route untuk daftar Berita (publik)
-Route::get('/berita', [PublicPagesController::class, 'showBeritaList'])->name('berita.index'); // Nama route ini diubah dari 'berita' ke 'berita.index'
-Route::get('/berita/{berita}', [PublicPagesController::class, 'showBeritaDetail'])->name('berita.show'); // Route detail berita
-
+Route::get('/berita', [PublicPagesController::class, 'showBeritaList'])->name('berita.index');
+Route::get('/berita/{berita}', [PublicPagesController::class, 'showBeritaDetail'])->name('berita.show');
 Route::get('/prestasi', [PublicPagesController::class, 'showPrestasiList'])->name('prestasi');
-
 Route::get('/program-kelas', [PublicPagesController::class, 'showProgramKelas'])->name('programkelas');
 
-// --- ROUTE KHUSUS ADMIN ---
-Route::middleware(['auth'])->group(function () {
-    // Dashboard CMS
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('cms.dashboard');
-
-    Route::resource('cms/berita', BeritaController::class)->parameters([
-        'berita' => 'berita'
-    ])->names([
-        'index' => 'cms.berita.index',
-        'create' => 'cms.berita.create',
-        'store' => 'cms.berita.store',
-        'edit' => 'cms.berita.edit',
-        'update' => 'cms.berita.update',
-        'destroy' => 'cms.berita.destroy',
-    ])->except('show');
-
-    // Route untuk Manajemen Kategori Berita
-    Route::resource('cms/admin/kategori-berita', KategoriBeritaController::class)->names([
-        'index' => 'cms.admin.kategori_berita.index',
-        'create' => 'cms.admin.kategori_berita.create',
-        'store' => 'cms.admin.kategori_berita.store',
-        'edit' => 'cms.admin.kategori_berita.edit',
-        'update' => 'cms.admin.kategori_berita.update',
-        'destroy' => 'cms.admin.kategori_berita.destroy',
-    ])->middleware(AdminMiddleware::class);
-
-    // Rute untuk Manajemen Galeri Foto di CMS
-    Route::resource('cms/admin/galeri/foto', AdminGaleriFotoController::class)->parameters([
-        'foto' => 'galeriFoto'
-    ])->names([
-        'index' => 'cms.admin.galeri.foto.index',
-        'create' => 'cms.admin.galeri.foto.create',
-        'store' => 'cms.admin.galeri.foto.store',
-        'edit' => 'cms.admin.galeri.foto.edit',
-        'update' => 'cms.admin.galeri.foto.update',
-        'destroy' => 'cms.admin.galeri.foto.destroy',
-    ])->except('show');
-
-    // Route untuk Manajemen Kategori Berita
-    Route::resource('cms/admin/galeri/kategori', KategoriFotoController::class)->parameters([
-        'kategori' => 'kategoriFoto' // <--- TAMBAHKAN BARIS INI
-    ])->names([
-        'index' => 'cms.admin.galeri.kategori.index',
-        'create' => 'cms.admin.galeri.kategori.create',
-        'store' => 'cms.admin.galeri.kategori.store',
-        'edit' => 'cms.admin.galeri.kategori.edit',
-        'update' => 'cms.admin.galeri.kategori.update',
-        'destroy' => 'cms.admin.galeri.kategori.destroy',
-    ])->middleware(AdminMiddleware::class);
-
-    // Rute untuk Manajemen Galeri Video di CMS
-    Route::resource('cms/admin/galeri/video', AdminGaleriVideoController::class)->parameters([
-        'video' => 'galeriVideo' // Nama parameter harus cocok dengan segmen URI terakhir
-    ])->names([
-        'index' => 'cms.admin.galeri.video.index',
-        'create' => 'cms.admin.galeri.video.create',
-        'store' => 'cms.admin.galeri.video.store',
-        'edit' => 'cms.admin.galeri.video.edit',
-        'update' => 'cms.admin.galeri.video.update',
-        'destroy' => 'cms.admin.galeri.video.destroy',
-    ]);
-
-    // Route untuk Manajemen Pengguna (User) [Rout Khusus Admin]
-    Route::resource('admin/users', UserController::class)->names([
-        'index' => 'cms.admin.users.index',
-        'create' => 'cms.admin.users.create',
-        'store' => 'cms.admin.users.store',
-        'edit' => 'cms.admin.users.edit',
-        'update' => 'cms.admin.users.update',
-        'destroy' => 'cms.admin.users.destroy',
-    ])->middleware(AdminMiddleware::class);
-
-    // Rute untuk Manajemen Halaman Sambutan Kepala Sekolah di CMS
-    Route::get('cms/admin/sambutan-kepala-sekolah', [AdminSambutanController::class, 'index'])->name('cms.admin.sambutan_kepala_sekolah.index')->middleware(AdminMiddleware::class);
-    Route::post('cms/admin/sambutan-kepala-sekolah', [AdminSambutanController::class, 'storeOrUpdate'])->name('cms.admin.sambutan_kepala_sekolah.store_or_update')->middleware(AdminMiddleware::class);
-    
-    // Rute untuk Manajemen Halaman Sejarah di CMS
-    Route::get('cms/admin/sejarah', [SejarahController::class, 'index'])->name('cms.admin.sejarah.index')->middleware(AdminMiddleware::class);
-    Route::post('cms/admin/sejarah', [SejarahController::class, 'storeOrUpdate'])->name('cms.admin.sejarah.store_or_update')->middleware(AdminMiddleware::class);
-    
-    // Rute untuk Manajemen Halaman Visi dan Misi di CMS
-    Route::get('cms/admin/visi-misi', [AdminVisiMisiController::class, 'index'])->name('cms.admin.visi_misi.index')->middleware(AdminMiddleware::class);
-    Route::post('cms/admin/visi-misi', [AdminVisiMisiController::class, 'storeOrUpdate'])->name('cms.admin.visi_misi.store_or_update')->middleware(AdminMiddleware::class);
-
-    // Rute untuk Manajemen Staff dan Guru di CMS
-    Route::resource('cms/admin/staff-dan-guru', AdminStaffDanGuruController::class)->names([
-        'index' => 'cms.admin.staff_dan_guru.index',
-        'create' => 'cms.admin.staff_dan_guru.create',
-        'store' => 'cms.admin.staff_dan_guru.store',
-        'edit' => 'cms.admin.staff_dan_guru.edit',
-        'update' => 'cms.admin.staff_dan_guru.update',
-        'destroy' => 'cms.admin.staff_dan_guru.destroy',
-    ])->middleware(AdminMiddleware::class);
-
-    // Route untuk Manajemen Kategori Jabatan
-    Route::resource('cms/admin/kategori-jabatan', KategoriJabatanController::class)->names([ // <-- Tambahkan ini
-        'index' => 'cms.admin.kategori_jabatan.index',
-        'create' => 'cms.admin.kategori_jabatan.create',
-        'store' => 'cms.admin.kategori_jabatan.store',
-        'edit' => 'cms.admin.kategori_jabatan.edit',
-        'update' => 'cms.admin.kategori_jabatan.update',
-        'destroy' => 'cms.admin.kategori_jabatan.destroy',
-    ])->middleware(AdminMiddleware::class);
-
-    // Route untuk Manajemen Sarana dan Prasarana
-    Route::resource('cms/admin/sarana-prasarana', SaranaPrasaranaController::class)->names([
-        'index' => 'cms.admin.sarana_prasarana.index',
-        'create' => 'cms.admin.sarana_prasarana.create',
-        'store' => 'cms.admin.sarana_prasarana.store',
-        'edit' => 'cms.admin.sarana_prasarana.edit',
-        'update' => 'cms.admin.sarana_prasarana.update',
-        'destroy' => 'cms.admin.sarana_prasarana.destroy',
-    ])->middleware(AdminMiddleware::class);
-
-    // Rute untuk Manajemen Ekstrakulikuler di CMS
-    Route::resource('cms/admin/ekstrakulikuler', AdminEkstrakulikulerController::class)->names([
-        'index' => 'cms.admin.ekstrakulikuler.index',
-        'create' => 'cms.admin.ekstrakulikuler.create',
-        'store' => 'cms.admin.ekstrakulikuler.store',
-        'edit' => 'cms.admin.ekstrakulikuler.edit',
-        'update' => 'cms.admin.ekstrakulikuler.update',
-        'destroy' => 'cms.admin.ekstrakulikuler.destroy',
-    ])->middleware(AdminMiddleware::class);
-
-    // Rute untuk Manajemen Halaman Mars Madrasah Abadiyah di CMS
-    Route::get('cms/admin/mars-madrasah-abadiyah', [AdminMarsController::class, 'index'])->name('cms.admin.mars_madrasah_abadiyah.index')->middleware(AdminMiddleware::class);
-    Route::post('cms/admin/mars-madrasah-abadiyah', [AdminMarsController::class, 'storeOrUpdate'])->name('cms.admin.mars_madrasah_abadiyah.store_or_update')->middleware(AdminMiddleware::class);
-
-    // Rute untuk Manajemen Halaman Hymne Abadiyah di CMS
-    Route::get('cms/admin/hymne-abadiyah', [AdminHymneAbadiyahController::class, 'index'])->name('cms.admin.hymne_abadiyah.index')->middleware(AdminMiddleware::class);
-    Route::post('cms/admin/hymne-abadiyah', [AdminHymneAbadiyahController::class, 'storeOrUpdate'])->name('cms.admin.hymne_abadiyah.store_or_update')->middleware(AdminMiddleware::class);
-
-    // Rute untuk Manajemen Program Kelas di CMS
-    Route::resource('cms/admin/program-kelas', AdminProgramKelasController::class)->names([
-        'index' => 'cms.admin.program_kelas.index',
-        'create' => 'cms.admin.program_kelas.create',
-        'store' => 'cms.admin.program_kelas.store',
-        'edit' => 'cms.admin.program_kelas.edit',
-        'update' => 'cms.admin.program_kelas.update',
-        'destroy' => 'cms.admin.program_kelas.destroy',
-    ])->middleware(AdminMiddleware::class);
-
-    // Rute untuk Manajemen Prestasi (list, tambah, edit, hapus item)
-    Route::resource('cms/admin/prestasi', AdminPrestasiController::class)->names([
-        'index' => 'cms.admin.prestasi.index',
-        'create' => 'cms.admin.prestasi.create',
-        'store' => 'cms.admin.prestasi.store',
-        'edit' => 'cms.admin.prestasi.edit',
-        'update' => 'cms.admin.prestasi.update',
-        'destroy' => 'cms.admin.prestasi.destroy',
-    ])->middleware(AdminMiddleware::class);
-    
-    // Route untuk Pengaturan Profil Lembaga
-    Route::get('/cms/admin/lembaga-settings', [LembagaSettingController::class, 'index'])->name('cms.admin.settings.index')->middleware(AdminMiddleware::class);
-    Route::put('/cms/admin/lembaga-settings', [LembagaSettingController::class, 'update'])->name('cms.admin.settings.update')->middleware(AdminMiddleware::class);
-
-        // Rute untuk Manajemen Program Kelas di CMS
-    Route::resource('cms/admin/header-slider', HeaderSliderController::class)->parameters([
-        'header-slider' => 'slider' // Nama parameter harus cocok dengan segmen URI terakhir
-    ])->names([
-        'index' => 'cms.admin.header_sliders.index',
-        'create' => 'cms.admin.header_sliders.create',
-        'store' => 'cms.admin.header_sliders.store',
-        'edit' => 'cms.admin.header_sliders.edit',
-        'update' => 'cms.admin.header_sliders.update',
-        'destroy' => 'cms.admin.header_sliders.destroy',
-    ])->middleware(AdminMiddleware::class);
-
-});
-
-
-// --- ROUTE AUTENTIKASI ---
+/*
+|--------------------------------------------------------------------------
+| 2. ROUTE AUTENTIKASI (LOGIN/LOGOUT)
+|--------------------------------------------------------------------------
+*/
 Route::get('/admin/login', [AuthenticatedSessionController::class, 'showLoginForm'])->name('login');
 Route::post('/admin/login', [AuthenticatedSessionController::class, 'login']);
-Route::post('/logout', [AuthenticatedSessionController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthenticatedSessionController::class, 'logout'])->middleware('auth')->name('logout');
+
+
+/*
+|--------------------------------------------------------------------------
+| 3. ROUTE CMS (WAJIB LOGIN)
+|--------------------------------------------------------------------------
+|
+| Semua route di bawah ini dilindungi oleh middleware 'auth'.
+| Kita akan mengelompokkan sisanya berdasarkan Otorisasi (Gate)
+|
+*/
+Route::middleware(['auth'])->group(function () {
+
+    // --- DASHBOARD (Bisa diakses Admin, K. Berita, K. Prestasi) ---
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->name('cms.dashboard')
+        ->middleware('can:access-dashboard'); // <-- REVISI: Pakai Gate
+
+    // --- GRUP KONTRIBUTOR BERITA (Bisa diakses Admin & K. Berita) ---
+    Route::middleware('can:access-berita')->group(function () {
+        Route::resource('cms/berita', BeritaController::class)->parameters([
+            'berita' => 'berita'
+        ])->names([
+                    'index' => 'cms.berita.index',
+                    'create' => 'cms.berita.create',
+                    'store' => 'cms.berita.store',
+                    'edit' => 'cms.berita.edit',
+                    'update' => 'cms.berita.update',
+                    'destroy' => 'cms.berita.destroy',
+                ])->except('show');
+    });
+
+    // --- GRUP KONTRIBUTOR PRESTASI (Bisa diakses Admin & K. Prestasi) ---
+    Route::middleware('can:access-prestasi')->group(function () {
+        Route::resource('cms/admin/prestasi', AdminPrestasiController::class)->names([
+            'index' => 'cms.admin.prestasi.index',
+            'create' => 'cms.admin.prestasi.create',
+            'store' => 'cms.admin.prestasi.store',
+            'edit' => 'cms.admin.prestasi.edit',
+            'update' => 'cms.admin.prestasi.update',
+            'destroy' => 'cms.admin.prestasi.destroy',
+        ]);
+    });
+
+    // --- GRUP ADMIN (HANYA BISA DIAKSES ADMIN) ---
+    Route::middleware('can:access-admin-only')->prefix('cms/admin')->name('cms.admin.')->group(function () {
+
+        // REVISI: Mengganti semua 'AdminMiddleware::class' dengan 'can:access-admin-only'
+        // dan mengelompokkannya agar rapi.
+
+        // Manajemen Kategori
+        Route::resource('kategori-berita', KategoriBeritaController::class)
+            ->names('kategori_berita');
+
+        Route::resource('galeri/kategori', KategoriFotoController::class)->parameters([
+            'kategori' => 'kategoriFoto'
+        ])->names('galeri.kategori');
+
+        Route::resource('kategori-jabatan', KategoriJabatanController::class)
+            ->names('kategori_jabatan');
+
+        // Manajemen Galeri
+        Route::resource('galeri/foto', AdminGaleriFotoController::class)->parameters([
+            'foto' => 'galeriFoto'
+        ])->names('galeri.foto');
+
+        Route::resource('galeri/video', AdminGaleriVideoController::class)->parameters([
+            'video' => 'galeriVideo'
+        ])->names('galeri.video');
+
+        // Manajemen User
+        // REVISI: Path diubah dari 'admin/users' menjadi 'users' (prefix 'cms/admin/' sudah ada)
+        // Ini akan menghasilkan URL: /cms/admin/users
+        Route::resource('users', UserController::class)
+            ->names('users');
+
+        // Manajemen Halaman Profil (Single Page)
+        Route::get('sambutan-kepala-sekolah', [AdminSambutanController::class, 'index'])->name('sambutan_kepala_sekolah.index');
+        Route::post('sambutan-kepala-sekolah', [AdminSambutanController::class, 'storeOrUpdate'])->name('sambutan_kepala_sekolah.store_or_update');
+
+        Route::get('sejarah', [SejarahController::class, 'index'])->name('sejarah.index');
+        Route::post('sejarah', [SejarahController::class, 'storeOrUpdate'])->name('sejarah.store_or_update');
+
+        Route::get('visi-misi', [AdminVisiMisiController::class, 'index'])->name('visi_misi.index');
+        Route::post('visi-misi', [AdminVisiMisiController::class, 'storeOrUpdate'])->name('visi_misi.store_or_update');
+
+        Route::get('mars-madrasah-abadiyah', [AdminMarsController::class, 'index'])->name('mars_madrasah_abadiyah.index');
+        Route::post('mars-madrasah-abadiyah', [AdminMarsController::class, 'storeOrUpdate'])->name('mars_madrasah_abadiyah.store_or_update');
+
+        Route::get('hymne-abadiyah', [AdminHymneAbadiyahController::class, 'index'])->name('hymne_abadiyah.index');
+        Route::post('hymne-abadiyah', [AdminHymneAbadiyahController::class, 'storeOrUpdate'])->name('hymne_abadiyah.store_or_update');
+
+        // Manajemen Halaman Profil (Resource)
+        Route::resource('staff-dan-guru', AdminStaffDanGuruController::class)
+            ->names('staff_dan_guru');
+
+        Route::resource('sarana-prasarana', SaranaPrasaranaController::class)
+            ->names('sarana_prasarana');
+
+        Route::resource('ekstrakulikuler', AdminEkstrakulikulerController::class)
+            ->names('ekstrakulikuler');
+
+        Route::resource('program-kelas', AdminProgramKelasController::class)
+            ->names('program_kelas');
+
+        // Manajemen Settings
+        Route::get('lembaga-settings', [LembagaSettingController::class, 'index'])->name('settings.index');
+        Route::put('lembaga-settings', [LembagaSettingController::class, 'update'])->name('settings.update');
+
+        Route::resource('header-slider', HeaderSliderController::class)->parameters([
+            'header-slider' => 'slider'
+        ])->names('header_sliders');
+
+    }); // <-- Akhir dari grup 'can:access-admin-only'
+
+}); // <-- Akhir dari grup 'auth'

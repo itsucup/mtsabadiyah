@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - MTs Abadiyah</title>
-    @vite('resources/css/app.css') {{-- Pastikan ini mengarah ke file CSS Anda --}}
+    @vite('resources/css/app.css')
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -39,20 +39,6 @@
                     <p class="text-red-500 text-xs italic mt-2">{{ $message }}</p>
                 @enderror
             </div>
-
-            <!-- <div class="flex items-center justify-between mb-6">
-                <div class="flex items-center">
-                    <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}
-                           class="form-checkbox h-4 w-4 text-emerald-600 rounded focus:ring-emerald-500 transition duration-150 ease-in-out">
-                    <label for="remember" class="ml-2 block text-gray-900 text-sm">Ingat Saya</label>
-                </div>
-                {{-- Tambahkan link lupa password jika diperlukan --}}
-                @if (Route::has('password.request'))
-                    <a class="inline-block align-baseline text-sm text-emerald-600 hover:text-emerald-800 font-semibold" href="{{ route('password.request') }}">
-                        Lupa Password?
-                    </a>
-                @endif
-            </div> -->
 
             <div class="mb-6">
                 <button type="submit"

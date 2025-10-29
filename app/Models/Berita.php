@@ -16,7 +16,7 @@ class Berita extends Model
         'konten',
         'header_url',
         'user_id',
-        'kategori_id', // <--- TAMBAHKAN INI
+        'kategori_id',
         'status',
     ];
 
@@ -29,7 +29,6 @@ class Berita extends Model
         return $this->belongsTo(User::class);
     }
 
-    // Relasi: Berita dimiliki oleh KategoriBerita
     public function kategori()
     {
         return $this->belongsTo(KategoriBerita::class, 'kategori_id');

@@ -35,7 +35,7 @@
             </div>
 
             <div class="mb-4">
-                <label for="foto_icon" class="block text-gray-700 text-sm font-bold mb-2">Foto/Ikon Program Kelas (Opsional):</label>
+                <label for="foto_icon" class="block text-gray-700 text-sm font-bold mb-2">Foto/Ikon Program Kelas:</label>
                 @if ($programKela->foto_icon)
                     <div class="mb-2">
                         <img src="{{ $programKela->foto_icon }}" alt="{{ $programKela->nama }}" class="w-24 h-24 object-contain rounded">
@@ -58,7 +58,7 @@
             </div>
 
             <div class="mb-4">
-                <label for="deskripsi" class="block text-gray-700 text-sm font-bold mb-2">Deskripsi Program Kelas (Text Area):</label>
+                <label for="deskripsi" class="block text-gray-700 text-sm font-bold mb-2">Deskripsi Program Kelas:</label>
                 <textarea name="deskripsi" id="deskripsi" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('deskripsi') border-red-500 @enderror">{{ old('deskripsi', $programKela->deskripsi) }}</textarea>
                 @error('deskripsi')
                     <p class="text-red-500 text-xs italic">{{ $message }}</p>
